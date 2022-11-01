@@ -1,0 +1,377 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#F4F5F7"
+        android:orientation="vertical">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="44dp"
+            android:background="@android:color/white">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="44dp"
+                android:gravity="center"
+                android:text="工作台"
+                android:textColor="#ff333333"
+                android:textSize="18sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="13dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="13dp"
+            android:background="@drawable/shape_rectangular_white_3_bg"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="13dp"
+                android:layout_marginTop="17dp"
+                android:text="采购到货检验入库"
+                android:textColor="#ff333333"
+                android:textSize="15sp" />
+
+            <TextView
+                android:id="@+id/tv_cg_qr"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="13dp"
+                android:layout_marginBottom="26dp"
+                android:drawableTop="@mipmap/work_jyqr"
+                android:drawablePadding="7dp"
+                android:gravity="center"
+                android:text="检验确认"
+                android:textColor="#ff5e5d5d"
+                android:textSize="12sp" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="13dp"
+            android:layout_marginTop="13dp"
+            android:layout_marginEnd="13dp"
+            android:background="@drawable/shape_rectangular_white_3_bg"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="13dp"
+                android:layout_marginTop="17dp"
+                android:text="外协检验入库"
+                android:textColor="#ff333333"
+                android:textSize="15sp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/tv_in_tzdh"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="13dp"
+                    android:layout_marginBottom="26dp"
+                    android:drawableTop="@mipmap/work_scwgrk"
+                    android:drawablePadding="7dp"
+                    android:gravity="center"
+                    android:text="通知到货"
+                    android:textColor="#ff5e5d5d"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="45dp"
+                    android:layout_marginTop="13dp"
+                    android:layout_marginBottom="26dp"
+                    android:drawableTop="@mipmap/work_gzjc"
+                    android:drawablePadding="7dp"
+                    android:gravity="center"
+                    android:text="检验确认"
+                    android:textColor="#ff5e5d5d"
+                    android:textSize="12sp" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="13dp"
+            android:layout_marginTop="13dp"
+            android:layout_marginEnd="13dp"
+            android:background="@drawable/shape_rectangular_white_3_bg"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="13dp"
+                android:layout_marginTop="17dp"
+                android:text="生产领料"
+                android:textColor="#ff333333"
+                android:textSize="15sp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/tv_clfj_hj"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="13dp"
+                    android:layout_marginBottom="26dp"
+                    android:drawableTop="@mipmap/work_clfj"
+                    android:drawablePadding="7dp"
+                    android:gravity="center"
+                    android:text="材料分拣转\n移至货架"
+                    android:textColor="#ff5e5d5d"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="45dp"
+                    android:layout_marginTop="13dp"
+                    android:layout_marginBottom="26dp"
+                    android:drawableTop="@mipmap/work_fjfl"
+                    android:drawablePadding="7dp"
+                    android:gravity="center"
+                    android:text="分拣发料"
+                    android:textColor="#ff5e5d5d"
+                    android:textSize="12sp" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="13dp"
+            android:layout_marginTop="13dp"
+            android:layout_marginEnd="13dp"
+            android:background="@drawable/shape_rectangular_white_3_bg"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="13dp"
+                android:layout_marginTop="17dp"
+                android:text="外协发料"
+                android:textColor="#ff333333"
+                android:textSize="15sp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="13dp"
+                    android:layout_marginBottom="26dp"
+                    android:drawableTop="@mipmap/work_gzlylb"
+                    android:drawablePadding="7dp"
+                    android:gravity="center"
+                    android:text="材料分拣转\n移至新栈板"
+                    android:textColor="#ff5e5d5d"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="45dp"
+                    android:layout_marginTop="13dp"
+                    android:layout_marginBottom="26dp"
+                    android:drawableTop="@mipmap/work_wxfl"
+                    android:drawablePadding="7dp"
+                    android:gravity="center"
+                    android:text="外协发料"
+                    android:textColor="#ff5e5d5d"
+                    android:textSize="12sp" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="13dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="13dp"
+            android:background="@drawable/shape_rectangular_white_3_bg"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="13dp"
+                android:layout_marginTop="17dp"
+                android:text="完工检验入库"
+                android:textColor="#ff333333"
+                android:textSize="15sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="13dp"
+                android:layout_marginBottom="26dp"
+                android:drawableTop="@mipmap/work_jyhg"
+                android:drawablePadding="7dp"
+                android:gravity="center"
+                android:text="检验合格货架\n码至栈板上"
+                android:textColor="#ff5e5d5d"
+                android:textSize="12sp" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="13dp"
+            android:layout_marginTop="13dp"
+            android:layout_marginEnd="13dp"
+            android:background="@drawable/shape_rectangular_white_3_bg"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="13dp"
+                android:layout_marginTop="17dp"
+                android:text="销售发货"
+                android:textColor="#ff333333"
+                android:textSize="15sp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="13dp"
+                    android:layout_marginBottom="26dp"
+                    android:drawableTop="@mipmap/work_ptyk"
+                    android:drawablePadding="7dp"
+                    android:gravity="center"
+                    android:text="成品分\n拣转移"
+                    android:textColor="#ff5e5d5d"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="45dp"
+                    android:layout_marginTop="13dp"
+                    android:layout_marginBottom="26dp"
+                    android:drawableTop="@mipmap/work_xsfh"
+                    android:drawablePadding="7dp"
+                    android:gravity="center"
+                    android:text="扫码发货"
+                    android:textColor="#ff5e5d5d"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="45dp"
+                    android:layout_marginTop="13dp"
+                    android:layout_marginBottom="26dp"
+                    android:drawableTop="@mipmap/work_yt"
+                    android:drawablePadding="7dp"
+                    android:gravity="center"
+                    android:text="月台置为\n空闲状态"
+                    android:textColor="#ff5e5d5d"
+                    android:textSize="12sp" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="13dp"
+            android:layout_marginTop="13dp"
+            android:layout_marginEnd="13dp"
+            android:layout_marginBottom="13dp"
+            android:background="@drawable/shape_rectangular_white_3_bg"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="13dp"
+                android:layout_marginTop="17dp"
+                android:text="模具领用与归还"
+                android:textColor="#ff333333"
+                android:textSize="15sp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="13dp"
+                    android:layout_marginBottom="26dp"
+                    android:drawableTop="@mipmap/work_mjsmck"
+                    android:drawablePadding="7dp"
+                    android:gravity="center"
+                    android:text="模具扫码\n出库"
+                    android:textColor="#ff5e5d5d"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="45dp"
+                    android:layout_marginTop="13dp"
+                    android:layout_marginBottom="26dp"
+                    android:drawableTop="@mipmap/work_mjsmrk"
+                    android:drawablePadding="7dp"
+                    android:gravity="center"
+                    android:text="模具扫码\n入库"
+                    android:textColor="#ff5e5d5d"
+                    android:textSize="12sp" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</ScrollView>

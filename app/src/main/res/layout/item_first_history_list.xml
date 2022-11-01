@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="15dp"
+        app:cardBackgroundColor="@color/white">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/tv_check_state"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_marginTop="15dp"
+                android:layout_marginEnd="15dp"
+                android:textSize="@dimen/font_middle" />
+
+            <TextView
+                android:id="@+id/tv_modify"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/container"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="5dp"
+                android:gravity="center_vertical"
+                android:text="修改"
+                android:textColor="#3761E9" />
+
+            <TextView
+                android:layout_marginBottom="5dp"
+                android:layout_marginTop="5dp"
+                android:layout_below="@id/container"
+                android:id="@+id/tv_detail"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_marginEnd="10dp"
+                android:drawableEnd="@drawable/arrow_right"
+                android:gravity="center_vertical"
+                android:text="查看详情"
+                android:textColor="#3761E9"
+                android:textSize="@dimen/font_middle" />
+
+            <LinearLayout
+                android:id="@+id/container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <RelativeLayout
+                    android:layout_marginTop="40dp"
+                    style="@style/item_text_container">
+
+                    <TextView
+                        style="@style/item_text_name"
+                        android:text="任务编号:" />
+
+                    <TextView
+                        android:id="@+id/tv_rwbh"
+                        style="@style/item_text_content" />
+
+                </RelativeLayout>
+
+                <RelativeLayout style="@style/item_text_container">
+
+                    <TextView
+                        style="@style/item_text_name"
+                        android:text="工单号：" />
+
+                    <TextView
+                        android:id="@+id/tv_gdh"
+                        style="@style/item_text_content" />
+
+                </RelativeLayout>
+
+                <RelativeLayout style="@style/item_text_container">
+
+                    <TextView
+                        style="@style/item_text_name"
+                        android:text="物品号：" />
+
+                    <TextView
+                        android:id="@+id/tv_wph"
+                        style="@style/item_text_content" />
+
+                </RelativeLayout>
+
+                <RelativeLayout style="@style/item_text_container">
+
+                    <TextView
+                        style="@style/item_text_name"
+                        android:text="物品名称：" />
+
+                    <TextView
+                        android:id="@+id/tv_wpmc"
+                        style="@style/item_text_content" />
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    style="@style/item_text_container"
+                    android:layout_marginBottom="16dp">
+
+                    <TextView
+                        style="@style/item_text_name"
+                        android:text="创建时间：" />
+
+                    <TextView
+                        android:id="@+id/tv_cjsj"
+                        style="@style/item_text_content" />
+
+                </RelativeLayout>
+
+            </LinearLayout>
+
+        </RelativeLayout>
+
+    </androidx.cardview.widget.CardView>
+
+</LinearLayout>

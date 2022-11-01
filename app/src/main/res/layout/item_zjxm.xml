@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white"
+    android:orientation="vertical">
+
+    <RelativeLayout style="@style/item_text_container">
+
+        <TextView
+            style="@style/item_text_name"
+            android:text="项目编码：" />
+
+        <TextView
+            android:id="@+id/tv_xmbm"
+            style="@style/item_text_content" />
+
+    </RelativeLayout>
+
+    <RelativeLayout style="@style/item_text_container">
+
+        <TextView
+            style="@style/item_text_name"
+            android:text="项目名称：" />
+
+        <TextView
+            android:id="@+id/tv_xmmc"
+            style="@style/item_text_content" />
+
+    </RelativeLayout>
+
+    <RelativeLayout style="@style/item_text_container">
+
+        <TextView
+            style="@style/item_text_name"
+            android:text="检验标准：" />
+
+        <TextView
+            android:id="@+id/tv_jybz"
+            style="@style/item_text_content" />
+
+    </RelativeLayout>
+
+    <RelativeLayout style="@style/item_text_container">
+
+        <TextView
+            style="@style/item_text_name"
+            android:text="标准值：" />
+
+        <TextView
+            android:id="@+id/tv_bzz"
+            style="@style/item_text_content" />
+
+    </RelativeLayout>
+
+    <RelativeLayout style="@style/item_text_container">
+
+        <TextView
+            style="@style/item_text_name"
+            android:text="检验工具：" />
+
+        <TextView
+            android:id="@+id/tv_jygj"
+            style="@style/item_text_content" />
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="15dp"
+        android:gravity="center_vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="检验记录："
+            android:textColor="@color/black_333333"
+            android:textSize="@dimen/font_15sp" />
+
+        <EditText
+            android:layout_marginEnd="20dp"
+            android:id="@+id/et_jyjl"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="30dp"
+            android:background="@drawable/shape_rectangular_in_edit_bg"
+            android:padding="5dp"
+            android:textSize="@dimen/font_middle" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="15dp"
+        android:gravity="center_vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="检验结果："
+            android:textColor="@color/black_333333"
+            android:textSize="@dimen/font_15sp" />
+
+        <Switch
+            android:id="@+id/switch_check_result"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="30dp"
+            android:checked="true"
+            android:thumb="@drawable/switch_thumb"
+            android:track="@drawable/switch_track" />
+
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginEnd="15dp"
+        android:alpha="0.1"
+        android:background="@color/black" />
+
+</LinearLayout>

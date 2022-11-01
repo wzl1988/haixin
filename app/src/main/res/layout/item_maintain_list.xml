@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_marginStart="14dp"
+    android:layout_marginEnd="14dp">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="14dp">
+
+        <TextView
+            android:id="@+id/tv_sbbh_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="设备编号:"
+            android:textColor="#ff333333"
+            android:textSize="15sp"
+            android:layout_marginStart="15dp"
+            android:layout_marginTop="15dp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            />
+
+        <TextView
+            android:id="@+id/tv_sbbh"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="JH01-001-2-11"
+            android:textColor="#ff666666"
+            android:textSize="14sp"
+            android:layout_marginStart="12dp"
+            app:layout_constraintTop_toTopOf="@id/tv_sbbh_text"
+            app:layout_constraintBottom_toBottomOf="@id/tv_sbbh_text"
+            app:layout_constraintStart_toEndOf="@id/tv_sbbh_text"
+            />
+
+
+        <TextView
+            android:id="@+id/tv_sbmc_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="设备名称："
+            android:textColor="#ff333333"
+            android:textSize="15sp"
+            android:layout_marginTop="13dp"
+            app:layout_constraintTop_toBottomOf="@id/tv_sbbh_text"
+            app:layout_constraintStart_toStartOf="@id/tv_sbbh_text"
+            />
+
+        <TextView
+            android:id="@+id/tv_sbmc"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="箱盖"
+            android:textColor="#ff666666"
+            android:textSize="14sp"
+            app:layout_constraintTop_toTopOf="@id/tv_sbmc_text"
+            app:layout_constraintBottom_toBottomOf="@id/tv_sbmc_text"
+            app:layout_constraintStart_toStartOf="@id/tv_sbbh"
+            />
+
+        <TextView
+            android:id="@+id/tv_sbxh_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="设备型号："
+            android:textColor="#ff333333"
+            android:textSize="15sp"
+            android:layout_marginTop="13dp"
+            app:layout_constraintTop_toBottomOf="@id/tv_sbmc_text"
+            app:layout_constraintStart_toStartOf="@id/tv_sbbh_text"
+            />
+
+        <TextView
+            android:id="@+id/tv_xh"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="20*20"
+            android:textColor="#ff666666"
+            android:textSize="14sp"
+            app:layout_constraintStart_toStartOf="@id/tv_sbbh"
+            app:layout_constraintTop_toTopOf="@id/tv_sbxh_text"
+            app:layout_constraintBottom_toBottomOf="@id/tv_sbxh_text"
+            />
+
+
+        <TextView
+            android:id="@+id/tv_szwz_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="所在位置："
+            android:textColor="#ff333333"
+            android:textSize="15sp"
+            app:layout_constraintTop_toBottomOf="@id/tv_sbxh_text"
+            app:layout_constraintStart_toStartOf="@id/tv_sbxh_text"
+            android:layout_marginTop="13dp"
+            />
+
+
+        <TextView
+            android:id="@+id/tv_wz"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="浙江广大二楼"
+            android:textColor="#ff666666"
+            android:textSize="14sp"
+            app:layout_constraintStart_toStartOf="@id/tv_sbbh"
+            app:layout_constraintTop_toTopOf="@id/tv_szwz_text"
+            app:layout_constraintBottom_toBottomOf="@id/tv_szwz_text"
+            />
+
+        <TextView
+            android:id="@+id/tv_rwsj_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="任务时间："
+            android:textColor="#ff333333"
+            android:textSize="15sp"
+            android:layout_marginTop="13dp"
+            app:layout_constraintStart_toStartOf="@id/tv_sbbh_text"
+            app:layout_constraintTop_toBottomOf="@id/tv_szwz_text"
+            />
+        <TextView
+            android:id="@+id/tv_rwsj"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="2021-6-1"
+            android:textColor="#ff666666"
+            android:textSize="14sp"
+            app:layout_constraintTop_toTopOf="@id/tv_rwsj_text"
+            app:layout_constraintBottom_toBottomOf="@id/tv_rwsj_text"
+            app:layout_constraintStart_toStartOf="@id/tv_sbbh"
+            />
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="查看详情"
+            android:textColor="#ff3761e9"
+            android:textSize="14sp"
+            android:paddingEnd="16dp"
+            app:layout_constraintTop_toTopOf="@id/tv_rwsj"
+            app:layout_constraintEnd_toEndOf="parent"
+            />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
+</androidx.cardview.widget.CardView>

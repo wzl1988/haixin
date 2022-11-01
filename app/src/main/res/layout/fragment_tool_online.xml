@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+
+    <RelativeLayout
+        android:id="@+id/scan"
+        android:layout_width="0dp"
+        android:layout_height="37dp"
+        android:layout_marginEnd="14dp"
+        app:layout_constraintStart_toEndOf="@id/tv_jth_text"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:background="@drawable/shape_shadow_box">
+
+        <EditText
+            android:id="@+id/tv_gzbh"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="10dp"
+            android:textColor="@color/gray6"
+            android:layout_alignParentStart="true"
+            android:background="@null"
+            android:textSize="@dimen/font_middle" />
+
+        <ImageView
+            android:id="@+id/iv_sacn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="5dp"
+            android:src="@mipmap/icon_scan" />
+
+    </RelativeLayout>
+
+
+    <TextView
+        android:id="@+id/tv_jth_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="工装编号："
+        android:textColor="#ff333333"
+        android:textSize="15sp"
+        android:layout_marginStart="15dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/scan"
+        app:layout_constraintBottom_toBottomOf="@id/scan"
+        />
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginStart="15dp"
+        android:layout_marginEnd="14dp"
+        android:layout_marginTop="12dp"
+        android:background="@drawable/shape_rectangular_white_3_bg"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/scan">
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+
+
+        <TextView
+            android:id="@+id/tv_gzbh_text"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="工装编号"
+            android:layout_weight="2"
+            android:textColor="@color/gray6"
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/tv_gzmc_text"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="工装名称"
+            android:layout_weight="1"
+            android:textColor="@color/gray6"
+            android:textSize="14sp" />
+        <TextView
+            android:id="@+id/tv_ggxh_text"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="规格型号"
+            android:layout_weight="1"
+            android:textColor="@color/gray6"
+            android:textSize="14sp" />
+        </LinearLayout>
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rc"
+            android:layout_marginTop="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+    </LinearLayout>
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

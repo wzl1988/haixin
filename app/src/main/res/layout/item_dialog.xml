@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:clickable="true"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/single_item"
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:background="@drawable/dialog_item_bg"
+        android:button="@null"
+        android:paddingStart="5dp"
+        android:text="hahahah"
+        android:textColor="@color/textcolor_black_selector"
+        android:textSize="@dimen/font_middle" />
+
+</LinearLayout>

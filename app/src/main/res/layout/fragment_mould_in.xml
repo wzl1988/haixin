@@ -1,0 +1,192 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:scrollbars="none">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/textView14"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="7dp"
+            android:text="*"
+            android:textColor="#FF5656"
+            android:visibility="invisible"
+            app:layout_constraintBottom_toBottomOf="@+id/tv_ckhtext"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/tv_ckhtext" />
+
+        <TextView
+            android:id="@+id/tv_ckhtext"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="仓库号："
+            android:textColor="@color/tab_unchecked"
+            android:textSize="@dimen/font_15sp"
+            app:layout_constraintBottom_toBottomOf="@+id/et_ckh"
+            app:layout_constraintStart_toEndOf="@+id/textView14"
+            app:layout_constraintTop_toTopOf="@+id/et_ckh" />
+
+        <EditText
+            android:id="@+id/et_ckh"
+            android:layout_width="0dp"
+            android:layout_height="27dp"
+            android:layout_marginStart="11dp"
+            android:layout_marginTop="15dp"
+            android:layout_marginEnd="16dp"
+            android:background="@drawable/shape_rectangular_in_edit_bg"
+            android:gravity="center_vertical"
+            android:hint="请输入"
+            android:paddingStart="6dp"
+            android:textColor="@color/gray6"
+            android:textSize="14sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/tv_ckhtext"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/et_yym"
+            android:layout_width="0dp"
+            android:layout_height="27dp"
+            android:layout_marginTop="14dp"
+            android:background="@drawable/shape_rectangular_in_edit_bg"
+            android:gravity="center_vertical"
+            android:paddingStart="6dp"
+            android:textColor="@color/gray6"
+            android:textSize="14sp"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="@+id/et_ckh"
+            app:layout_constraintStart_toStartOf="@+id/et_ckh"
+            app:layout_constraintTop_toBottomOf="@+id/et_kwh" />
+
+        <EditText
+            android:id="@+id/et_tmh"
+            android:layout_width="0dp"
+            android:layout_height="27dp"
+            android:layout_marginTop="15dp"
+            android:background="@drawable/shape_rectangular_in_edit_bg"
+            android:drawableRight="@mipmap/ic_scan"
+            android:paddingStart="6dp"
+            android:paddingEnd="6dp"
+            android:textColor="@color/gray6"
+            android:textSize="14sp"
+            app:layout_constraintEnd_toEndOf="@+id/et_ckh"
+            app:layout_constraintStart_toStartOf="@+id/et_ckh"
+            app:layout_constraintTop_toBottomOf="@+id/et_ckh" />
+
+        <TextView
+            android:id="@+id/textView17"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="条码号："
+            android:textColor="@color/tab_unchecked"
+            android:textSize="@dimen/font_15sp"
+            app:layout_constraintBottom_toBottomOf="@+id/et_tmh"
+            app:layout_constraintEnd_toEndOf="@+id/tv_ckhtext"
+            app:layout_constraintTop_toTopOf="@+id/et_tmh" />
+
+        <TextView
+            android:id="@+id/textView18"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:text="采购单号:"
+            android:textColor="@color/tab_unchecked"
+            android:textSize="@dimen/font_15sp"
+            app:layout_constraintStart_toStartOf="@+id/textView17"
+            app:layout_constraintTop_toBottomOf="@+id/et_tmh" />
+
+        <TextView
+            android:id="@+id/tv_cgdh"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="9dp"
+            android:textColor="@color/gray6"
+            android:textSize="14sp"
+            app:layout_constraintBottom_toBottomOf="@+id/textView18"
+            app:layout_constraintStart_toEndOf="@+id/textView18"
+            app:layout_constraintTop_toTopOf="@+id/textView18" />
+
+        <TextView
+            android:id="@+id/textView19"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:text="物品号："
+            android:textColor="@color/tab_unchecked"
+            android:textSize="@dimen/font_15sp"
+            app:layout_constraintStart_toStartOf="@+id/textView18"
+            app:layout_constraintTop_toBottomOf="@+id/textView18" />
+
+        <TextView
+            android:id="@+id/tv_wph"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/gray6"
+            android:textSize="14sp"
+            app:layout_constraintBottom_toBottomOf="@+id/textView19"
+            app:layout_constraintStart_toStartOf="@+id/tv_cgdh"
+            app:layout_constraintTop_toTopOf="@+id/textView19" />
+
+        <View
+            android:id="@+id/line"
+            android:layout_width="0dp"
+            android:layout_height="0.5dp"
+            android:layout_marginTop="16dp"
+            android:alpha="0.1"
+            android:background="#000000"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/textView19" />
+
+        <TextView
+            android:id="@+id/textView27"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:text="操作员："
+            android:textColor="@color/tab_unchecked"
+            android:textSize="@dimen/font_15sp"
+            app:layout_constraintStart_toStartOf="@+id/textView19"
+            app:layout_constraintTop_toBottomOf="@+id/line" />
+
+        <TextView
+            android:id="@+id/tv_user"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/gray6"
+            android:textSize="@dimen/font_15sp"
+            app:layout_constraintBottom_toBottomOf="@+id/textView27"
+            app:layout_constraintStart_toStartOf="@+id/tv_cgdh"
+            app:layout_constraintTop_toTopOf="@+id/textView27" />
+
+        <TextView
+            android:id="@+id/tv_datetext"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:layout_marginBottom="16dp"
+            android:text="日期："
+            android:textColor="@color/tab_unchecked"
+            android:textSize="@dimen/font_15sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/textView19"
+            app:layout_constraintTop_toBottomOf="@+id/textView27" />
+
+        <TextView
+            android:id="@+id/tv_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/gray6"
+            android:textSize="@dimen/font_15sp"
+            app:layout_constraintBottom_toBottomOf="@+id/tv_datetext"
+            app:layout_constraintStart_toStartOf="@+id/tv_user"
+            app:layout_constraintTop_toTopOf="@+id/tv_datetext" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</ScrollView>

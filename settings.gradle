@@ -1,0 +1,4 @@
+include ':zxinglibrary'
+include ':app'
+include '3rd_library:imageselector'
+rootProject.name = "haixin"

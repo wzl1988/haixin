@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/page_bg">
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/card_info"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="12dp"
+        android:layout_marginEnd="15dp"
+        app:cardBackgroundColor="@color/white"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <Button
+                android:id="@+id/btn_change"
+                android:layout_width="50dp"
+                android:layout_height="23dp"
+                android:layout_alignParentEnd="true"
+                android:layout_marginTop="15dp"
+                android:layout_marginEnd="15dp"
+                android:background="@drawable/shape_button_post"
+                android:text="更换"
+                android:textColor="@color/white"
+                android:textSize="@dimen/font_small" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <RelativeLayout style="@style/item_text_container">
+
+                    <TextView
+                        style="@style/item_text_name"
+                        android:text="刀具名称：" />
+
+                    <TextView
+                        android:id="@+id/tv_djmc"
+                        style="@style/item_text_content" />
+
+                </RelativeLayout>
+
+                <RelativeLayout style="@style/item_text_container">
+
+                    <TextView
+                        style="@style/item_text_name"
+                        android:text="规格型号：" />
+
+                    <TextView
+                        android:id="@+id/tv_ggxh"
+                        style="@style/item_text_content" />
+
+                </RelativeLayout>
+
+                <RelativeLayout style="@style/item_text_container">
+
+                    <TextView
+                        style="@style/item_text_name"
+                        android:text="批号：" />
+
+                    <TextView
+                        android:id="@+id/tv_ph"
+                        style="@style/item_text_content" />
+
+                </RelativeLayout>
+
+                <RelativeLayout style="@style/item_text_container">
+
+                    <TextView
+                        style="@style/item_text_name"
+                        android:text="标准寿命使用次数：" />
+
+                    <TextView
+                        android:id="@+id/tv_bzsmsycs"
+                        style="@style/item_text_content"
+                        android:layout_marginStart="150dp" />
+
+                </RelativeLayout>
+
+                <RelativeLayout style="@style/item_text_container">
+
+                    <TextView
+                        style="@style/item_text_name"
+                        android:text="已完工数量：" />
+
+                    <TextView
+                        android:id="@+id/tv_ywgsl"
+                        style="@style/item_text_content" />
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    style="@style/item_text_container"
+                    android:layout_marginBottom="15dp">
+
+                    <TextView
+                        style="@style/item_text_name"
+                        android:text="上次更换时间：" />
+
+                    <TextView
+                        android:id="@+id/tv_scghsj"
+                        style="@style/item_text_content" />
+
+                </RelativeLayout>
+
+            </LinearLayout>
+
+        </RelativeLayout>
+
+    </androidx.cardview.widget.CardView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

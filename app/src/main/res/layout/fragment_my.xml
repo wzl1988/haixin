@@ -1,0 +1,200 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <androidx.constraintlayout.widget.ConstraintLayout xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:id="@+id/linearLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@mipmap/ic_my_bg"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="34dp"
+                android:gravity="center_horizontal"
+                android:text="我的"
+                android:textColor="#ffffffff"
+                android:textSize="18sp" />
+
+        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/iv_photo"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:src="@drawable/ic_pictrue"
+            app:layout_constraintBottom_toBottomOf="@+id/linearLayout"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
+
+        <TextView
+            android:id="@+id/tv_username"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:text="王某某"
+            android:textColor="#ff333333"
+            android:textSize="17sp"
+            app:layout_constraintEnd_toEndOf="@+id/iv_photo"
+            app:layout_constraintStart_toStartOf="@+id/iv_photo"
+            app:layout_constraintTop_toBottomOf="@id/iv_photo" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/conslayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            android:background="@drawable/shape_rectangular_my_bg"
+            app:layout_constraintTop_toBottomOf="@id/tv_username">
+
+            <TextView
+                android:id="@+id/tv_gctext"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="21dp"
+                android:text="工厂"
+                android:textColor="#ff333333"
+                android:textSize="16sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/tv_gc"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="16dp"
+                android:text="凯旺周口海鑫工厂"
+                android:textColor="#ff666666"
+                android:textSize="14sp"
+                app:layout_constraintBottom_toBottomOf="@id/tv_gctext"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@id/tv_gctext" />
+
+            <View
+                android:id="@+id/line"
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:layout_marginTop="19dp"
+                android:alpha="0.1"
+                android:background="#000000"
+                app:layout_constraintTop_toBottomOf="@id/tv_gctext" />
+
+            <TextView
+                android:id="@+id/tv_bmtext"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="19dp"
+                android:text="部门"
+                android:textColor="#ff333333"
+                android:textSize="16sp"
+                app:layout_constraintStart_toStartOf="@+id/tv_gctext"
+                app:layout_constraintTop_toBottomOf="@+id/line" />
+
+            <TextView
+                android:id="@+id/tv_department"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="物流部"
+                android:textColor="#ff666666"
+                android:textSize="14sp"
+                app:layout_constraintBottom_toBottomOf="@id/tv_bmtext"
+                app:layout_constraintEnd_toEndOf="@+id/tv_gc"
+                app:layout_constraintTop_toTopOf="@id/tv_bmtext" />
+
+            <View
+                android:id="@+id/line1"
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:layout_marginTop="19dp"
+                android:alpha="0.1"
+                android:background="#000000"
+                app:layout_constraintTop_toBottomOf="@id/tv_bmtext" />
+
+            <TextView
+                android:id="@+id/tv_gwtext"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="19dp"
+                android:text="岗位"
+                android:textColor="#ff333333"
+                android:textSize="16sp"
+                app:layout_constraintStart_toStartOf="@+id/tv_gctext"
+                app:layout_constraintTop_toBottomOf="@+id/line1" />
+
+            <TextView
+                android:id="@+id/tv_job"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="仓管员"
+                android:textColor="#ff666666"
+                android:textSize="14sp"
+                app:layout_constraintBottom_toBottomOf="@id/tv_gwtext"
+                app:layout_constraintEnd_toEndOf="@+id/tv_gc"
+                app:layout_constraintTop_toTopOf="@id/tv_gwtext" />
+
+            <View
+                android:id="@+id/line2"
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:layout_marginTop="19dp"
+                android:alpha="0.1"
+                android:background="#000000"
+                app:layout_constraintTop_toBottomOf="@id/tv_gwtext" />
+
+            <TextView
+                android:id="@+id/tv_zhtext"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="19dp"
+                android:layout_marginBottom="19dp"
+                android:text="登录账号"
+                android:textColor="#ff333333"
+                android:textSize="16sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="@+id/tv_gctext"
+                app:layout_constraintTop_toBottomOf="@+id/line2" />
+
+            <TextView
+                android:id="@+id/tv_account"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="123456789"
+                android:textColor="#ff666666"
+                android:textSize="14sp"
+                app:layout_constraintBottom_toBottomOf="@id/tv_zhtext"
+                app:layout_constraintEnd_toEndOf="@+id/tv_gc"
+                app:layout_constraintTop_toTopOf="@id/tv_zhtext" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <Button
+            android:id="@+id/btn_out"
+            android:layout_width="match_parent"
+            android:layout_height="35dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="30dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="30dp"
+            android:background="@drawable/shape_rectangular_exit_btn_bg"
+            android:text="退出登录"
+            android:textColor="#ffffffff"
+            android:textSize="14sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/conslayout" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</ScrollView>

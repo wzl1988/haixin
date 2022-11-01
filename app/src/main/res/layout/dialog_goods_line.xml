@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginStart="27dp"
+    android:layout_marginEnd="27dp"
+    android:orientation="vertical"
+    android:background="@drawable/shape_rectangular_white_5_bg">
+
+    <TextView
+        android:id="@+id/tv_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:layout_marginTop="24dp"
+        android:text="货架至产线"
+        android:textColor="#ff333333"
+        android:textSize="16sp" />
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="18dp">
+
+        <TextView
+            android:layout_width="80dp"
+            android:layout_height="wrap_content"
+            android:text="指定起点"
+            android:layout_marginStart="14dp"
+            android:textColor="#ff333333"
+            android:textSize="15sp"
+            />
+
+        <EditText
+            android:id="@+id/et_start"
+            android:layout_width="match_parent"
+            android:layout_height="33dp"
+            android:layout_marginStart="10dp"
+            android:gravity="center_vertical"
+            android:layout_marginEnd="16dp"
+            android:textColor="#333333"
+            android:textSize="13sp"
+            android:paddingStart="7dp"
+            android:text="自动分配"
+            android:background="@drawable/shape_rectangular_e4_bg"
+            />
+
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="27dp">
+
+        <TextView
+            android:layout_width="80dp"
+            android:layout_height="wrap_content"
+            android:text="请选择产线"
+            android:layout_marginStart="14dp"
+            android:textColor="#ff333333"
+            android:textSize="15sp"
+            />
+
+        <TextView
+            android:id="@+id/tv_end"
+            android:layout_width="match_parent"
+            android:layout_height="33dp"
+            android:layout_marginStart="10dp"
+            android:gravity="center_vertical"
+            android:layout_marginEnd="16dp"
+            android:textColor="#333333"
+            android:textSize="13sp"
+            android:paddingStart="7dp"
+            android:drawableEnd="@drawable/arrow_down"
+            android:background="@drawable/shape_rectangular_white_3_bg"
+            />
+
+
+    </LinearLayout>
+
+
+
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="35dp"
+        android:layout_marginBottom="19dp"
+        android:gravity="center">
+
+        <Button
+            android:id="@+id/btn_cancle"
+            android:layout_width="110dp"
+            android:layout_height="34dp"
+            android:text="取消"
+            android:textColor="#ff333333"
+            android:textSize="15sp"
+            android:background="@drawable/shape_rectangular_agv_btn_bg"
+            />
+
+
+        <Button
+            android:id="@+id/btn_ok"
+            android:layout_width="110dp"
+            android:layout_height="34dp"
+            android:text="确定"
+            android:layout_marginStart="24dp"
+            android:background="@drawable/shape_rectangular_agv_btn_ok"
+            android:textColor="#ffffffff"
+            android:textSize="15sp"
+            />
+
+
+
+    </LinearLayout>
+
+
+
+
+
+</LinearLayout>

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/navigation_practice"
+        android:icon="@drawable/selector_icon_work"
+        android:title="@string/title_practice" />
+
+    <item
+        android:id="@+id/navigation_task"
+        android:icon="@drawable/selector_icon_agv"
+        android:title="@string/title_task" />
+
+    <item
+        android:id="@+id/navigation_my"
+        android:icon="@mipmap/ic_my_normal"
+        android:title="@string/title_my"/>
+
+</menu>

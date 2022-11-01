@@ -1,0 +1,255 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.eohi.hx">
+
+    <application
+        android:name="com.eohi.hx.App"
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:networkSecurityConfig="@xml/network_security_config"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.AppCompat.Light.NoActionBar">
+        <activity
+            android:name="com.eohi.hx.ui.main.agv.alarmlog.AlarmlogActivity"
+            android:exported="false" />
+
+        <activity
+            android:name="com.eohi.hx.ui.splash.SplashActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <activity
+            android:name="com.eohi.hx.ui.work.inventory.TransferInventoryActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:windowSoftInputMode="adjustPan|stateHidden" />
+        <activity
+            android:name="com.eohi.hx.ui.main.agv.abnormal.AgvAbnormalActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:windowSoftInputMode="adjustPan|stateHidden" />
+        <activity
+            android:name="com.eohi.hx.ui.main.agv.abnormal.AgvAbnormalListActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:windowSoftInputMode="adjustPan|stateHidden" />
+        <activity android:name="com.eohi.hx.ui.main.agv.abnormal.DealAgvAbnormalActivity" />
+        <activity android:name="com.eohi.hx.ui.main.agv.abnormal.RepostAgvAbnormalActivity" />
+        <activity
+            android:name="com.eohi.hx.ui.work.tooling.onlineoffline.ToolOnlineOfflineActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:windowSoftInputMode="adjustPan|stateHidden" />
+        <activity
+            android:name="com.eohi.hx.ui.work.my.ProductionTeamEditActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:windowSoftInputMode="adjustPan|stateHidden" />
+        <activity android:name="com.eohi.hx.ui.work.my.ProductionTeamActivity" />
+        <activity android:name="com.eohi.hx.ui.work.my.ProcessingUnitActivity" />
+        <activity
+            android:name="com.eohi.hx.ui.work.tooling.back.ToolingBackActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:windowSoftInputMode="adjustPan|stateHidden" />
+        <activity
+            android:name="com.eohi.hx.ui.work.tooling.recipients.ToolingRecipientsActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:windowSoftInputMode="adjustPan|stateHidden" />
+        <activity android:name="com.eohi.hx.ui.work.equipment.EquipmentMaintenanceActivity" />
+        <activity android:name="com.eohi.hx.ui.work.equipment.EquipmentMaintenanceListActivity" />
+        <activity android:name="com.eohi.hx.ui.work.equipment.EquipmentMaintenanceScanListActivity" />
+        <activity android:name="com.eohi.hx.ui.work.equipment.EquipmentRepairListActivity" />
+        <activity android:name="com.eohi.hx.ui.work.equipment.EquipmentRepairActivity" />
+        <activity android:name="com.eohi.hx.ui.work.equipment.EquipmentFaultConfirmListActivity" />
+        <activity android:name="com.eohi.hx.ui.work.equipment.EquipmentFaultConfirmActivity" />
+        <activity
+            android:name="com.eohi.hx.ui.work.equipment.EquipmentGuaranteeActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:windowSoftInputMode="adjustPan|stateHidden" />
+        <activity
+            android:name="com.eohi.hx.ui.work.equipment.EquipmentCheckActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:windowSoftInputMode="adjustPan|stateHidden" />
+        <activity
+            android:name="com.eohi.hx.ui.work.process.registration.ProductionRegistrationActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:windowSoftInputMode="adjustPan|stateHidden" />
+        <activity
+            android:name="com.eohi.hx.ui.work.process.card.CirculationCardDetailActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:windowSoftInputMode="adjustPan|stateHidden" />
+        <activity
+            android:name="com.eohi.hx.ui.work.process.card.CirculationCardActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:windowSoftInputMode="adjustPan|stateHidden" />
+        <activity
+            android:name="com.eohi.hx.ui.work.process.start.StartWorkActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:windowSoftInputMode="adjustPan|stateHidden" />
+        <activity
+            android:name="com.eohi.hx.ui.work.process.material.MaterialRemovalActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:windowSoftInputMode="adjustPan|stateHidden" />
+        <activity
+            android:name="com.eohi.hx.ui.work.process.coordination.CoordinationFinishedActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:windowSoftInputMode="adjustPan|stateHidden" />
+        <activity
+            android:name="com.eohi.hx.ui.work.process.coordination.CoordinationStartActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:windowSoftInputMode="adjustPan|stateHidden" />
+        <activity
+            android:name="com.eohi.hx.ui.main.agv.production.SurplusMaterialsActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:windowSoftInputMode="adjustPan|stateHidden" />
+        <activity
+            android:name="com.eohi.hx.ui.main.agv.sales.AgvSalesActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:windowSoftInputMode="adjustPan|stateHidden" />
+        <activity
+            android:name="com.eohi.hx.ui.main.agv.pick.AgvSendingActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:windowSoftInputMode="adjustPan|stateHidden" />
+        <activity
+            android:name="com.eohi.hx.ui.main.agv.AgvOperationActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:windowSoftInputMode="adjustPan|stateHidden" />
+        <activity
+            android:name="com.eohi.hx.ui.work.purchasein.retreat.ProcurementRetreatActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:windowSoftInputMode="adjustPan|stateHidden" />
+        <activity
+            android:name="com.eohi.hx.ui.work.sales.retreat.SalesRetreatActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:windowSoftInputMode="adjustPan|stateHidden" />
+        <activity
+            android:name="com.eohi.hx.ui.work.inventory.InventoryAdjustmentActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:windowSoftInputMode="adjustPan|stateHidden" />
+        <activity
+            android:name="com.eohi.hx.ui.work.move.OrdinaryMoveActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:windowSoftInputMode="adjustPan|stateHidden" />
+        <activity
+            android:name="com.eohi.hx.ui.work.sales.delivery.SalesDeliveryOutActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:windowSoftInputMode="adjustPan|stateHidden" />
+        <activity
+            android:name="com.eohi.hx.ui.work.picking.outbound.PickingOutboundActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:windowSoftInputMode="adjustPan|stateHidden" />
+        <activity
+            android:name="com.eohi.hx.ui.work.picking.move.PickingMoveActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:windowSoftInputMode="adjustPan|stateHidden" />
+        <activity
+            android:name="com.eohi.hx.ui.work.purchasein.FinishingInActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:windowSoftInputMode="adjustPan|stateHidden" />
+        <activity
+            android:name="com.eohi.hx.ui.work.tooling.cutter.CutterReplace"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"></activity>
+        <activity
+            android:name="com.eohi.hx.ui.login.LoginActivity"
+            android:screenOrientation="portrait"
+            android:exported="true"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+        <activity
+            android:name="com.eohi.hx.ui.main.MainActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+        <activity
+            android:name="com.eohi.zxinglibrary.CaptureActivity"
+            android:theme="@style/CaptureTheme" />
+        <activity android:name="com.eohi.hx.ui.work.tooling.recipients.ToolingRecipients" /> <!-- 工装模块 -->
+        <activity android:name="com.eohi.hx.ui.work.tooling.recipients.ToolingRecipientsList" />
+        <activity android:name="com.eohi.hx.ui.work.tooling.back.ToolingBack" />
+        <activity
+            android:name="com.eohi.hx.ui.work.purchasein.InstorageActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:windowSoftInputMode="adjustPan|stateHidden" />
+        <activity android:name="com.eohi.hx.ui.work.tooling.check.ToolingCheck" />
+        <activity android:name="com.eohi.hx.ui.work.tooling.maintenance.ToolingMaintenance" />
+        <activity
+            android:name="com.eohi.hx.ui.work.tooling.handover.ToolingHandover"
+            android:configChanges="orientation|keyboardHidden"
+            android:windowSoftInputMode="adjustPan|stateHidden" /> <!-- <activity android:name=".ui.work.tooling.cutter.CutterReplace" />&lt;!&ndash;刀具更换&ndash;&gt; -->
+        <activity android:name="com.eohi.hx.ui.work.platform.PlatformFreeActivity" /> <!-- 月台模块 -->
+        <activity android:name="com.eohi.hx.ui.work.platform.PlatformList" />
+        <activity android:name="com.eohi.hx.ui.work.mould.MouldInActivity" /> <!-- 模具模块 -->
+        <activity android:name="com.eohi.hx.ui.work.mould.MouldOutActivity" />
+        <activity android:name="com.donkingliang.imageselector.ImageSelectorActivity" /> <!-- 质量管理模块 -->
+        <!-- 来料检验 -->
+        <activity
+            android:name="com.donkingliang.imageselector.PreviewActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+        <activity
+            android:name="com.donkingliang.imageselector.ClipImageActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+        <activity android:name="com.eohi.hx.ui.plusimage.PlusImageActivity" />
+        <activity android:name="com.eohi.hx.ui.work.quality.incoming.IncomingListActivity" />
+        <activity android:name="com.eohi.hx.ui.work.quality.incoming.IncomingHistoryListActivity" />
+        <activity
+            android:name="com.eohi.hx.ui.work.quality.incoming.IncomingCheckActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:windowSoftInputMode="adjustPan|stateHidden" />
+        <activity android:name="com.eohi.hx.ui.work.quality.incoming.IncomingDetailActivity" />
+        <activity android:name="com.eohi.hx.ui.work.quality.first.FirstCheckListActivity" />
+        <activity android:name="com.eohi.hx.ui.work.quality.first.FirstHistoryListActivity" /> <!-- 首件检验 -->
+        <activity
+            android:name="com.eohi.hx.ui.work.quality.first.FirstCheckActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:windowSoftInputMode="adjustPan|stateHidden" />
+        <activity android:name="com.eohi.hx.ui.work.quality.first.FirstDetailActivity" />
+        <activity android:name="com.eohi.hx.ui.work.quality.process.ProcessListActivity" />
+        <activity
+            android:name="com.eohi.hx.ui.work.quality.process.ProcessCheckActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:windowSoftInputMode="adjustPan|stateHidden" /> <!-- 过程检验 -->
+        <activity android:name="com.eohi.hx.ui.work.quality.process.ProcessDetailActivity" />
+        <activity android:name="com.eohi.hx.ui.work.quality.finish.FinishListActivity" />
+        <activity android:name="com.eohi.hx.ui.work.quality.finish.FinishDetailActivity" /> <!-- 完工检验 -->
+        <activity
+            android:name="com.eohi.hx.ui.work.quality.finish.FinishCheckActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:windowSoftInputMode="adjustPan|stateHidden" />
+        <activity android:name="com.eohi.hx.ui.work.quality.delivery.DeliveryListActivity" />
+        <activity android:name="com.eohi.hx.ui.work.quality.delivery.DeliveryDetailActivity" /> <!-- 发货检验 -->
+        <activity
+            android:name="com.eohi.hx.ui.work.quality.delivery.DeliveryCheckActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:windowSoftInputMode="adjustPan|stateHidden" />
+        <activity
+            android:name="com.eohi.hx.ui.work.quality.unqualified.UnQualifiedReportActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:windowSoftInputMode="adjustPan|stateHidden" />
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="${applicationId}.fileprovider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths" />
+        </provider> <!-- 不合格品登记 -->
+        <service
+            android:name="com.eohi.hx.utils.KillSelfService"
+            android:enabled="true"
+            android:exported="true"
+            android:process=":Myservice">
+            <intent-filter>
+                <action android:name="com.eohi.haixin.utils.KillSelfService" />
+            </intent-filter>
+        </service>
+    </application>
+    <uses-permission android:name="android.permission.INTERNET" />
+
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.USE_FULL_SCREEN_INTENT" />
+
+</manifest>

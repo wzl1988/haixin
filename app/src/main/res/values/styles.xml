@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="ThemeSplash" parent="Theme.AppCompat.NoActionBar">
+        <!--设置顶部状态栏是否为透明-->
+        <item name="android:windowTranslucentStatus">false</item>
+
+        <!--Android 5.x开始需要把颜色设置透明，否则顶部导航栏会呈现系统默认的浅灰色-->
+        <item name="android:statusBarColor">@android:color/transparent</item>
+
+        <!--设置顶部状态栏和底部导航栏是否为透明-->
+        <item name="android:windowTranslucentNavigation">true</item>
+
+        <item name="android:windowFullscreen">true</item>
+        <item name="android:windowBackground">@mipmap/ic_splash_bg</item>
+    </style>
+
+
+    <!--自定义dialog背景全透明无边框theme -->
+    <style name="MyDialog" parent="android:style/Theme.Holo.Dialog">
+        <!--背景颜色及和透明程度-->
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <!--是否去除标题 -->
+        <item name="android:windowNoTitle">true</item>
+        <!--是否去除边框-->
+        <item name="android:windowFrame">@null</item>
+        <!--是否浮现在activity之上-->
+        <item name="android:windowIsFloating">true</item>
+        <!--是否模糊-->
+        <item name="android:backgroundDimEnabled">true</item>
+    </style>
+
+    <style name="anim_pop_checkaddshelf">
+        <item name="android:windowEnterAnimation">@anim/anim_pop_checkaddshelf_in</item>
+        <item name="android:windowExitAnimation">@anim/anim_pop_checkaddshelf_out</item>
+    </style>
+
+
+    <style name="top_in">
+        <item name="android:textSize">15sp</item>
+        <item name="android:textColor">@drawable/commont_font</item>
+        <item name="android:background">@drawable/in_warehousing</item>
+    </style>
+
+    <style name="top_detail">
+        <item name="android:textSize">15sp</item>
+        <item name="android:textColor">@drawable/commont_font</item>
+        <item name="android:background">@drawable/in_detail</item>
+    </style>
+
+    <style name="ListsDialog" parent="android:style/Theme.Dialog">
+        <item name="android:background">@android:color/transparent</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowCloseOnTouchOutside">false</item>
+    </style>
+
+    <style name="anim_pop_filter">
+        <item name="android:windowEnterAnimation">@anim/anim_pop_in</item>
+        <item name="android:windowExitAnimation">@anim/anim_pop_out</item>
+    </style>
+
+    <style name="button_post_style">
+        <item name="android:textColor">@color/white</item>
+        <item name="android:background">@drawable/shape_button_post</item>
+    </style>
+
+    <style name="item_text_container">
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_marginEnd">20dp</item>
+        <item name="android:layout_marginTop">16dp</item>
+        <item name="android:layout_marginStart">16dp</item>
+    </style>
+
+    <style name="item_text_name">
+        <item name="android:layout_alignParentTop">true</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:textColor">@color/black_333333</item>
+        <item name="android:textSize">@dimen/font_15sp</item>
+    </style>
+
+    <style name="item_text_content">
+        <item name="android:layout_centerVertical">true</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">@dimen/font_middle</item>
+        <item name="android:textColor">@color/gray6</item>
+        <item name="android:layout_marginStart">105dp</item>
+    </style>
+
+    <style name="TabLayoutTextStyle" parent="TextAppearance.AppCompat.Widget.ActionBar.Title.Inverse">
+        <item name="android:textSize">13dp</item>
+    </style>
+
+</resources>

@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginStart="16dp"
+    android:layout_marginEnd="16dp"
+    android:orientation="vertical"
+    android:background="@drawable/shape_rectangular_white_bg">
+
+    <TextView
+        android:id="@+id/tv_tip"
+        android:layout_width="wrap_content"
+        android:layout_height="45dp"
+        android:textSize="16sp"
+        android:layout_marginStart="15dp"
+        android:gravity="center_vertical"
+        android:textStyle="bold"
+        android:textColor="@color/purple_700"
+        android:text="服务器"/>
+
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:background="@color/purple_700"
+        />
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="13sp"
+        android:layout_marginTop="16dp"
+        android:layout_marginStart="15dp"
+        android:gravity="center_vertical"
+        android:textColor="@color/purple_700"
+        android:text="API服务器"/>
+
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginStart="16dp"
+        android:background="@color/purple_700"
+        />
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="36dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginStart="16dp"
+        android:background="@drawable/shape_rectangular_edit_bg"
+        android:layout_marginTop="16dp">
+
+    <EditText
+        android:id="@+id/et_url"
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:textSize="12sp"
+        android:textColor="#333333"
+        android:paddingStart="6dp"
+        android:layout_height="match_parent"
+        android:background="@null"/>
+
+        <ImageView
+            android:id="@+id/iv_login"
+            android:layout_width="36dp"
+            android:layout_height="match_parent"
+            android:src="@drawable/ic_expand_more_black_24dp"/>
+
+    </LinearLayout>
+
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:background="#d6d6d6"
+        android:layout_marginTop="26dp"
+        />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="40dp">
+
+        <TextView
+            android:id="@+id/btncancle"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="取消"
+            android:textSize="12sp"
+            android:textColor="#333333"
+            android:layout_height="match_parent"/>
+
+        <View
+            android:layout_width="0.5dp"
+            android:layout_height="match_parent"
+            android:background="#d5d5d5"/>
+
+        <TextView
+            android:id="@+id/buttonok"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="保存"
+            android:textSize="12sp"
+            android:textColor="#333333"
+            android:layout_height="match_parent"/>
+
+    </LinearLayout>
+
+
+
+
+
+</LinearLayout>

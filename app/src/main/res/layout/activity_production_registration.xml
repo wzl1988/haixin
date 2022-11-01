@@ -1,0 +1,950 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#F9F9FA"
+    tools:context=".ui.work.process.registration.ProductionRegistrationActivity">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/cons_title"
+        android:layout_width="match_parent"
+        android:layout_height="44dp"
+        android:background="@android:color/white"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+
+        <ImageView
+            android:id="@+id/iv_back"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:src="@mipmap/ic_back"
+            android:paddingStart="14dp"
+            android:paddingEnd="14dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            />
+
+
+        <TextView
+            android:id="@+id/tv_title"
+            android:layout_width="wrap_content"
+            android:layout_height="44dp"
+            android:gravity="center"
+            android:text="生产登记"
+            android:textColor="#ff333333"
+            android:textSize="17sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/cons_title">
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+
+
+
+
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/cons_lzk"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="14dp"
+        android:layout_marginEnd="14dp"
+        android:layout_marginTop="11dp"
+        android:background="@drawable/shape_rectangular_white_3_bg"
+        app:layout_constraintTop_toTopOf="parent">
+
+
+        <LinearLayout
+            android:id="@+id/ll_card"
+            android:layout_width="0dp"
+            android:layout_height="27dp"
+            android:layout_marginTop="14dp"
+            android:layout_marginEnd="15dp"
+            android:layout_marginStart="8dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/tv_lzkkh"
+            android:background="@drawable/shape_rectangular_in_edit_bg"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <EditText
+                android:id="@+id/et_lzkkh"
+                android:layout_width="0dp"
+                android:layout_height="27dp"
+                android:layout_weight="1"
+                android:paddingEnd="8dp"
+                android:layout_marginStart="6dp"
+                android:hint="请扫描流转卡"
+                android:textColor="#ff999999"
+                android:textSize="14sp"
+                android:background="@null"
+                />
+
+
+            <ImageView
+                android:id="@+id/iv_scan"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:src="@mipmap/ic_scan"
+                android:paddingEnd="8dp"
+                />
+
+        </LinearLayout>
+
+
+
+
+
+
+        <TextView
+            android:id="@+id/tv_lzkkh"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="流转卡号："
+            android:textColor="#ff333333"
+            android:textSize="15sp"
+            android:layout_marginStart="14dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/ll_card"
+            app:layout_constraintBottom_toBottomOf="@id/ll_card"
+            />
+
+
+        <TextView
+            android:id="@+id/tv_cpmc_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="产品名称:"
+            android:textColor="#ff333333"
+            android:textSize="15sp"
+            android:layout_marginTop="16dp"
+            app:layout_constraintTop_toBottomOf="@id/ll_card"
+            app:layout_constraintStart_toStartOf="@id/tv_lzkkh"
+            />
+
+        <TextView
+            android:id="@+id/tv_cpmc"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#ff666666"
+            android:textSize="14sp"
+            android:layout_marginStart="12dp"
+            app:layout_constraintTop_toTopOf="@id/tv_cpmc_text"
+            app:layout_constraintBottom_toBottomOf="@id/tv_cpmc_text"
+            app:layout_constraintStart_toEndOf="@id/tv_cpmc_text"
+            />
+
+
+
+        <TextView
+            android:id="@+id/tv_cpth_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="产品图号:"
+            android:textColor="#ff333333"
+            android:textSize="15sp"
+            android:layout_marginTop="13dp"
+            app:layout_constraintTop_toBottomOf="@id/tv_cpmc_text"
+            app:layout_constraintStart_toStartOf="@id/tv_cpmc_text"
+            />
+
+
+        <TextView
+            android:id="@+id/tv_th"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#ff666666"
+            android:textSize="14sp"
+            app:layout_constraintTop_toTopOf="@id/tv_cpth_text"
+            app:layout_constraintBottom_toBottomOf="@id/tv_cpth_text"
+            app:layout_constraintStart_toStartOf="@id/tv_cpmc"
+            />
+
+
+        <TextView
+            android:id="@+id/tv_scsl_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="生产数量："
+            android:textColor="#ff333333"
+            android:textSize="15sp"
+            android:layout_marginTop="13dp"
+            app:layout_constraintStart_toStartOf="@id/tv_cpth_text"
+            app:layout_constraintTop_toBottomOf="@id/tv_cpth_text"
+            />
+
+        <TextView
+            android:id="@+id/tv_scsl"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#ff666666"
+            android:textSize="14sp"
+            app:layout_constraintStart_toStartOf="@id/tv_cpmc"
+            app:layout_constraintTop_toTopOf="@id/tv_scsl_text"
+            app:layout_constraintBottom_toBottomOf="@id/tv_scsl_text"
+            />
+
+
+        <TextView
+            android:id="@+id/tv_xqsl_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="需求数量："
+            android:textColor="#ff333333"
+            android:textSize="15sp"
+            android:layout_marginTop="13dp"
+            android:layout_marginBottom="16dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_scsl_text"
+            app:layout_constraintStart_toStartOf="@id/tv_scsl_text"
+            />
+
+        <TextView
+            android:id="@+id/tv_xqsl"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#ff666666"
+            android:textSize="14sp"
+            app:layout_constraintTop_toTopOf="@id/tv_xqsl_text"
+            app:layout_constraintBottom_toBottomOf="@id/tv_xqsl_text"
+            app:layout_constraintStart_toStartOf="@id/tv_cpmc"
+            />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/cons_scxx"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="14dp"
+        android:layout_marginEnd="14dp"
+        android:layout_marginTop="11dp"
+        android:background="@drawable/shape_rectangular_white_3_bg"
+        app:layout_constraintTop_toBottomOf="@id/cons_lzk">
+
+
+        <TextView
+            android:id="@+id/tv_scxx"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="生产信息"
+            android:textColor="#ff537bfe"
+            android:textSize="16sp"
+            android:layout_marginTop="15dp"
+            android:layout_marginStart="14dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            />
+
+
+        <Button
+            android:id="@+id/btn_scgx"
+            android:layout_width="36dp"
+            android:layout_height="27dp"
+            android:background="@drawable/shape_rectangular_btn_ok"
+            android:text="选择"
+            android:textColor="#ffffffff"
+            android:textSize="12sp"
+            android:layout_marginTop="15dp"
+            android:layout_marginEnd="13dp"
+            app:layout_constraintTop_toBottomOf="@id/tv_scxx"
+            app:layout_constraintEnd_toEndOf="parent"
+            />
+
+
+        <TextView
+            android:id="@+id/et_scgx"
+            android:layout_width="0dp"
+            android:layout_height="27dp"
+            android:background="@drawable/shape_rectangular_in_edit_bg"
+            android:textColor="#ff999999"
+            android:textSize="14sp"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="10dp"
+            android:paddingStart="9dp"
+            android:gravity="center_vertical"
+            android:hint="请选择"
+            app:layout_constraintEnd_toStartOf="@id/btn_scgx"
+            app:layout_constraintStart_toEndOf="@id/tv_scgx"
+            app:layout_constraintTop_toTopOf="@id/btn_scgx"
+            />
+
+
+        <TextView
+            android:id="@+id/tv_scgx"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="生产工序:"
+            android:layout_marginStart="15dp"
+            android:textColor="#ff333333"
+            android:textSize="15sp"
+            app:layout_constraintTop_toTopOf="@id/et_scgx"
+            app:layout_constraintBottom_toBottomOf="@id/et_scgx"
+            app:layout_constraintStart_toStartOf="parent"
+            />
+
+
+        <TextView
+            android:id="@+id/tv_ybsl_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="已报数量："
+            android:textColor="#ff333333"
+            android:textSize="15sp"
+            android:layout_marginTop="15dp"
+            app:layout_constraintTop_toBottomOf="@id/et_scgx"
+            app:layout_constraintStart_toStartOf="@id/tv_scgx"
+            />
+
+
+        <TextView
+            android:id="@+id/tv_ybgs"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#ff666666"
+            android:textSize="14sp"
+            android:layout_marginStart="11dp"
+            app:layout_constraintStart_toEndOf="@id/tv_ybsl_text"
+            app:layout_constraintTop_toTopOf="@id/tv_ybsl_text"
+            app:layout_constraintBottom_toBottomOf="@id/tv_ybsl_text"
+            />
+
+
+        <EditText
+            android:id="@+id/et_bgsl"
+            android:layout_width="0dp"
+            android:layout_height="27dp"
+            android:background="@drawable/shape_rectangular_in_edit_bg"
+            android:textColor="#ff999999"
+            android:textSize="14sp"
+            android:inputType="number"
+            android:layout_marginTop="13dp"
+            app:layout_constraintTop_toBottomOf="@id/tv_ybsl_text"
+            app:layout_constraintStart_toStartOf="@id/et_scgx"
+            app:layout_constraintEnd_toEndOf="@id/btn_scgx"
+            />
+
+
+        <TextView
+            android:id="@+id/tv_bgsl_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="报工数量："
+            android:textColor="#ff333333"
+            android:textSize="15sp"
+            app:layout_constraintStart_toStartOf="@id/tv_ybsl_text"
+            app:layout_constraintTop_toTopOf="@id/et_bgsl"
+            app:layout_constraintBottom_toBottomOf="@id/et_bgsl"
+            />
+
+
+        <TextView
+            android:id="@+id/tv_bgwc_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="报工完成："
+            android:textColor="#ff333333"
+            android:textSize="15sp"
+            android:layout_marginTop="16dp"
+            app:layout_constraintTop_toBottomOf="@id/et_bgsl"
+            app:layout_constraintStart_toStartOf="@id/tv_ybsl_text"
+            />
+
+
+
+
+        <RadioGroup
+            android:id="@+id/rg"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toEndOf="@id/tv_bgwc_text"
+            app:layout_constraintTop_toTopOf="@id/tv_bgwc_text"
+            app:layout_constraintBottom_toBottomOf="@id/tv_bgwc_text"
+            android:orientation="horizontal">
+
+            <RadioButton
+                android:id="@+id/pass"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:buttonTint="@color/main" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="是"
+                android:textColor="@color/gray6"
+                android:textSize="@dimen/font_middle" />
+
+            <RadioButton
+                android:id="@+id/unPass"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checked="true"
+                android:layout_marginStart="15dp"
+                android:buttonTint="@color/main" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="否"
+                android:textColor="@color/gray6"
+                android:textSize="@dimen/font_middle" />
+
+        </RadioGroup>
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="生产设备:"
+            android:textColor="#ff333333"
+            android:textSize="15sp"
+            app:layout_constraintTop_toTopOf="@id/tv_scsb"
+            app:layout_constraintBottom_toBottomOf="@id/tv_scsb"
+            app:layout_constraintStart_toStartOf="@id/tv_bgwc_text"
+            />
+
+
+        <TextView
+            android:id="@+id/tv_scsb"
+            android:layout_width="0dp"
+            android:layout_height="27dp"
+            android:background="@drawable/shape_rectangular_in_edit_bg"
+            android:textColor="#ff999999"
+            android:textSize="14sp"
+            android:paddingStart="9dp"
+            android:layout_marginTop="13dp"
+            android:gravity="center_vertical"
+            android:hint="请选择"
+            app:layout_constraintTop_toBottomOf="@id/rg"
+            app:layout_constraintStart_toStartOf="@id/et_scgx"
+            app:layout_constraintEnd_toEndOf="@id/et_scgx"
+            />
+
+
+
+        <Button
+            android:id="@+id/btn_scsb"
+            android:layout_width="36dp"
+            android:layout_height="27dp"
+            android:background="@drawable/shape_rectangular_btn_ok"
+            android:text="选择"
+            android:textColor="#ffffffff"
+            android:textSize="12sp"
+            app:layout_constraintStart_toStartOf="@id/btn_scgx"
+            app:layout_constraintTop_toTopOf="@id/tv_scsb"
+            />
+
+
+        <TextView
+            android:id="@+id/tv_jgdy"
+            android:layout_width="0dp"
+            android:layout_height="27dp"
+            android:background="@drawable/shape_rectangular_in_edit_bg"
+            android:textColor="#ff999999"
+            android:textSize="14sp"
+            android:paddingStart="9dp"
+            android:layout_marginTop="12dp"
+            android:gravity="center_vertical"
+            android:hint="请选择"
+            app:layout_constraintTop_toBottomOf="@id/tv_scsb"
+            app:layout_constraintStart_toStartOf="@id/et_scgx"
+            app:layout_constraintEnd_toEndOf="@id/et_scgx"
+            />
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="加工单元:"
+            android:textColor="#ff333333"
+            android:textSize="15sp"
+            app:layout_constraintStart_toStartOf="@id/tv_bgwc_text"
+            app:layout_constraintTop_toTopOf="@id/tv_jgdy"
+            app:layout_constraintBottom_toBottomOf="@id/tv_jgdy"
+            />
+
+        <Button
+            android:id="@+id/btn_jgdy"
+            android:layout_width="36dp"
+            android:layout_height="27dp"
+            android:background="@drawable/shape_rectangular_btn_ok"
+            android:text="选择"
+            android:textColor="#ffffffff"
+            android:textSize="12sp"
+            app:layout_constraintStart_toStartOf="@id/btn_scgx"
+            app:layout_constraintTop_toTopOf="@id/tv_jgdy"
+            />
+
+
+
+        <TextView
+            android:id="@+id/tv_scfs_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="生产方式："
+            android:textColor="#ff333333"
+            android:textSize="15sp"
+            android:layout_marginTop="16dp"
+            app:layout_constraintTop_toBottomOf="@id/tv_jgdy"
+            app:layout_constraintStart_toStartOf="@id/tv_bgwc_text"
+            />
+
+
+
+        <RadioGroup
+            android:id="@+id/rg_fs"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toEndOf="@id/tv_scfs_text"
+            app:layout_constraintTop_toTopOf="@id/tv_scfs_text"
+            app:layout_constraintBottom_toBottomOf="@id/tv_scfs_text"
+            android:orientation="horizontal">
+
+            <RadioButton
+                android:id="@+id/rb_gr"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checked="true"
+                android:buttonTint="@color/main" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="个人"
+                android:textColor="@color/gray6"
+                android:textSize="@dimen/font_middle" />
+
+            <RadioButton
+                android:id="@+id/rb_jt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="15dp"
+                android:buttonTint="@color/main" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="集体"
+                android:textColor="@color/gray6"
+                android:textSize="@dimen/font_middle" />
+
+        </RadioGroup>
+
+        <TextView
+            android:id="@+id/tv_scbz"
+            android:layout_width="0dp"
+            android:layout_height="27dp"
+            android:background="@drawable/shape_rectangular_in_edit_bg"
+            android:textColor="#ff999999"
+            android:textSize="14sp"
+            android:paddingStart="9dp"
+            android:layout_marginTop="12dp"
+            android:gravity="center_vertical"
+            android:hint="请选择"
+            app:layout_constraintTop_toBottomOf="@id/rg_fs"
+            app:layout_constraintStart_toStartOf="@id/et_scgx"
+            app:layout_constraintEnd_toEndOf="@id/et_scgx"
+            />
+
+        <TextView
+            android:id="@+id/tv_scbz_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="生产小组:"
+            android:textColor="#ff333333"
+            android:textSize="15sp"
+            app:layout_constraintStart_toStartOf="@id/tv_ybsl_text"
+            app:layout_constraintTop_toTopOf="@id/tv_scbz"
+            app:layout_constraintBottom_toBottomOf="@id/tv_scbz"
+            />
+
+        <Button
+            android:id="@+id/btn_scbz"
+            android:layout_width="36dp"
+            android:layout_height="27dp"
+            android:background="@drawable/shape_rectangular_btn_ok"
+            android:text="选择"
+            android:textColor="#ffffffff"
+            android:textSize="12sp"
+            app:layout_constraintStart_toStartOf="@id/btn_scgx"
+            app:layout_constraintTop_toTopOf="@id/tv_scbz"
+            />
+
+
+
+        <TextView
+            android:id="@+id/tv_zrr"
+            android:layout_width="0dp"
+            android:layout_height="27dp"
+            android:background="@drawable/shape_rectangular_in_edit_bg"
+            android:textColor="#ff999999"
+            android:textSize="14sp"
+            android:paddingStart="9dp"
+            android:layout_marginTop="12dp"
+            android:gravity="center_vertical"
+            android:hint="请选择"
+            app:layout_constraintTop_toBottomOf="@id/tv_scbz"
+            app:layout_constraintStart_toStartOf="@id/et_scgx"
+            app:layout_constraintEnd_toEndOf="@id/et_scgx"
+            />
+
+        <TextView
+            android:id="@+id/tv_zrr_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="责任人:"
+            android:textColor="#ff333333"
+            android:textSize="15sp"
+            app:layout_constraintStart_toStartOf="@id/tv_ybsl_text"
+            app:layout_constraintTop_toTopOf="@id/tv_zrr"
+            app:layout_constraintBottom_toBottomOf="@id/tv_zrr"
+            />
+
+        <Button
+            android:id="@+id/btn_zrr"
+            android:layout_width="36dp"
+            android:layout_height="27dp"
+            android:background="@drawable/shape_rectangular_btn_ok"
+            android:text="选择"
+            android:textColor="#ffffffff"
+            android:textSize="12sp"
+            app:layout_constraintStart_toStartOf="@id/btn_scgx"
+            app:layout_constraintTop_toTopOf="@id/tv_zrr"
+            />
+
+        <TextView
+            android:id="@+id/tv_scry"
+            android:layout_width="0dp"
+            android:layout_height="27dp"
+            android:background="@drawable/shape_rectangular_in_edit_bg"
+            android:textColor="#ff999999"
+            android:textSize="14sp"
+            android:paddingStart="9dp"
+            android:layout_marginTop="12dp"
+            android:gravity="center_vertical"
+            android:hint="请选择"
+            app:layout_constraintTop_toBottomOf="@id/tv_zrr"
+            app:layout_constraintStart_toStartOf="@id/et_scgx"
+            app:layout_constraintEnd_toEndOf="@id/et_scgx"
+            />
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="生产人员:"
+            android:textColor="#ff333333"
+            android:textSize="15sp"
+            app:layout_constraintStart_toStartOf="@id/tv_ybsl_text"
+            app:layout_constraintTop_toTopOf="@id/tv_scry"
+            app:layout_constraintBottom_toBottomOf="@id/tv_scry"
+            />
+
+
+        <Button
+            android:id="@+id/btn_scry"
+            android:layout_width="36dp"
+            android:layout_height="27dp"
+            android:background="@drawable/shape_rectangular_btn_ok"
+            android:text="选择"
+            android:textColor="#ffffffff"
+            android:textSize="12sp"
+            app:layout_constraintStart_toStartOf="@id/btn_scgx"
+            app:layout_constraintTop_toTopOf="@id/tv_scry"
+            />
+
+
+        <EditText
+            android:id="@+id/et_zzxh"
+            android:layout_width="0dp"
+            android:layout_height="27dp"
+            android:background="@drawable/shape_rectangular_in_edit_bg"
+            android:textColor="#ff999999"
+            android:textSize="14sp"
+            android:layout_marginTop="13dp"
+            android:hint="请输入，非必填"
+            app:layout_constraintTop_toBottomOf="@id/tv_scry"
+            app:layout_constraintStart_toStartOf="@id/et_scgx"
+            app:layout_constraintEnd_toEndOf="@id/btn_scgx"
+            />
+
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="周转箱号："
+            android:textColor="#ff333333"
+            android:textSize="15sp"
+            app:layout_constraintTop_toTopOf="@id/et_zzxh"
+            app:layout_constraintBottom_toBottomOf="@id/et_zzxh"
+            app:layout_constraintStart_toStartOf="@id/tv_bgwc_text"
+            />
+
+
+        <TextView
+            android:id="@+id/tv_sfbczzx"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="是否保存周转箱号："
+            android:textColor="#ff333333"
+            android:textSize="15sp"
+            android:layout_marginTop="13dp"
+            android:layout_marginBottom="16dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/et_zzxh"
+            app:layout_constraintStart_toStartOf="@id/tv_bgwc_text"
+            />
+
+        <RadioGroup
+            android:id="@+id/rg_zzx"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toEndOf="@id/tv_sfbczzx"
+            app:layout_constraintTop_toTopOf="@id/tv_sfbczzx"
+            app:layout_constraintBottom_toBottomOf="@id/tv_sfbczzx"
+            android:orientation="horizontal">
+
+            <RadioButton
+                android:id="@+id/rb_yes"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:buttonTint="@color/main" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="是"
+                android:textColor="@color/gray6"
+                android:textSize="@dimen/font_middle" />
+
+            <RadioButton
+                android:id="@+id/rb_no"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="15dp"
+                android:buttonTint="@color/main" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="否"
+                android:textColor="@color/gray6"
+                android:textSize="@dimen/font_middle" />
+
+        </RadioGroup>
+
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <LinearLayout
+            android:id="@+id/ll_glgx"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginStart="14dp"
+            android:layout_marginEnd="14dp"
+            android:layout_marginTop="11dp"
+            android:orientation="vertical"
+            android:background="@drawable/shape_rectangular_white_3_bg"
+            app:layout_constraintTop_toBottomOf="@id/cons_scxx">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="关联工序"
+                android:layout_marginTop="15dp"
+                android:layout_marginStart="14dp"
+                android:textColor="#ff537bfe"
+                android:textSize="16sp"
+                />
+
+            <TextView
+                android:id="@+id/tv_glgx"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:layout_marginStart="15dp"
+                android:layout_marginBottom="15dp"
+                android:textColor="#ff333333"
+                android:textSize="15sp"
+                />
+        </LinearLayout>
+
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/cons_clxh"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="14dp"
+            android:layout_marginEnd="14dp"
+            android:layout_marginTop="11dp"
+            android:background="@drawable/shape_rectangular_white_3_bg"
+            app:layout_constraintTop_toBottomOf="@id/ll_glgx">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="材料消耗"
+                android:textColor="#ff537bfe"
+                android:textSize="16sp"
+                android:layout_marginTop="15dp"
+                android:layout_marginStart="14dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                />
+
+
+            <Button
+                android:id="@+id/btn_add"
+                android:layout_width="50dp"
+                android:layout_height="27dp"
+                android:background="@drawable/shape_rectangular_btn_ok"
+                android:text="+添加"
+                android:textColor="#ffffffff"
+                android:textSize="12sp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="10dp"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                />
+
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rc_cl"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="13dp"
+            android:layout_marginStart="13dp"
+            android:layout_marginEnd="13dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/btn_add"/>
+
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="14dp"
+            android:layout_marginEnd="14dp"
+            android:background="@drawable/shape_rectangular_white_3_bg"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="100dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/cons_clxh">
+
+
+            <TextView
+                android:id="@+id/tv_czy_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="操作员："
+                android:textColor="#ff333333"
+                android:textSize="15sp"
+                android:layout_marginTop="14dp"
+                android:layout_marginStart="12dp"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                />
+
+            <TextView
+                android:id="@+id/tv_czr"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="xxx"
+                android:textColor="#ff666666"
+                android:textSize="14sp"
+                android:layout_marginStart="16dp"
+                app:layout_constraintBottom_toBottomOf="@id/tv_czy_text"
+                app:layout_constraintStart_toEndOf="@id/tv_czy_text"
+                app:layout_constraintTop_toTopOf="@id/tv_czy_text" />
+
+
+            <TextView
+                android:id="@+id/tv_rq_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="日期:"
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:textColor="#ff333333"
+                android:textSize="15sp"
+                android:layout_marginBottom="14dp"
+                android:layout_marginTop="15dp"
+                app:layout_constraintTop_toBottomOf="@id/tv_czy_text"
+                app:layout_constraintStart_toStartOf="@id/tv_czy_text"
+                />
+
+            <TextView
+                android:id="@+id/tv_rq"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="xxx"
+                android:textColor="#ff666666"
+                android:textSize="14sp"
+                app:layout_constraintStart_toStartOf="@id/tv_czr"
+                app:layout_constraintBottom_toBottomOf="@id/tv_rq_text"
+                app:layout_constraintTop_toTopOf="@id/tv_rq_text" />
+
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.core.widget.NestedScrollView>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="55dp"
+        android:background="#FFFFFF"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#EBE7E7" />
+
+        <Button
+            android:id="@+id/btn_submit"
+            android:layout_width="80dp"
+            android:layout_height="30dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="12dp"
+            android:background="@drawable/shape_rectangular_button_5_bg"
+            android:text="提交"
+            android:textColor="#ffffffff"
+            android:textSize="14sp" />
+
+    </RelativeLayout>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

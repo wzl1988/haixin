@@ -1,0 +1,435 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/page_bg">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/cons_title"
+        android:layout_width="match_parent"
+        android:layout_height="44dp"
+        android:background="@color/white"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:id="@+id/iv_back"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:paddingStart="14dp"
+            android:paddingEnd="14dp"
+            android:src="@mipmap/ic_back"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tv_title"
+            android:layout_width="wrap_content"
+            android:layout_height="44dp"
+            android:gravity="center"
+            android:text="不合格品登记"
+            android:textColor="@color/black_333333"
+            android:textSize="@dimen/font_17sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@id/rl"
+        app:layout_constraintTop_toBottomOf="@id/cons_title">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/card_info"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="15dp"
+                android:layout_marginTop="12dp"
+                android:layout_marginEnd="15dp"
+                app:cardBackgroundColor="@color/white">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="15dp"
+                            android:layout_marginTop="10dp"
+                            android:layout_marginEnd="15dp"
+                            android:gravity="center_vertical">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="流转卡编号："
+                                android:textColor="@color/black_333333"
+                                android:textSize="@dimen/font_15sp" />
+
+                            <TextView
+                                android:id="@+id/tv_lzkbh"
+                                android:layout_width="match_parent"
+                                android:layout_height="27dp"
+                                android:layout_marginStart="16dp"
+                                android:layout_marginEnd="15dp"
+                                android:background="@drawable/shape_rectangular_in_edit_bg"
+                                android:drawableRight="@mipmap/ic_scan"
+                                android:gravity="center_vertical"
+                                android:hint="请输入或扫描流转卡编号"
+                                android:padding="5dp"
+                                android:textSize="@dimen/font_13sp" />
+
+                        </LinearLayout>
+
+                        <RelativeLayout style="@style/item_text_container">
+
+                            <TextView
+                                style="@style/item_text_name"
+                                android:text="产品名称:" />
+
+                            <TextView
+                                android:id="@+id/tv_cpmc"
+                                style="@style/item_text_content" />
+
+                        </RelativeLayout>
+
+                        <RelativeLayout style="@style/item_text_container">
+
+                            <TextView
+                                style="@style/item_text_name"
+                                android:text="产品图号：" />
+
+                            <TextView
+                                android:id="@+id/tv_cpth"
+                                style="@style/item_text_content" />
+
+                        </RelativeLayout>
+
+                        <RelativeLayout
+                            style="@style/item_text_container"
+                            android:layout_marginBottom="15dp">
+
+                            <TextView
+                                style="@style/item_text_name"
+                                android:text="需求数量：" />
+
+                            <TextView
+                                android:id="@+id/tv_xqsl"
+                                style="@style/item_text_content" />
+
+                        </RelativeLayout>
+
+                    </LinearLayout>
+
+                </RelativeLayout>
+
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/card_bhgxx"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="15dp"
+                android:layout_marginTop="12dp"
+                android:layout_marginEnd="15dp"
+                android:background="@color/white">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="15dp"
+                        android:layout_marginTop="15dp"
+                        android:text="不合格品信息"
+                        android:textColor="@color/main"
+                        android:textSize="@dimen/font_large" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="15dp"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginEnd="15dp"
+                        android:gravity="center_vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="不良现象:"
+                            android:textColor="@color/black_333333"
+                            android:textSize="@dimen/font_15sp" />
+
+                        <TextView
+                            android:id="@+id/tv_blxx"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="20dp"
+                            android:layout_weight="3"
+                            android:background="@drawable/shape_rectangular_in_edit_bg"
+                            android:enabled="false"
+                            android:hint="请选择（支持多选）"
+                            android:padding="5dp"
+                            android:textColor="@color/black_333333"
+                            android:textSize="@dimen/font_middle" />
+
+                        <Button
+                            android:id="@+id/btn_blxx"
+                            android:layout_width="0dp"
+                            android:layout_height="25dp"
+                            android:layout_alignParentRight="true"
+                            android:layout_centerVertical="true"
+                            android:layout_marginStart="10dp"
+                            android:layout_weight="1"
+                            android:background="@drawable/shape_rectangular_button_5_bg"
+                            android:text="选择"
+                            android:textColor="@color/white"
+                            android:textSize="@dimen/font_middle" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="15dp"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginEnd="15dp"
+                        android:gravity="center_vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="不合格数量:"
+                            android:textColor="@color/black_333333"
+                            android:textSize="@dimen/font_15sp" />
+
+                        <EditText
+                            android:id="@+id/et_bhgsl"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="5dp"
+                            android:background="@drawable/shape_rectangular_in_edit_bg"
+                            android:hint="@string/please_input"
+                            android:inputType="number"
+                            android:padding="5dp"
+                            android:textSize="@dimen/font_middle" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="15dp"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginEnd="15dp"
+                        android:gravity="center_vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="生产工序:"
+                            android:textColor="@color/black_333333"
+                            android:textSize="@dimen/font_15sp" />
+
+                        <TextView
+                            android:id="@+id/tv_scgx"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="20dp"
+                            android:layout_weight="3"
+                            android:background="@drawable/shape_rectangular_in_edit_bg"
+                            android:enabled="false"
+                            android:hint="请选择（单选）"
+                            android:padding="5dp"
+                            android:textColor="@color/black_333333"
+                            android:textSize="@dimen/font_middle" />
+
+                        <Button
+                            android:id="@+id/btn_scgx"
+                            android:layout_width="0dp"
+                            android:layout_height="25dp"
+                            android:layout_alignParentRight="true"
+                            android:layout_centerVertical="true"
+                            android:layout_marginStart="10dp"
+                            android:layout_weight="1"
+                            android:background="@drawable/shape_rectangular_button_5_bg"
+                            android:text="选择"
+                            android:textColor="@color/white"
+                            android:textSize="@dimen/font_middle" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="15dp"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginEnd="15dp"
+                        android:gravity="center_vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="生产人员:"
+                            android:textColor="@color/black_333333"
+                            android:textSize="@dimen/font_15sp" />
+
+                        <TextView
+                            android:id="@+id/tv_scry"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="20dp"
+                            android:layout_weight="3"
+                            android:background="@drawable/shape_rectangular_in_edit_bg"
+                            android:hint="@string/please_choose"
+                            android:padding="5dp"
+                            android:textSize="@dimen/font_middle" />
+
+                        <Button
+                            android:id="@+id/btn_scry"
+                            android:layout_width="0dp"
+                            android:layout_height="25dp"
+                            android:layout_alignParentRight="true"
+                            android:layout_centerVertical="true"
+                            android:layout_marginStart="10dp"
+                            android:layout_weight="1"
+                            android:background="@drawable/shape_rectangular_button_5_bg"
+                            android:text="选择"
+                            android:textColor="@color/white"
+                            android:textSize="@dimen/font_middle" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="15dp"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginEnd="15dp"
+                        android:layout_marginBottom="15dp"
+                        android:gravity="center_vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="top"
+                            android:text="备注:"
+                            android:textColor="@color/black_333333"
+                            android:textSize="@dimen/font_15sp" />
+
+                        <EditText
+                            android:id="@+id/et_bz"
+                            android:layout_width="match_parent"
+                            android:layout_height="85dp"
+                            android:layout_marginStart="50dp"
+                            android:background="@drawable/shape_rectangular_in_edit_bg"
+                            android:gravity="top"
+                            android:hint="@string/please_input"
+                            android:padding="5dp"
+                            android:textSize="@dimen/font_middle" />
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/card_cxxx"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="15dp"
+                android:layout_marginTop="12dp"
+                android:layout_marginEnd="15dp"
+                android:layout_marginBottom="10dp"
+                android:background="@color/white">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <RelativeLayout style="@style/item_text_container">
+
+                        <TextView
+                            style="@style/item_text_name"
+                            android:text="操作员：" />
+
+                        <TextView
+                            android:id="@+id/tv_czy"
+                            style="@style/item_text_content" />
+
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        style="@style/item_text_container"
+                        android:layout_marginBottom="10dp">
+
+                        <TextView
+                            style="@style/item_text_name"
+                            android:text="日期：" />
+
+                        <TextView
+                            android:id="@+id/tv_rq"
+                            style="@style/item_text_content" />
+
+                    </RelativeLayout>
+
+                </LinearLayout>
+
+            </androidx.cardview.widget.CardView>
+
+        </LinearLayout>
+
+    </ScrollView>
+
+    <RelativeLayout
+        android:id="@+id/rl"
+        android:layout_width="match_parent"
+        android:layout_height="55dp"
+        android:background="@color/white"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#EBE7E7" />
+
+        <Button
+            android:id="@+id/btn_post"
+            android:layout_width="80dp"
+            android:layout_height="30dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="12dp"
+            android:background="@drawable/shape_rectangular_button_5_bg"
+            android:text="提交"
+            android:textColor="@color/white"
+            android:textSize="@dimen/font_middle" />
+
+    </RelativeLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

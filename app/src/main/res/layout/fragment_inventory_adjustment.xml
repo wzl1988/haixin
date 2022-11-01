@@ -1,0 +1,502 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:scrollbars="none"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+
+
+        <TextView
+            android:id="@+id/tv_startck"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="仓库："
+            android:textColor="#ff333333"
+            android:textSize="15sp"
+            android:layout_marginStart="16dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/et_startck"
+            app:layout_constraintBottom_toBottomOf="@id/et_startck"
+            />
+
+
+
+        <TextView
+            android:id="@+id/et_startck"
+            android:layout_width="0dp"
+            android:layout_height="27dp"
+            android:background="@drawable/shape_rectangular_in_edit_bg"
+            android:textColor="#ff999999"
+            android:textSize="14sp"
+            android:paddingEnd="6dp"
+            android:paddingStart="8dp"
+            android:layout_marginStart="18dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="5dp"
+            app:layout_constraintStart_toEndOf="@id/tv_startck"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/btn_startck"
+            />
+
+        <Button
+            android:id="@+id/btn_startck"
+            android:layout_width="36dp"
+            android:layout_height="27dp"
+            android:background="@drawable/shape_rectangular_btn_ok"
+            app:layout_constraintHorizontal_bias="1"
+            android:text="选择"
+            app:layout_constraintTop_toTopOf="@id/et_startck"
+            app:layout_constraintStart_toEndOf="@id/et_startck"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:textColor="#ffffffff"
+            android:layout_marginEnd="15dp"
+            android:textSize="12sp"
+            />
+
+
+        <EditText
+            android:id="@+id/et_startkw"
+            android:layout_width="0dp"
+            android:layout_height="27dp"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/shape_rectangular_in_edit_bg"
+            android:drawableRight="@mipmap/ic_scan"
+            android:paddingEnd="6dp"
+            android:paddingStart="8dp"
+            android:textColor="#ff999999"
+            android:textSize="14sp"
+            app:layout_constraintEnd_toEndOf="@id/et_startck"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="@id/et_startck"
+            app:layout_constraintTop_toBottomOf="@id/et_startck" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="库位："
+            android:textColor="#ff333333"
+            android:textSize="15sp"
+            app:layout_constraintStart_toStartOf="@id/tv_startck"
+            app:layout_constraintTop_toTopOf="@id/et_startkw"
+            app:layout_constraintBottom_toBottomOf="@id/et_startkw"
+            />
+
+
+        <Button
+            android:id="@+id/btn_startkw"
+            android:layout_width="36dp"
+            android:layout_height="27dp"
+            android:background="@drawable/shape_rectangular_btn_ok"
+            app:layout_constraintHorizontal_bias="1"
+            android:text="选择"
+            app:layout_constraintTop_toTopOf="@id/et_startkw"
+            app:layout_constraintStart_toEndOf="@id/et_startkw"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:textColor="#ffffffff"
+            android:layout_marginEnd="15dp"
+            android:textSize="12sp"
+            />
+
+
+        <EditText
+            android:id="@+id/et_tmh"
+            android:layout_width="0dp"
+            android:layout_height="27dp"
+            android:background="@drawable/shape_rectangular_in_edit_bg"
+            android:textColor="#ff999999"
+            android:textSize="14sp"
+            android:paddingEnd="6dp"
+            android:paddingStart="8dp"
+            android:layout_marginTop="16dp"
+            android:drawableRight="@mipmap/ic_scan"
+            app:layout_constraintStart_toStartOf="@id/et_startkw"
+            app:layout_constraintEnd_toEndOf="@id/btn_startck"
+            app:layout_constraintTop_toBottomOf="@id/et_startkw"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="条码号："
+            android:textColor="#ff333333"
+            android:textSize="15sp"
+            app:layout_constraintTop_toTopOf="@id/et_tmh"
+            app:layout_constraintBottom_toBottomOf="@id/et_tmh"
+            app:layout_constraintStart_toStartOf="@id/tv_startck"
+            />
+
+
+
+
+        <TextView
+            android:id="@+id/textView19"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:text="物品号："
+            android:textColor="#ff333333"
+            android:textSize="15sp"
+            app:layout_constraintStart_toStartOf="@+id/tv_startck"
+            app:layout_constraintTop_toBottomOf="@+id/rg_fz" />
+
+
+        <TextView
+            android:id="@+id/tv_wph"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#ff666666"
+            android:textSize="14sp"
+            android:layout_marginStart="35dp"
+            app:layout_constraintBottom_toBottomOf="@+id/textView19"
+            app:layout_constraintStart_toEndOf="@+id/textView19"
+            app:layout_constraintTop_toTopOf="@+id/textView19" />
+
+        <TextView
+            android:id="@+id/textView20"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="物品名称："
+            android:layout_marginTop="12dp"
+            android:textColor="#ff333333"
+            android:textSize="15sp"
+            app:layout_constraintStart_toStartOf="@+id/textView19"
+            app:layout_constraintTop_toBottomOf="@+id/textView19" />
+
+        <TextView
+            android:id="@+id/tv_wpmc"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#ff666666"
+            android:textSize="14sp"
+            app:layout_constraintBottom_toBottomOf="@+id/textView20"
+            app:layout_constraintStart_toStartOf="@+id/tv_wph"
+            app:layout_constraintTop_toTopOf="@+id/textView20" />
+
+
+        <TextView
+            android:id="@+id/textView23"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:text="物品规格："
+            android:textColor="#ff333333"
+            android:textSize="15sp"
+            app:layout_constraintStart_toStartOf="@+id/textView20"
+            app:layout_constraintTop_toBottomOf="@+id/textView20" />
+
+        <TextView
+            android:id="@+id/tv_gg"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#ff666666"
+            android:textSize="14sp"
+            app:layout_constraintBottom_toBottomOf="@+id/textView23"
+            app:layout_constraintStart_toStartOf="@+id/tv_wph"
+            app:layout_constraintTop_toTopOf="@+id/textView23" />
+
+        <TextView
+            android:id="@+id/textView24"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:text="单位: "
+            android:textColor="#ff333333"
+            android:textSize="15sp"
+            app:layout_constraintStart_toStartOf="@+id/textView23"
+            app:layout_constraintTop_toBottomOf="@+id/textView23" />
+
+
+        <TextView
+            android:id="@+id/tv_dw"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#ff666666"
+            android:textSize="14sp"
+            app:layout_constraintBottom_toBottomOf="@+id/textView24"
+            app:layout_constraintStart_toStartOf="@+id/tv_wph"
+            app:layout_constraintTop_toTopOf="@+id/textView24" />
+
+
+        <TextView
+            android:id="@+id/textView25"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:text="数量："
+            android:textColor="#ff333333"
+            android:textSize="15sp"
+            app:layout_constraintStart_toStartOf="@+id/textView24"
+            app:layout_constraintTop_toBottomOf="@+id/et_tmh" />
+
+        <TextView
+            android:id="@+id/tv_number"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#ff666666"
+            android:textSize="14sp"
+            app:layout_constraintBottom_toBottomOf="@+id/textView25"
+            app:layout_constraintStart_toStartOf="@+id/tv_wph"
+            app:layout_constraintTop_toTopOf="@+id/textView25" />
+
+
+        <TextView
+            android:id="@+id/tv_tzhsl_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:text="调整后数量："
+            android:textColor="#ff333333"
+            android:textSize="15sp"
+            app:layout_constraintStart_toStartOf="@+id/textView24"
+            app:layout_constraintTop_toBottomOf="@+id/textView25" />
+
+
+
+        <TextView
+            android:id="@+id/tv_adjustment_number"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#ff666666"
+            android:textSize="14sp"
+            app:layout_constraintBottom_toBottomOf="@+id/tv_tzhsl_text"
+            app:layout_constraintStart_toStartOf="@+id/tv_wph"
+            app:layout_constraintTop_toTopOf="@+id/tv_tzhsl_text" />
+
+
+
+
+
+        <RadioGroup
+            android:id="@+id/rg"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="6dp"
+            app:layout_constraintTop_toBottomOf="@id/tv_tzhsl_text"
+            app:layout_constraintStart_toStartOf="@id/tv_startck"
+            >
+
+            <RadioButton
+                android:id="@+id/btn_0"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="加+"
+                android:paddingStart="4dp"
+                android:gravity="center"
+                android:textColor="#ff666666"
+                android:textSize="14sp"
+                android:layout_weight="1"
+                android:checked="true"
+                android:buttonTint="@color/main"
+                />
+
+
+            <RadioButton
+                android:id="@+id/btn_1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="减-"
+                android:layout_marginStart="16dp"
+                android:paddingStart="4dp"
+                android:gravity="center"
+                android:textColor="#ff666666"
+                android:textSize="14sp"
+                android:layout_weight="1"
+                android:buttonTint="@color/main"
+                />
+
+        </RadioGroup>
+
+
+        <EditText
+            android:id="@+id/et_sl"
+            android:layout_width="135dp"
+            android:layout_height="27dp"
+            android:layout_marginStart="10dp"
+            android:inputType="numberDecimal"
+            android:background="@drawable/shape_rectangular_in_edit_bg"
+            app:layout_constraintTop_toTopOf="@id/rg"
+            app:layout_constraintBottom_toBottomOf="@id/rg"
+            app:layout_constraintStart_toEndOf="@id/rg"
+            />
+
+
+        <TextView
+            android:id="@+id/tv_fzsl_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:text="辅助数量："
+            android:textColor="#ff333333"
+            android:textSize="15sp"
+            app:layout_constraintStart_toStartOf="@+id/textView24"
+            app:layout_constraintTop_toBottomOf="@+id/rg"
+            />
+
+
+
+        <TextView
+            android:id="@+id/tv_fzsl"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#ff666666"
+            android:textSize="14sp"
+            app:layout_constraintBottom_toBottomOf="@+id/tv_fzsl_text"
+            app:layout_constraintStart_toStartOf="@+id/tv_wph"
+            app:layout_constraintTop_toTopOf="@+id/tv_fzsl_text" />
+
+
+
+
+        <TextView
+            android:id="@+id/tv_tzhfzsl_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:text="调整后辅助数量："
+            android:textColor="#ff333333"
+            android:textSize="15sp"
+            app:layout_constraintStart_toStartOf="@+id/textView24"
+            app:layout_constraintTop_toBottomOf="@+id/tv_fzsl_text" />
+
+
+        <TextView
+            android:id="@+id/tv_tzhfzsl"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#ff666666"
+            android:textSize="14sp"
+            app:layout_constraintBottom_toBottomOf="@+id/tv_tzhfzsl_text"
+            app:layout_constraintStart_toEndOf="@+id/tv_tzhfzsl_text"
+            app:layout_constraintTop_toTopOf="@+id/tv_tzhfzsl_text" />
+
+
+
+        <RadioGroup
+            android:id="@+id/rg_fz"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="6dp"
+            app:layout_constraintTop_toBottomOf="@id/tv_tzhfzsl"
+            app:layout_constraintStart_toStartOf="@id/tv_startck"
+            >
+
+            <RadioButton
+                android:id="@+id/btn_fz_add"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="加+"
+                android:paddingStart="4dp"
+                android:gravity="center"
+                android:textColor="#ff666666"
+                android:textSize="14sp"
+                android:layout_weight="1"
+                android:checked="true"
+                android:buttonTint="@color/main"
+                />
+
+
+            <RadioButton
+                android:id="@+id/btn_fz_remove"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="减-"
+                android:layout_marginStart="16dp"
+                android:paddingStart="4dp"
+                android:gravity="center"
+                android:textColor="#ff666666"
+                android:textSize="14sp"
+                android:layout_weight="1"
+                android:buttonTint="@color/main"
+                />
+
+        </RadioGroup>
+
+
+
+        <EditText
+            android:id="@+id/et_fzsl"
+            android:layout_width="135dp"
+            android:layout_height="27dp"
+            android:layout_marginStart="10dp"
+            android:inputType="numberDecimal"
+            android:background="@drawable/shape_rectangular_in_edit_bg"
+            app:layout_constraintTop_toTopOf="@id/rg_fz"
+            app:layout_constraintBottom_toBottomOf="@id/rg_fz"
+            app:layout_constraintStart_toEndOf="@id/rg_fz"
+            />
+
+
+
+        <View
+            android:id="@+id/line"
+            android:layout_width="0dp"
+            android:layout_height="0.5dp"
+            android:layout_marginTop="16dp"
+            android:alpha="0.1"
+            android:background="#000000"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/textView24"/>
+
+
+        <TextView
+            android:id="@+id/textView27"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="操作员："
+            android:textColor="#ff333333"
+            android:textSize="15sp"
+            app:layout_constraintStart_toStartOf="@+id/textView25"
+            app:layout_constraintTop_toBottomOf="@+id/line" />
+
+
+        <TextView
+            android:id="@+id/tv_user"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="9dp"
+            android:textColor="#ff666666"
+            android:textSize="15sp"
+            app:layout_constraintBottom_toBottomOf="@+id/textView27"
+            app:layout_constraintStart_toEndOf="@+id/textView27"
+            app:layout_constraintTop_toTopOf="@+id/textView27" />
+
+        <TextView
+            android:id="@+id/tv_datetext"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="日期："
+
+            android:layout_marginBottom="16dp"
+            android:textColor="#ff333333"
+            android:textSize="15sp"
+            android:layout_marginTop="14dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/textView27"
+            app:layout_constraintTop_toBottomOf="@+id/textView27" />
+
+        <TextView
+            android:id="@+id/tv_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#ff666666"
+            android:textSize="15sp"
+            app:layout_constraintBottom_toBottomOf="@+id/tv_datetext"
+            app:layout_constraintStart_toStartOf="@+id/tv_user"
+            app:layout_constraintTop_toTopOf="@+id/tv_datetext" />
+
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+</ScrollView>
