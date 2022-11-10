@@ -7,14 +7,17 @@ import android.content.Intent
 import android.content.IntentFilter
 import androidx.core.app.ActivityCompat
 import androidx.core.app.ActivityOptionsCompat
+import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.eohi.hx.R
 import com.eohi.hx.base.BaseActivity
 import com.eohi.hx.databinding.ActivityCirculationCardDetailBinding
 import com.eohi.hx.ui.work.adapter.LzkSubAdapter
 import com.eohi.hx.ui.work.model.LZKSubListModel
+import com.eohi.hx.ui.work.model.LzkItem
 import com.eohi.hx.ui.work.process.viewmodel.CirculationCardViewModel
 import com.eohi.hx.utils.Constant
+import com.eohi.hx.utils.DateUtil
 import com.eohi.hx.utils.Extensions.asColor
 import com.eohi.hx.utils.StatusBarUtil
 import com.eohi.hx.widget.clicks
@@ -27,7 +30,7 @@ class CirculationCardDetailActivity :
     BaseActivity<CirculationCardViewModel, ActivityCirculationCardDetailBinding>() {
 
     private var cardno = ""
-    private lateinit var list: ArrayList<LZKSubListModel>
+    private lateinit var list: ArrayList<LzkItem>
     private lateinit var adapter: LzkSubAdapter
 
     override fun isNeedEventBus(): Boolean {
@@ -43,10 +46,11 @@ class CirculationCardDetailActivity :
         v.rc.layoutManager = LinearLayoutManager(this)
         v.rc.adapter = adapter
 
-//        vm.getLzkxx(cardno)
 //        vm.getSubList(cardno)
 //        vm.getCLXH(cardno)
 //        vm.getGx(cardno)
+
+//        vm.getLzkDetail("210902000001")
     }
 
     override fun initClick() {
@@ -59,53 +63,28 @@ class CirculationCardDetailActivity :
     }
 
     override fun initData() {
+        v.tvCzr.text = username
+        v.tvCjrq.text = DateUtil.dataTime
     }
 
     override fun initVM() {
-        vm.lzkxxResult.observe(this) {
-            if (it.size > 0) {
+        vm.lzkdetailResult.observe(this, Observer {
+            if(it.isNotEmpty()){
                 it[0].apply {
-                    v.tvWpmc.text = wpmc
-                    v.tvGg.text = gg
-                    v.tvLzkzt.text = lzkzt
-                    v.tvRwdh.text = rwdh
-                    v.tvKhmc.text = khmc
-                    v.tvJhsl.text = scsl
-                    v.tvCzr.text = cjyhid
-                    v.tvCjrq.text = cjrq
+                    v.tvWpmc.text = RWDH
+                    v.tvGg.text = SCPH
+                    v.tvLzkzt.text = SCSL.toString()
+                    v.tvRwdh.text = DSCSL.toString()
+                    v.tvKhmc.text = WPMC
+                    v.tvJhsl.text = GG
+                    v.tvJgdy.text = jgdymc
+                    list.clear()
+                    list.addAll(items)
+                    adapter.notifyDataSetChanged()
                 }
+
             }
-        }
-        vm.subListResult.observe(this) {
-            if (it.size > 0) {
-                list.addAll(it)
-                adapter.notifyDataSetChanged()
-            }
-        }
-        vm.clxhResult.observe(this) {
-            if (it.size > 0) {
-                it[0].apply {
-                    v.tvClpc.text = clph
-                    v.tvGys.text = gysmc
-                    v.tvClgg.text = gg
-                    v.tvClwph.text = clwph
-                    v.tvClmc.text = clmc
-                    v.tvClth.text = clth
-                    v.tvXhsl.text = xhsl
-                }
-            }
-        }
-        vm.gxResult.observe(this) {
-            if (it.size > 0) {
-                it[0].apply {
-                    v.tvGxh.text = gxh
-                    v.tvGxmc.text = gxms
-                    v.tvBgrmc.text = bgrxm
-                    v.tvBgsl.text = bgsl
-                    v.tvBgsj.text = bgsj
-                }
-            }
-        }
+        })
     }
 
     @AfterPermissionGranted(Constant.RC_CAMERA)
@@ -147,10 +126,7 @@ class CirculationCardDetailActivity :
                 val result = intent.getStringExtra("scannerdata").toString().trim { it <= ' ' }
                 cardno = result
                 v.etLzkkh.setText(cardno)
-                vm.getLzkxx(cardno)
-                vm.getSubList(cardno)
-                vm.getCLXH(cardno)
-                vm.getGx(cardno)
+                vm.getLzkDetail(cardno)
             }
         }
     }
@@ -166,13 +142,10 @@ class CirculationCardDetailActivity :
         if (resultCode == RESULT_OK && data != null) {
             when (requestCode) {
                 Constant.REQUEST_CODE_SCAN -> {
-                    val result = data.getStringExtra(Intents.Scan.RESULT)
+                    val result = data.getStringExtra(Intents.Scan.RESULT).trim { it <= ' ' }
                     cardno = result
                     v.etLzkkh.setText(cardno)
-                    vm.getLzkxx(cardno)
-                    vm.getSubList(cardno)
-                    vm.getCLXH(cardno)
-                    vm.getGx(cardno)
+                    vm.getLzkDetail(cardno)
                 }
 
             }

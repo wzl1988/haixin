@@ -1,10 +1,12 @@
 package com.eohi.hx.ui.work.adapter
 
 import android.app.Activity
+import android.view.Gravity
 import com.eohi.hx.base.BaseAdapter
 import com.eohi.hx.databinding.LayoutImageItemBinding
 import com.eohi.hx.ui.work.model.ImageViewModel
 import com.eohi.hx.widget.clicks
+import q.rorbin.badgeview.QBadgeView
 
 /**
  * @author zhaoli.Wang
@@ -24,6 +26,9 @@ class ImageViewAdapter (mContext: Activity, listDatas: ArrayList<ImageViewModel>
                 it(t.icon,str)
             }
         }
+        QBadgeView(mContext).bindTarget(v.flImg)
+            .setExactMode(true)
+            .setBadgeNumber(t.number).badgeGravity = Gravity.TOP or Gravity.END
     }
 
     var onItemClick:((Int,String)->Unit)?= null

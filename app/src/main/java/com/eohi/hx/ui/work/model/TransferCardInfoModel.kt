@@ -67,5 +67,7 @@ data class TransferCardInfoModel(
     val zdsc: String,
     val zxbggx: Any,
     val zxbgrq: Any,
-    val zxbgsl: Any
+    val zxbgsl: Any,
+    val jgdybh: String,
+    val jgdymc: String
 )

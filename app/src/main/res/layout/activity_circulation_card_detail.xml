@@ -111,7 +111,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
-                    android:text="物品名称:"
+                    android:text="任务单号:"
                     android:textColor="#ff333333"
                     android:textSize="15sp"
                     app:layout_constraintStart_toStartOf="@id/tv_lzkkh"
@@ -133,7 +133,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
-                    android:text="规格："
+                    android:text="生产批号："
                     android:textColor="#ff333333"
                     android:textSize="15sp"
                     app:layout_constraintStart_toStartOf="@id/tv_wpmc_text"
@@ -154,7 +154,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="13dp"
-                    android:text="流转卡状态："
+                    android:text="生产数量："
                     android:textColor="#ff333333"
                     android:textSize="15sp"
                     app:layout_constraintStart_toStartOf="@id/tv_gg_text"
@@ -175,7 +175,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="13dp"
-                    android:text="任务单号："
+                    android:text="待生产数量："
                     android:textColor="#ff333333"
                     android:textSize="15sp"
                     app:layout_constraintStart_toStartOf="@id/tv_lzkzt_text"
@@ -196,7 +196,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="13dp"
-                    android:text="客户名称："
+                    android:text="产品名称："
                     android:textColor="#ff333333"
                     android:textSize="15sp"
                     app:layout_constraintStart_toStartOf="@id/tv_rwdh_text"
@@ -218,10 +218,9 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="13dp"
                     android:layout_marginBottom="15dp"
-                    android:text="计划数量："
+                    android:text="产品规格："
                     android:textColor="#ff333333"
                     android:textSize="15sp"
-                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="@id/tv_khmc_text"
                     app:layout_constraintTop_toBottomOf="@id/tv_khmc_text" />
 
@@ -235,9 +234,34 @@
                     app:layout_constraintStart_toStartOf="@id/tv_wpmc"
                     app:layout_constraintTop_toTopOf="@id/tv_jhsl_text" />
 
+
+                <TextView
+                    android:id="@+id/tv_jgdy_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="13dp"
+                    android:layout_marginBottom="15dp"
+                    android:text="加工单元："
+                    android:textColor="#ff333333"
+                    android:textSize="15sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="@id/tv_jhsl_text"
+                    app:layout_constraintTop_toBottomOf="@id/tv_jhsl_text" />
+
+                <TextView
+                    android:id="@+id/tv_jgdy"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="#ff666666"
+                    android:textSize="14sp"
+                    app:layout_constraintBottom_toBottomOf="@id/tv_jgdy_text"
+                    app:layout_constraintStart_toStartOf="@id/tv_wpmc"
+                    app:layout_constraintTop_toTopOf="@id/tv_jgdy_text" />
+
             </androidx.constraintlayout.widget.ConstraintLayout>
 
-            <LinearLayout
+
+            <HorizontalScrollView
                 android:id="@+id/ll_gx"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -245,50 +269,92 @@
                 android:layout_marginTop="10dp"
                 android:layout_marginEnd="14dp"
                 android:background="@drawable/shape_rectangular_white_3_bg"
-                android:orientation="vertical"
+                android:scrollbars="none"
                 app:layout_constraintTop_toBottomOf="@id/cons_lzk">
 
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
                 <LinearLayout
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp">
+                    android:layout_marginTop="10dp">
 
                     <TextView
-                        android:layout_width="0dp"
+                        android:layout_width="80dp"
                         android:layout_height="match_parent"
-                        android:layout_weight="1"
                         android:gravity="center"
                         android:text="工序"
                         android:textColor="#ff666666"
                         android:textSize="14sp" />
 
+
                     <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
+                        android:layout_width="80dp"
+                        android:layout_height="match_parent"
                         android:gravity="center"
-                        android:text="投料数"
+                        android:text="操作工"
                         android:textColor="#ff666666"
                         android:textSize="14sp" />
 
                     <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
+                        android:layout_width="100dp"
+                        android:layout_height="match_parent"
                         android:layout_weight="1"
                         android:gravity="center"
-                        android:text="次废品数"
+                        android:text="最新报工时间"
+                        android:textColor="#ff666666"
+                        android:textSize="14sp" />
+
+
+                    <TextView
+                        android:layout_width="80dp"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:text="报工数"
                         android:textColor="#ff666666"
                         android:textSize="14sp" />
 
                     <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
+                        android:layout_width="80dp"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:text="不良品数"
+                        android:textColor="#ff666666"
+                        android:textSize="14sp" />
+                    <TextView
+                        android:layout_width="80dp"
+                        android:layout_height="match_parent"
                         android:gravity="center"
                         android:text="合格数"
                         android:textColor="#ff666666"
                         android:textSize="14sp" />
+                    <TextView
+                        android:layout_width="80dp"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:text="报废数"
+                        android:textColor="#ff666666"
+                        android:textSize="14sp" />
 
+                    <TextView
+                        android:layout_width="80dp"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:text="返修数"
+                        android:textColor="#ff666666"
+                        android:textSize="14sp" />
+
+                    <TextView
+                        android:layout_width="100dp"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:text="拆出数量"
+                        android:textColor="#ff666666"
+                        android:textSize="14sp" />
                 </LinearLayout>
 
                 <androidx.recyclerview.widget.RecyclerView
@@ -298,6 +364,8 @@
                     android:layout_marginBottom="5dp" />
 
             </LinearLayout>
+
+            </HorizontalScrollView>
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/cons_clxh"

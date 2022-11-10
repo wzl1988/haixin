@@ -11,9 +11,24 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar">
         <activity
+            android:name="com.eohi.hx.ui.work.quality.rejects.RejectsDetermineActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:exported="false"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"
+            android:windowSoftInputMode="adjustPan|stateHidden" />
+        <activity
+            android:name="com.eohi.hx.ui.work.quality.rejects.RejectsListActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:exported="false"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"
+            android:windowSoftInputMode="adjustPan|stateHidden" />
+        <activity
+            android:name="com.eohi.hx.ui.work.quality.rejects.RejectsRegisterActivity"
+            android:exported="false"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+        <activity
             android:name="com.eohi.hx.ui.main.agv.alarmlog.AlarmlogActivity"
             android:exported="false" />
-
         <activity
             android:name="com.eohi.hx.ui.splash.SplashActivity"
             android:screenOrientation="portrait"
@@ -24,7 +39,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity
             android:name="com.eohi.hx.ui.work.inventory.TransferInventoryActivity"
             android:configChanges="orientation|keyboardHidden"
@@ -151,11 +165,11 @@
         <activity
             android:name="com.eohi.hx.ui.work.tooling.cutter.CutterReplace"
             android:screenOrientation="portrait"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar"></activity>
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
         <activity
             android:name="com.eohi.hx.ui.login.LoginActivity"
-            android:screenOrientation="portrait"
             android:exported="true"
+            android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
         <activity
             android:name="com.eohi.hx.ui.main.MainActivity"
@@ -228,6 +242,7 @@
             android:name="com.eohi.hx.ui.work.quality.unqualified.UnQualifiedReportActivity"
             android:configChanges="orientation|keyboardHidden"
             android:windowSoftInputMode="adjustPan|stateHidden" />
+
         <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="${applicationId}.fileprovider"
@@ -243,13 +258,13 @@
             android:exported="true"
             android:process=":Myservice">
             <intent-filter>
-                <action android:name="com.eohi.haixin.utils.KillSelfService" />
+                <action android:name="com.eohi.hx.utils.KillSelfService" />
             </intent-filter>
         </service>
     </application>
     <uses-permission android:name="android.permission.INTERNET" />
-
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+
     <uses-permission android:name="android.permission.USE_FULL_SCREEN_INTENT" />
 
 </manifest>

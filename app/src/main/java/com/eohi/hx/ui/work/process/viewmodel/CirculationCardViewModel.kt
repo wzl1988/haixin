@@ -11,7 +11,7 @@ class CirculationCardViewModel : BaseViewModel() {
     var clxhResult = MutableLiveData<ArrayList<CLXHModel>>()
     var subListResult = MutableLiveData<ArrayList<LZKSubListModel>>()
     var gxResult = MutableLiveData<ArrayList<GxResultModel>>()
-
+    var lzkdetailResult = MutableLiveData<ArrayList<LzkDetailModel>>()
     fun getGx(cardno: String) {
         launchList(
             { httpUtil.getGXResult(cardno) },
@@ -61,5 +61,15 @@ class CirculationCardViewModel : BaseViewModel() {
             successCode = 200
         )
     }
+
+    fun getLzkDetail(cardno:String){
+        launchList(
+            { httpUtil.getLzkDetailInfo(cardno) },
+            lzkdetailResult,
+            isShowLoading = true,
+            isShowError = true,
+        )
+    }
+
 
 }

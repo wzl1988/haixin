@@ -12,10 +12,10 @@ import com.eohi.hx.ui.work.model.*
 class ProductionRegistrationViewModel : BaseViewModel() {
     var cardinfo = MutableLiveData<ArrayList<TransferCardInfoModel>>()
     var process = MutableLiveData<ArrayList<ProductionProcessesModel>>()
-    var sblist = MutableLiveData<ArrayList<EquipmentModel>>()
+    var sblist = MutableLiveData<ArrayList<EquipmentsModel>>()
     var equipmentList = MutableLiveData<ArrayList<EquipmentsModel>>()
     var jgdylist = MutableLiveData<ArrayList<ProcessingUnitModel>>()
-
+    var datemodel = MutableLiveData<ArrayList<EquDateModel>>()
     //关联工序
     var glgxlist = MutableLiveData<ArrayList<AssociatedprocessModel>>()
     var personlist = MutableLiveData<ArrayList<PersonModel>>()
@@ -23,6 +23,14 @@ class ProductionRegistrationViewModel : BaseViewModel() {
     var result = MutableLiveData<ArrayList<SubmitResult>>()
     var teams = MutableLiveData<ArrayList<ProductionTeamModel>>()
     var zzrlist = MutableLiveData<ArrayList<PersonModel>>()
+    //扫码得到生产人员
+    var person = MutableLiveData<ArrayList<PersonModel>>()
+
+    fun getDate(){
+        launchList({ httpUtil.getEupScrq() }, datemodel,successCode = 200)
+    }
+
+
     fun getCardInfo(cardno: String, userid: String) {
         launchList(
             { httpUtil.getLzkxx(cardno, userid) },
@@ -41,10 +49,28 @@ class ProductionRegistrationViewModel : BaseViewModel() {
         )
     }
 
-    fun getSblist(companycode: String, userid: String) {
+//    fun getSblist(companycode: String, userid: String) {
+//        launchList(
+//            { httpUtil.getSbxx(companycode, userid) },
+//            sblist,
+//            isShowLoading = true,
+//            successCode = 200
+//        )
+//    }
+
+    fun getSblist(companycode: String, userid: String, scxbh: String) {
         launchList(
-            { httpUtil.getSbxx(companycode, userid) },
+            { httpUtil.getNewSBxx(companycode, userid, scxbh) },
             sblist,
+            isShowLoading = true,
+            successCode = 200
+        )
+    }
+    //查询人员
+    fun findPerson(gsh: String, username: String) {
+        launchList(
+            { httpUtil.getPersonnelInfo(gsh, username) },
+            person,
             isShowLoading = true,
             successCode = 200
         )

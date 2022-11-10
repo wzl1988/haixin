@@ -7,41 +7,87 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="5dp">
+        android:layout_marginTop="10dp">
 
         <TextView
             android:id="@+id/tv_gx"
-            android:layout_width="0dp"
+            android:layout_width="80dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
             android:gravity="center"
+            android:text="工序"
+            android:textColor="#ff666666"
+            android:textSize="14sp" />
+
+
+        <TextView
+            android:id="@+id/tv_czg"
+            android:layout_width="80dp"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:text="操作工"
             android:textColor="#ff666666"
             android:textSize="14sp" />
 
         <TextView
-            android:id="@+id/tv_tls"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:id="@+id/tv_zxbgsj"
+            android:layout_width="100dp"
+            android:layout_height="match_parent"
             android:layout_weight="1"
             android:gravity="center"
+            android:text="最新报工时间"
+            android:textColor="#ff666666"
+            android:textSize="14sp" />
+
+
+        <TextView
+            android:id="@+id/tv_bgs"
+            android:layout_width="80dp"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:text="报工数"
             android:textColor="#ff666666"
             android:textSize="14sp" />
 
         <TextView
-            android:id="@+id/tv_cfps"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
+            android:id="@+id/tv_blps"
+            android:layout_width="80dp"
+            android:layout_height="match_parent"
             android:gravity="center"
+            android:text="不良品数"
             android:textColor="#ff666666"
             android:textSize="14sp" />
-
         <TextView
             android:id="@+id/tv_hgs"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
+            android:layout_width="80dp"
+            android:layout_height="match_parent"
             android:gravity="center"
+            android:text="合格数"
+            android:textColor="#ff666666"
+            android:textSize="14sp" />
+        <TextView
+            android:id="@+id/tv_bfs"
+            android:layout_width="80dp"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:text="报废数"
+            android:textColor="#ff666666"
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/tv_fxs"
+            android:layout_width="80dp"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:text="返修数"
+            android:textColor="#ff666666"
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/tv_ccsl"
+            android:layout_width="100dp"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:text="拆出数量"
             android:textColor="#ff666666"
             android:textSize="14sp" />
 

@@ -51,7 +51,7 @@ class PurchaseBycodeDetailFragment :
             this.adapter = adpater
         }
         adpater?.itemLongClick { view, i ->
-            val popup = PopupMenu(context!!, view) //第二个参数是绑定的那个view
+            val popup = PopupMenu(requireContext(), view) //第二个参数是绑定的那个view
             //获取菜单填充器
             val inflater = popup.menuInflater
             //填充菜单

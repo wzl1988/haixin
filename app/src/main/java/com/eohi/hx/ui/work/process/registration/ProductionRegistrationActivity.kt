@@ -7,7 +7,10 @@ import android.content.Intent
 import android.content.IntentFilter
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.view.View
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
 import androidx.core.app.ActivityCompat
 import androidx.core.app.ActivityOptionsCompat
 import androidx.lifecycle.Observer
@@ -35,6 +38,8 @@ import com.eohi.zxinglibrary.CaptureActivity
 import com.eohi.zxinglibrary.Intents
 import pub.devrel.easypermissions.AfterPermissionGranted
 import pub.devrel.easypermissions.EasyPermissions
+import java.util.*
+import kotlin.collections.ArrayList
 
 class ProductionRegistrationActivity :
     BaseActivity<ProductionRegistrationViewModel, ActivityProductionRegistrationBinding>(),
@@ -46,14 +51,18 @@ class ProductionRegistrationActivity :
     private var zrrBh = accout
     private var produceuserid = accout
     private var producetype = "个人"
-    private var isfinish = "否"
+    private var isfinish = 0
+    private var isjj ="否"
     private var glgxlist = ArrayList<String>()
     private lateinit var listEquipment: ArrayList<String>
+    private lateinit var listEquipmentshow: ArrayList<String>
     private lateinit var listSbbh: ArrayList<String>
     private lateinit var dialogEquipment: DialogEqu
     private lateinit var dialogJgdy: ListDialog
     private lateinit var listJgdy: ArrayList<String>
+    private lateinit var allJgdyList :ArrayList<String>
     private lateinit var listJgdybh: ArrayList<String>
+    private lateinit var alllistJgdybh: ArrayList<String>
     private lateinit var listPerson: ArrayList<String>
     private lateinit var listPersonBh: ArrayList<String>
     private lateinit var dialogPerson: ListDialog
@@ -64,6 +73,9 @@ class ProductionRegistrationActivity :
     private var dialog: DialogAddConsumables? = null
     private lateinit var mMateriallist: ArrayList<MaterialModel>
     private lateinit var adpater: AddConsumablesAdapter
+    private var startDate: Date? = null
+    private var endDate: Date? = null
+    private val SCANACTION = "com.android.server.scannerservice.broadcast.haixin"
     override fun isNeedEventBus(): Boolean {
         return false
     }
@@ -71,6 +83,7 @@ class ProductionRegistrationActivity :
     override fun initView() {
         StatusBarUtil.setColor(this, R.color.white.asColor())
         StatusBarUtil.darkMode(this, true)
+        setMarking(View.GONE)
         mMateriallist = ArrayList()
         adpater = AddConsumablesAdapter(this, mMateriallist)
         v.rcCl.run {
@@ -103,40 +116,55 @@ class ProductionRegistrationActivity :
                 }
             }
         })
+        vm.getDate()
+
+//        vm.getCardInfo("210902000001", accout)
+//        v.etLzkkh.setText("210902000001")
 
     }
 
     override fun initClick() {
         v.ivBack.clicks { finish() }
         v.ivScan.clicks {
-            checkCameraPermissions()
+            checkCameraPermissions(Constant.REQUEST_CODE_SCAN_02)
+        }
+        v.ivScryScan.clicks {
+            checkCameraPermissions(Constant.REQUEST_CODE_SCAN_03)
         }
         v.btnScgx.clicks {
-            vm.getProductionProcesses(v.etLzkkh.text.toString(), accout)
+            vm.getProductionProcesses(v.etLzkkh.text.toString(), "")
         }
         v.btnScsb.clicks {
-            dialogEquipment = DialogEqu(this, listEquipment, object : DialogEqu.MyListener {
+            if (jgdybh.isEmpty()) {
+                showShortToast("请先选择加工单元！")
+                return@clicks
+            }
+            dialogEquipment = DialogEqu(this, listEquipmentshow, object : DialogEqu.MyListener {
                 override fun refreshActivity(position: Int) {
                     v.tvScsb.text = listEquipment[position]
-                    equNO = listSbbh[position]
+                    equNO = if(listSbbh[position].isNullOrEmpty()) "" else listSbbh[position]
                     v.tvJgdy.text = listJgdy[position]
-                    jgdybh = listJgdybh[position] ?: ""
+                    jgdybh = listJgdybh[position]
                 }
             })
             dialogEquipment.setOnEqu {
-                vm.getSblist(companyNo, accout)
+                vm.getSblist(companyNo, accout, jgdybh)
             }
             dialogEquipment.setOnAllequ {
                 getAll()
             }
-            vm.getSblist(companyNo, accout)
+            vm.getSblist(companyNo, accout, jgdybh)
         }
         v.btnJgdy.clicks {
-            vm.getJgdy(v.etLzkkh.text.toString(), gxno, equNO)
+            vm.getJgdy(v.etLzkkh.text.toString(), gxno,"")
         }
 
         v.btnScry.clicks {
             vm.getPerson(companyNo, "")
+        }
+
+        v.btnScsj.clicks {
+            startDate = DateUtil.chooseDate(mContext, v.tvScsj, startDate, endDate)
         }
 
         v.btnAdd.clicks {
@@ -177,55 +205,84 @@ class ProductionRegistrationActivity :
             model.zrr = zrrBh
             model.scbz = scbz
             model.sl = v.etBgsl.text.toString().toInt()
+            model.bz = v.etBz.text.toString()
             model.jgdybh = jgdybh
             model.userid = accout
             model.wlbs = ""
+            model.sfjj =isjj
             model.isfinish = isfinish
-            list.add(model)
-            glgxlist.onEach {
-                model.gxno = it
-                list.add(model)
+            model.scrq = v.tvScsj.text.toString()
+            model.bc = v.spinner.selectedItem.toString()
+            model.dbxx = v.etDbxx.text.toString()
+            var b = 0.0
+            if(v.etRwgs.text.toString().isNotEmpty()){
+                b= v.etRwgs.text.toString().toDouble()
             }
-            var cllist = ArrayList<ClModel>()
+            model.rggs =b
+            if (v.etScgx.text.toString().contains("打标")) {
+                if (v.etDbStart.toString().isNotEmpty())
+                    model.dbkss = v.etDbStart.text.toString().toInt()
+                if (v.etDbEnd.toString().isNotEmpty())
+                    model.dbjss = v.etDbEnd.text.toString().toInt()
+            }
+
+            list.add(model)
+            //关联工序
+//            glgxlist.onEach {
+//                val copymodel= model.clone() as ProductionSubmitModel
+//                copymodel.gxno = it
+//                list.add(copymodel)
+//            }
+            val cllist = ArrayList<ClModel>()
             mMateriallist.forEach {
-                var clmodel = ClModel(
+                val clmodel = ClModel(
                     v.etLzkkh.text.toString(), it.clbzh, it.wph, gxno
                 )
                 cllist.add(clmodel)
             }
             vm.submit(ProductionSubList(list, cllist))
         }
-
-
     }
 
     override fun initData() {
         v.tvCzr.text = username
         v.tvRq.text = DateUtil.data
-        v.tvScry.text = username
+        v.tvScry.setText(username)
         v.tvZrr.text = username
+//        v.tvScsj.text = DateUtil.data
         hashMap = HashMap<String, String>()
         listJgdy = ArrayList()
+        allJgdyList = ArrayList()
         listJgdybh = ArrayList()
+        alllistJgdybh = ArrayList()
         listSbbh = ArrayList()
         listEquipment = ArrayList()
+        listEquipmentshow = ArrayList()
         listPerson = ArrayList()
         listPersonBh = ArrayList()
         zzrlist = ArrayList()
         zzrbhlist = ArrayList()
+        initSpinner()
         dialogJgdy = ListDialog(this, "加工单元", listJgdy, object : ListDialog.MyListener {
             override fun refreshActivity(position: Int) {
                 v.tvJgdy.text = listJgdy[position]
                 jgdybh = listJgdybh[position]
             }
         })
-
-
-
+        dialogJgdy.onSearchClick {str->
+            listJgdy.clear()
+            for (i in allJgdyList.indices){
+                if(allJgdyList[i].contains(str)){
+                    listJgdy.add(allJgdyList[i])
+                    listJgdybh.add(alllistJgdybh[i])
+                }
+            }
+            dialogJgdy.refreshList(listJgdy)
+        }
 
         dialogPerson = ListDialog(this, "人员选择", listPerson, object : ListDialog.MyListener {
             override fun refreshActivity(position: Int) {
-                v.tvScry.text = listPerson[position]
+                v.tvScry.setText(listPerson[position])
                 produceuserid = listPersonBh[position]
             }
         })
@@ -247,6 +304,30 @@ class ProductionRegistrationActivity :
 
     }
 
+    private fun initSpinner() {
+        val splist = ArrayList<String>()
+        splist.add("白班")
+        splist.add("晚班")
+        val adapter = ArrayAdapter(mContext, android.R.layout.simple_spinner_item, splist)
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        v.spinner.adapter = adapter
+        v.spinner.setSelection(0)
+        val onitemlistener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(
+                parent: AdapterView<*>?,
+                view: View?,
+                position: Int,
+                id: Long
+            ) {
+
+            }
+
+            override fun onNothingSelected(parent: AdapterView<*>?) {
+            }
+        }
+        v.spinner.onItemSelectedListener = onitemlistener
+    }
+
     private fun initRg() {
         v.tvScbz.visibility = View.GONE
         v.tvScbzText.visibility = View.GONE
@@ -260,9 +341,9 @@ class ProductionRegistrationActivity :
                     v.tvScbz.visibility = View.GONE
                     v.tvScbzText.visibility = View.GONE
                     v.btnScbz.visibility = View.GONE
-                    v.tvZrr.visibility = View.GONE
-                    v.tvZrrText.visibility = View.GONE
-                    v.btnZrr.visibility = View.GONE
+                    v.btnScry.visibility = View.VISIBLE
+                    v.llScry.visibility = View.VISIBLE
+                    v.tvScryText.visibility = View.VISIBLE
                     zrrBh = ""
                     scbz = ""
                     producetype = "个人"
@@ -271,9 +352,9 @@ class ProductionRegistrationActivity :
                     v.tvScbz.visibility = View.VISIBLE
                     v.tvScbzText.visibility = View.VISIBLE
                     v.btnScbz.visibility = View.VISIBLE
-                    v.tvZrr.visibility = View.VISIBLE
-                    v.tvZrrText.visibility = View.VISIBLE
-                    v.btnZrr.visibility = View.VISIBLE
+                    v.btnScry.visibility = View.GONE
+                    v.llScry.visibility = View.GONE
+                    v.tvScryText.visibility = View.GONE
                     zrrBh = accout
                     producetype = "集体"
                 }
@@ -282,12 +363,19 @@ class ProductionRegistrationActivity :
 
         v.rg.setOnCheckedChangeListener { group, checkedId ->
             when (checkedId) {
-                R.id.pass -> isfinish = "是"
-                R.id.unPass -> isfinish = "否"
+                R.id.pass -> isfinish = 1
+                R.id.unPass -> isfinish = 0
+            }
+        }
+        v.rgJj.setOnCheckedChangeListener { group, checkedId ->
+            when(checkedId){
+                R.id.isjj->
+                    isjj = "是"
+                R.id.no ->
+                    isjj = "否"
             }
 
         }
-
 
     }
 
@@ -296,8 +384,23 @@ class ProductionRegistrationActivity :
             if (it.isNotEmpty()) {
                 v.tvCpmc.text = it[0].wpmc
                 v.tvTh.text = it[0].th
+                v.tvWph.text = it[0].wph
                 v.tvScsl.text = it[0].scsl.toString()
                 v.tvXqsl.text = it[0].bzs.toString()
+                v.tvJgdy.text = it[0].jgdymc
+                jgdybh = it[0].jgdybh
+                v.etBgsl.setText( it[0].bzs.toString())
+            }
+        })
+
+        vm.datemodel.observe(this, Observer {
+            if(it.isNotEmpty()){
+                v.tvScsj.text = it[0].scrq
+                if(it[0].bc=="白班"){
+                    v.spinner.setSelection(0)
+                }else{
+                    v.spinner.setSelection(1)
+                }
             }
         })
 
@@ -305,14 +408,18 @@ class ProductionRegistrationActivity :
             if (list.isNotEmpty()) {
                 val strlist = ArrayList<String>()
                 list.forEach {
-                    strlist.add(it.GXMS)
+                    strlist.add(it.gxms+"("+it.gxh+")")
                 }
 
                 val dialog = DialogSelectList(mContext, mContext, "选择工序", strlist)
                 dialog.onItemClick {
-                    v.etScgx.text = strlist[it]
-                    v.tvYbgs.text = list[it].DQBZNSL.toString()
-                    gxno = list[it].GXH
+                    v.etScgx.text = strlist[it].substringBefore("(")
+                    gxno = list[it].gxh
+                    if (strlist[it].contains("打标")) {
+                        setMarking(View.VISIBLE)
+                    } else {
+                        setMarking(View.GONE)
+                    }
                     vm.getGlgx(v.etLzkkh.text.toString(), gxno)
                 }
                 dialog.show()
@@ -322,17 +429,19 @@ class ProductionRegistrationActivity :
         vm.sblist.observe(this, Observer { list ->
             if (list.isNotEmpty()) {
                 listEquipment.clear()
+                listEquipmentshow.clear()
                 listSbbh.clear()
                 listJgdy.clear()
                 listJgdybh.clear()
                 list.onEach {
                     listSbbh.add(it.sbbh)
                     listEquipment.add(it.sbmc)
+                    listEquipmentshow.add(it.sbbh + "/" + it.sbmc)
                     listJgdy.add(it.scxmc)
                     listJgdybh.add(it.scxbh)
                 }
                 dialogEquipment.show()
-                dialogEquipment.refreshList(listEquipment)
+                dialogEquipment.refreshList(listEquipmentshow)
 
             }
         })
@@ -340,8 +449,11 @@ class ProductionRegistrationActivity :
         vm.jgdylist.observe(this, Observer {
             listJgdy.clear()
             listJgdybh.clear()
+            allJgdyList.clear()
             it.onEach {
                 listJgdybh.add(it.jgdybh)
+                alllistJgdybh.add(it.jgdybh)
+                allJgdyList.add(it.jgdymc)
                 listJgdy.add(it.jgdymc)
             }
             dialogJgdy.show()
@@ -352,7 +464,7 @@ class ProductionRegistrationActivity :
             listPerson.clear()
             listPersonBh.clear()
             it.onEach {
-                listPerson.add(it.ygxm)
+                listPerson.add(it.ygbh + "/" + it.ygxm)
                 listPersonBh.add(it.ygbh)
             }
             dialogPerson.show()
@@ -370,6 +482,7 @@ class ProductionRegistrationActivity :
                 glgxlist.clear()
                 var strbuff = StringBuffer()
                 for (i in it.indices) {
+                    Log.i("gxno",it[i].gxh)
                     glgxlist.add(it[i].gxh)
                     strbuff.append(it[i].gxms)
                     if (i < it.size - 1)
@@ -381,7 +494,7 @@ class ProductionRegistrationActivity :
 
         vm.teams.observe(this, Observer { list ->
             if (list.isNotEmpty()) {
-                var strlist = ArrayList<String>()
+                val strlist = ArrayList<String>()
                 list.forEach {
                     strlist.add(it.xzmc)
                 }
@@ -410,16 +523,18 @@ class ProductionRegistrationActivity :
         vm.equipmentList.observe(this, Observer {
             if (it.isNotEmpty()) {
                 listEquipment.clear()
+                listEquipmentshow.clear()
                 listSbbh.clear()
                 listJgdy.clear()
                 listJgdybh.clear()
                 it.onEach {
                     listSbbh.add(it.sbbh)
                     listEquipment.add(it.sbmc)
+                    listEquipmentshow.add(it.sbbh + "/" + it.sbmc)
                     listJgdy.add(it.scxmc)
                     listJgdybh.add(it.scxbh)
                 }
-                dialogEquipment.refreshList(listEquipment)
+                dialogEquipment.refreshList(listEquipmentshow)
             }
         })
 
@@ -428,10 +543,25 @@ class ProductionRegistrationActivity :
             showShortToast("提交成功")
         })
 
+        vm.person.observe(this, Observer {
+            if (it.isNotEmpty()) {
+                v.tvScry.setText(it[0].ygbh + "/" + it[0].ygxm)
+                produceuserid = it[0].ygbh
+            }
+        })
+    }
+
+    private fun setMarking(visible: Int) {
+        v.etDbxx.visibility = visible
+        v.tvDdxx.visibility = visible
+        v.tvDdxxText.visibility = visible
+        v.etDbStart.visibility = visible
+        v.etDbEnd.visibility = visible
+        v.tvTip.visibility = visible
     }
 
     @AfterPermissionGranted(Constant.RC_CAMERA)
-    private fun checkCameraPermissions() {
+    private fun checkCameraPermissions(code: Int) {
         val perms = arrayOf(Manifest.permission.CAMERA)
         if (EasyPermissions.hasPermissions(this, *perms)) { //有权限
             val optionsCompat =
@@ -442,7 +572,7 @@ class ProductionRegistrationActivity :
             ActivityCompat.startActivityForResult(
                 this,
                 intent,
-                Constant.REQUEST_CODE_SCAN_02,
+                code,
                 optionsCompat.toBundle()
             )
         } else {
@@ -453,8 +583,6 @@ class ProductionRegistrationActivity :
         }
     }
 
-
-    private val SCANACTION = "com.android.server.scannerservice.broadcast.haixin"
     override fun onResume() {
         // 注册广播接收器
         val intentFilter = IntentFilter(SCANACTION)
@@ -465,10 +593,18 @@ class ProductionRegistrationActivity :
 
     var scanReceiver: BroadcastReceiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context, intent: Intent) {
-            if (intent.action == SCANACTION && !(dialog?.isShowing ?: false)) {
+            if (intent.action == SCANACTION && dialog?.isShowing != true) {
                 val result = intent.getStringExtra("scannerdata").toString().trim { it <= ' ' }
-                v.etLzkkh.setText(result)
-                vm.getCardInfo(result, accout)
+                when {
+                    v.etLzkkh.isFocused -> {
+                        v.etLzkkh.setText(result)
+                        vm.getCardInfo(result, accout)
+                    }
+                    v.tvScry.isFocused -> {
+                        produceuserid = result
+                        vm.findPerson(companyNo, result)
+                    }
+                }
             }
         }
     }
@@ -509,22 +645,25 @@ class ProductionRegistrationActivity :
         } else {
             showShortToast("物料已存在")
         }
-
     }
-
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (resultCode == RESULT_OK && data != null) {
             when (requestCode) {
                 Constant.REQUEST_CODE_SCAN -> {
-                    val result = data.getStringExtra(Intents.Scan.RESULT)
+                    val result = data.getStringExtra(Intents.Scan.RESULT).trim { it <= ' ' }
                     dialog?.update(result)
                 }
                 Constant.REQUEST_CODE_SCAN_02 -> {
-                    val result = data.getStringExtra(Intents.Scan.RESULT)
+                    val result = data.getStringExtra(Intents.Scan.RESULT).trim { it <= ' ' }
                     v.etLzkkh.setText(result)
                     vm.getCardInfo(result, accout)
+                }
+                Constant.REQUEST_CODE_SCAN_03 -> {
+                    val result = data.getStringExtra(Intents.Scan.RESULT).trim { it <= ' ' }
+                    produceuserid = result
+                    vm.findPerson(companyNo, result)
                 }
             }
         }

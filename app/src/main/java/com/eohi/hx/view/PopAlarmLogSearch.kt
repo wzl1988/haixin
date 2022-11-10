@@ -2,7 +2,11 @@ package com.eohi.hx.view
 
 import android.content.Context
 import android.view.LayoutInflater
+import android.view.View
+import android.widget.Adapter
+import android.widget.AdapterView
 import android.widget.PopupWindow
+import com.contrarywind.listener.OnItemSelectedListener
 import com.eohi.hx.R
 import com.eohi.hx.utils.DateUtil
 import com.eohi.hx.utils.Preference
@@ -55,17 +59,25 @@ class PopAlarmLogSearch(context: Context) : PopupWindow(context) {
         val ad= MySpinnerAdapter(context, android.R.layout.simple_spinner_item, list)
         contentView.spinner.adapter =ad
 
-        contentView.spinner.setOnItemClickListener { parent, view, position, id ->
-            when(position){
-                0->{
-                    str = "1"
+        contentView.spinner.onItemSelectedListener =object : AdapterView.OnItemSelectedListener {
+
+            override fun onItemSelected(parent: AdapterView<*>, view: View, pos: Int, id: Long) {
+                when(pos){
+                    0->{
+                        str = "1"
+                    }
+                    1->{
+                        str = "0"
+                    }
+                    2->{
+                        str = ""
+                    }
                 }
-                1->{
-                    str = "0"
-                }
-                2->{
-                    str = ""
-                }
+
+            }
+
+            override fun onNothingSelected(parent: AdapterView<out Adapter>?) {
+
             }
 
         }

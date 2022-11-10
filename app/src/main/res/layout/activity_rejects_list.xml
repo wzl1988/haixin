@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.work.quality.rejects.RejectsListActivity">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/cons_title"
+        android:layout_width="match_parent"
+        android:layout_height="44dp"
+        android:background="@android:color/white"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:id="@+id/iv_back"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:paddingStart="14dp"
+            android:paddingEnd="14dp"
+            android:src="@mipmap/ic_back"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tv_title"
+            android:layout_width="wrap_content"
+            android:layout_height="44dp"
+            android:gravity="center"
+            android:text="不良品列表"
+            android:textColor="#ff333333"
+            android:textSize="17sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
+    <LinearLayout
+        android:id="@+id/ll_lzk"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="15dp"
+        app:layout_constraintTop_toBottomOf="@id/cons_title"
+        android:gravity="center_vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="流转卡编号："
+            android:textColor="@color/black_333333"
+            android:textSize="@dimen/font_15sp" />
+
+        <EditText
+            android:id="@+id/tv_lzkbh"
+            android:layout_width="match_parent"
+            android:layout_height="27dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="15dp"
+            android:background="@drawable/shape_rectangular_in_edit_bg"
+            android:drawableRight="@mipmap/ic_scan"
+            android:gravity="center_vertical"
+            android:hint="请扫描流转卡编号"
+            android:padding="5dp"
+            android:textSize="@dimen/font_13sp" />
+
+    </LinearLayout>
+
+
+
+    <EditText
+        android:id="@+id/et_scry"
+        android:layout_width="0dp"
+        android:layout_height="40dp"
+        android:hint="登记人员"
+        android:background="@drawable/shape_shadow_box"
+        android:textColor="@color/gray6"
+        android:textSize="@dimen/font_middle"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        app:layout_constraintEnd_toStartOf="@id/et_wph"
+        app:layout_constraintTop_toBottomOf="@id/tv_djy"
+        app:layout_constraintStart_toStartOf="parent"/>
+    <EditText
+        android:id="@+id/et_wph"
+        android:layout_width="0dp"
+        android:layout_height="40dp"
+        android:background="@drawable/shape_shadow_box"
+        android:textColor="@color/gray6"
+        android:textSize="@dimen/font_middle"
+        android:layout_marginEnd="16dp"
+        android:hint="物品"
+        android:layout_marginStart="16dp"
+        app:layout_constraintTop_toTopOf="@id/et_scry"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/et_scry"/>
+
+    <TextView
+        android:id="@+id/tv_djy"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="14dp"
+        android:layout_marginTop="15dp"
+        android:text="当前待检验记录数："
+        android:textColor="#ff537bfe"
+        android:textSize="16sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/ll_lzk" />
+
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rc"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="5dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/et_scry"/>
+
+
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -10,6 +10,8 @@ import com.eohi.hx.ui.main.model.WarehouseInfo
 import com.eohi.hx.ui.work.equipment.model.*
 import com.eohi.hx.ui.work.model.*
 import com.eohi.hx.ui.work.my.model.*
+import com.eohi.hx.ui.work.quality.rejects.model.GoodListItemModel
+import com.eohi.hx.ui.work.quality.rejects.model.RejectsListModel
 import com.eohi.hx.ui.work.tooling.model.*
 import com.eohi.hx.utils.retrofit.FatherList
 import com.eohi.hx.utils.retrofit.ServerBaseResult
@@ -195,6 +197,10 @@ interface ApiService {
     @POST("api/do?method=app_scbg_scclkck_add")
     suspend fun submitRemobal(@Body model: RemovalSubModel): BaseResModel<SubmitResult>
 
+    //获取生产登记日期
+    @GET("api/do?method=app_scbg_bcxx_get")
+    suspend fun getEupScrq(): BaseResModel<EquDateModel>
+
 
     //生产完工流转卡信息
     @GET("api/do?method=app_scbg_lzkxx_get")
@@ -204,11 +210,23 @@ interface ApiService {
     ): BaseResModel<TransferCardInfoModel>
 
     //生产工序
-    @GET("api/do?method=app_scbg_wggx_get")
+    @GET("api/do?method=app_scbg_lzkglgx_get_all")
     suspend fun getScgx(
         @Query("cardno") cardno: String,
-        @Query("userid") userid: String
+        @Query("gxno") gxno: String
     ): BaseResModel<ProductionProcessesModel>
+
+
+    //获取工序和责任工序
+    @GET("api/do?method=app_scbg_lzkglgx_get_all")
+    suspend fun getGx(
+        @Query("cardno") cardno: String,
+        @Query("gxno") gxno: String
+    ):MygxModel
+
+    //获取小红点数量
+    @GET("api/do?method=Manage_equ_rwsl")
+    suspend fun getPointCount(@Query("userid") barcode: String):BaseResModel<EquipNumModel>
 
     //设备
     @GET("api/do?method=app_scbg_sbxx_get")
@@ -216,6 +234,18 @@ interface ApiService {
         @Query("companycode") companycode: String,
         @Query("userid") userid: String
     ): BaseResModel<EquipmentModel>
+
+    @GET("api/do?&method=app_scbg_sbxx_all_get")
+    suspend fun getNewSBxx(
+        @Query("companycode") companycode: String,
+        @Query("userid") userid: String,
+        @Query("scxbh") scxbh: String
+    ): BaseResModel<EquipmentsModel>
+
+    //物品列表
+    @GET("api/do?method= app_bpppd_bfwl_get")
+    suspend fun getDisposalItemList(@Query("rwdh")rwdh:String):BaseResModel<GoodListItemModel>
+
 
     //加工单员
     @GET("api/do?method=app_scbg_lzkjgdy_get")
@@ -301,6 +331,10 @@ interface ApiService {
     @GET("api/do?method=app_scbg_lzkxx_get")
     suspend fun getLzkxx(@Query("cardno") cardno: String): BaseResModel<LzkxxModel>
 
+    //流转卡详情信息
+    @GET("api/do?method=app.scgl.lzkxq.get")
+    suspend fun getLzkDetailInfo(@Query("lzkkh") lzkkh: String):BaseResModel<LzkDetailModel>
+
     //流转卡拆卡——提交
     @POST("api/do?method=app_scbg_lzkck_add")
     suspend fun postLzk(@Body lzkPostModel: LzkPostModel): BaseResModel<SubmitResult>
@@ -338,6 +372,10 @@ interface ApiService {
     //不良现象
     @GET("api/do?method=GKJ_HXGetBLXX")
     suspend fun getBlxx(): BaseResModel<BlxxBean>
+
+    //不良原因
+    @GET("api/do?method=GKJ_HXGetBLYY")
+    suspend fun getBlyy():BaseResModel<BlyyBean>
 
     //来料检验——列表
     @GET("api/do?method=APP_QM_LLRWJYLB")
@@ -542,8 +580,12 @@ interface ApiService {
     @GET("api/do?method=app_scbg_lzkxx_get")
     suspend fun getLzkDetail(@Query("cardno") cardno: String): BaseResModel<LzkDetailResult>
 
+    //不良品登记列表
+    @GET("api/do?method=app_scbg_djxx_get")
+    suspend fun getRejectsList(@Query("userid") userid:String):BaseResModel<RejectsListModel>
+
     //不合格品提交
-    @POST("api/do?method=app.qm.bhgpdj.tj")
+    @POST("api/do?method=app.scgl.bhgpdj.tj")
     suspend fun unQualifiedPost(@Body unQualifiedPostModel: UnQualifiedPostModel): BaseResModel<SubmitResult>
 
     /**********************************************************************************************/

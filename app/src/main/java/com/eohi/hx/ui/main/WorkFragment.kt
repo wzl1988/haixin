@@ -1,12 +1,17 @@
 package com.eohi.hx.ui.main
 
 import android.content.Intent
+import android.util.Log
 import android.view.View
+import androidx.core.content.ContextCompat.startActivity
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.GridLayoutManager
 import com.eohi.hx.R
 import com.eohi.hx.base.BaseFragment
 import com.eohi.hx.base.BaseViewModel
 import com.eohi.hx.databinding.FragmentWorkNewBinding
+import com.eohi.hx.ui.main.model.EquipNumModel
 import com.eohi.hx.ui.main.model.Menu
 import com.eohi.hx.ui.main.model.Secondcd
 import com.eohi.hx.ui.main.model.Threecd
@@ -37,6 +42,7 @@ import com.eohi.hx.ui.work.quality.finish.FinishListActivity
 import com.eohi.hx.ui.work.quality.first.FirstCheckListActivity
 import com.eohi.hx.ui.work.quality.incoming.IncomingListActivity
 import com.eohi.hx.ui.work.quality.process.ProcessListActivity
+import com.eohi.hx.ui.work.quality.rejects.RejectsListActivity
 import com.eohi.hx.ui.work.quality.unqualified.UnQualifiedReportActivity
 import com.eohi.hx.ui.work.sales.delivery.SalesDeliveryOutActivity
 import com.eohi.hx.ui.work.sales.retreat.SalesRetreatActivity
@@ -62,12 +68,27 @@ class WorkFragment : BaseFragment<BaseViewModel, FragmentWorkNewBinding>() {
 
     private var firstmenus: ArrayList<Menu>? by Preference("menus", null)
     lateinit var workmenus: ArrayList<Secondcd>
-
+    var pointResult = MutableLiveData<ArrayList<EquipNumModel>>()
+    val list = ArrayList<ImageViewModel>()
+    lateinit var zzpadapter:ImageViewAdapter
     override fun isNeedEventBus(): Boolean {
         return false
     }
 
     override fun initVM() {
+        pointResult.observe(this, Observer { point ->
+            if(list.isNotEmpty()){
+                point.forEach { pointlist ->
+                    for (i in list.indices) {
+                        if (pointlist.name == "不良品列表" && list[i].str == "不良品判定") {
+                            list[i].number = pointlist.count
+                            zzpadapter.notifyItemChanged(i)
+                        }
+                    }
+                }
+
+            }
+        })
     }
 
     override fun initView() {
@@ -182,7 +203,8 @@ class WorkFragment : BaseFragment<BaseViewModel, FragmentWorkNewBinding>() {
 
     //在制品编组
     private fun initZzp(zzp: ArrayList<Threecd>?) {
-        val list = ArrayList<ImageViewModel>()
+
+        Log.i("zlgl",zzp.toString())
         for (i in zzp!!.indices) {
             when (zzp[i].cdbh2) {
                 "D010401" -> {
@@ -213,16 +235,23 @@ class WorkFragment : BaseFragment<BaseViewModel, FragmentWorkNewBinding>() {
                     if (zzp[i].ifyqx2 == 1)
                         list.add(ImageViewModel(R.mipmap.work_scdj, "生产登记",zzp[i].ftpdjmc))
                 }
+                "D010408" -> {
+                    if (zzp[i].ifyqx2 == 1)
+                        list.add(ImageViewModel(R.mipmap.work_zl_bhgpdj, zzp[i].cdmc2,zzp[i].ftpdjmc))
+                }
+                "D010410" -> {
+                    if (zzp[i].ifyqx2 == 1)
+                        list.add(ImageViewModel(R.mipmap.work_djylb, zzp[i].cdmc2,zzp[i].ftpdjmc))
+                }
             }
         }
-
-        val adapter = ImageViewAdapter(mContext, list)
+        zzpadapter= ImageViewAdapter(mContext, list)
         v.rcZzp.let {
             it.layoutManager = GridLayoutManager(mContext, 4)
-            it.adapter = adapter
+            it.adapter = zzpadapter
         }
 
-        adapter.onNewItemClick {image,url->
+        zzpadapter.onNewItemClick {image,url->
             val intent = Intent()
             intent.putExtra("conmap",url)
             when (image) {
@@ -254,6 +283,14 @@ class WorkFragment : BaseFragment<BaseViewModel, FragmentWorkNewBinding>() {
                     intent.setClass(mContext, ProductionRegistrationActivity::class.java)
                     startActivity(intent)
                 }
+                R.mipmap.work_zl_bhgpdj -> {
+                    intent.setClass(mContext, UnQualifiedReportActivity::class.java)
+                    startActivity(intent)
+                }
+                R.mipmap.work_djylb->{
+                    intent.setClass(mContext, RejectsListActivity::class.java)
+                    startActivity(intent)
+                }
             }
         }
     }
@@ -261,6 +298,7 @@ class WorkFragment : BaseFragment<BaseViewModel, FragmentWorkNewBinding>() {
     //质量管理
     private fun initZlgl(zlgl: ArrayList<Threecd>?) {
         val list = ArrayList<ImageViewModel>()
+
         for (i in zlgl!!.indices) {
             when (zlgl[i].cdbh2) {
                 "D010601" -> {
@@ -283,10 +321,10 @@ class WorkFragment : BaseFragment<BaseViewModel, FragmentWorkNewBinding>() {
                     if (zlgl[i].ifyqx2 == 1)
                         list.add(ImageViewModel(R.mipmap.work_zl_fhjy, "发货检验",zlgl[i].ftpdjmc))
                 }
-                "D010606" -> {
-                    if (zlgl[i].ifyqx2 == 1)
-                        list.add(ImageViewModel(R.mipmap.work_zl_bhgpdj, zlgl[i].cdmc2,zlgl[i].ftpdjmc))
-                }
+//                "D010606" -> {
+//                    if (zlgl[i].ifyqx2 == 1)
+//                        list.add(ImageViewModel(R.mipmap.work_zl_bhgpdj, zlgl[i].cdmc2,zlgl[i].ftpdjmc))
+//                }
             }
         }
 
@@ -317,10 +355,6 @@ class WorkFragment : BaseFragment<BaseViewModel, FragmentWorkNewBinding>() {
                 }
                 R.mipmap.work_zl_fhjy -> {
                     intent.setClass(mContext, DeliveryListActivity::class.java)
-                    startActivity(intent)
-                }
-                R.mipmap.work_zl_bhgpdj -> {
-                    intent.setClass(mContext, UnQualifiedReportActivity::class.java)
                     startActivity(intent)
                 }
             }
@@ -655,6 +689,12 @@ class WorkFragment : BaseFragment<BaseViewModel, FragmentWorkNewBinding>() {
     }
 
     override fun lazyLoadData() {
+    }
+
+
+    override fun onResume() {
+        super.onResume()
+        vm.launchList({ vm.httpUtil.getPointCount(accout) },pointResult,isShowLoading = false, successCode = 200)
     }
 
 }

@@ -17,3 +17,35 @@ data class LzkxxModel(
     val cjyhid: String,
     val cjrq: String
 )
+data class LzkDetailModel(
+    val BZS: Int,
+    val DSCSL: Int,
+    val GG: String,
+    val LZKKH: String,
+    val RWDH: String,
+    val SCPH: String,
+    val SCSL: Int,
+    val TH: String,
+    val WPH: String,
+    val WPMC: String,
+    val ZXBGGX: String,
+    val jgdybh:String,
+    val jgdymc:String,
+    val items: List<LzkItem>
+)
+
+data class LzkItem(
+    val BGSJ: String,
+    val BZS: Double,
+    val DQBZNSL: Double,
+    val DQGXLJBGSL: Double,
+    val GXH: String,
+    val GXMS: String,
+    val SCRID: String,
+    val SCRXM: String,
+    val bfsl: Double,
+    val blsl: Double,
+    val ccsl: Double,
+    val fxsl: Double,
+    val hgsl: Double
+)

@@ -26,7 +26,7 @@ import java.util.regex.Pattern
 class DialogSettingHttp(context: Context, themeResId: Int) : Dialog(context, themeResId) {
     private val PROXY_HTTP_MATCH =
         "(http|ftp|https):\\/\\/[\\w\\-_]+(\\.[\\w\\-_]+)+([\\w\\-\\.,@?^=%&amp;:/~\\+#]*[\\w\\-\\@?^=%&amp;/~\\+#])?" //http正则表达式
-    private var apiurl by Preference<String>("ApiUrl", "http://10.2.40.10:3019/")
+    private var apiurl by Preference<String>("ApiUrl", "http://10.2.40.10:8039/")
 
     constructor(context: Context):this(context, R.style.MyDialog){
     }
@@ -47,7 +47,7 @@ class DialogSettingHttp(context: Context, themeResId: Int) : Dialog(context, the
 
     private fun init() {
         et_url.setText(apiurl)
-        val list = arrayOf("http://122.51.182.66:3019/","http://10.2.40.10:3019/")
+        val list = arrayOf("http://172.18.0.161:3019/","http://10.2.40.10:8039/")
         btncancle.clicks { dismiss() }
         buttonok.clicks {
             if(hasProxy(et_url.text.toString())){
