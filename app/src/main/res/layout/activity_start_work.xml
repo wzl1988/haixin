@@ -58,7 +58,7 @@
                 android:textColor="#ffffffff"
                 android:textSize="12sp"
                 app:layout_constraintEnd_toEndOf="@id/ll_card"
-                app:layout_constraintTop_toBottomOf="@id/ll_card" />
+                app:layout_constraintTop_toBottomOf="@id/et_jgdy" />
 
 
             <Button
@@ -107,7 +107,7 @@
                 android:textSize="14sp"
                 app:layout_constraintEnd_toEndOf="@id/et_scsb"
                 app:layout_constraintStart_toStartOf="@id/et_scsb"
-                app:layout_constraintTop_toBottomOf="@id/et_scsb" />
+                app:layout_constraintTop_toBottomOf="@id/ll_card" />
 
             <EditText
                 android:id="@+id/et_scgx"
@@ -120,7 +120,7 @@
                 android:textSize="14sp"
                 app:layout_constraintEnd_toEndOf="@id/et_scsb"
                 app:layout_constraintStart_toStartOf="@id/et_scsb"
-                app:layout_constraintTop_toBottomOf="@id/et_jgdy" />
+                app:layout_constraintTop_toBottomOf="@id/et_scsb" />
 
             <LinearLayout
                 android:id="@+id/ll_card"

@@ -68,13 +68,13 @@ class StartWorkActivity : BaseActivity<StartWorkViewModel, ActivityStartWorkBind
                 }
             })
             dialogEquipment.setOnEqu {
-                vm.getPersonalEquipmentList(companyNo, accout)
+                vm.getPersonalEquipmentList(companyNo, accout,jgdybh)
             }
             dialogEquipment.setOnAllequ {
                 getAll()
             }
 
-            vm.getPersonalEquipmentList(companyNo, accout)
+            vm.getPersonalEquipmentList(companyNo, accout,jgdybh)
         }
         v.btnJgdy clicks {
             if (sbbh.isEmpty()) {
@@ -113,7 +113,6 @@ class StartWorkActivity : BaseActivity<StartWorkViewModel, ActivityStartWorkBind
         hashMap = HashMap()
 
 
-
         dialogJgdy = ListDialog(this, "加工单元", listJgdy, object : ListDialog.MyListener {
             override fun refreshActivity(position: Int) {
                 v.etJgdy.setText(listJgdy[position])
@@ -128,11 +127,14 @@ class StartWorkActivity : BaseActivity<StartWorkViewModel, ActivityStartWorkBind
             }
 
         })
+
+//        vm.getKgInfo("210902000001")
+
     }
 
     private fun initMap() {
         hashMap["companycode"] = companyNo
-        hashMap["equname"] = ""
+        hashMap["scxbh"] = jgdybh
         hashMap["userid"] = accout
     }
 
@@ -176,6 +178,8 @@ class StartWorkActivity : BaseActivity<StartWorkViewModel, ActivityStartWorkBind
                     v.tvGg.text = this.gg
                     v.tvDw.text = this.jldw
                     v.tvScsl.text = this.sybzs
+                    v.etJgdy.setText(this.jgdymc)
+                    this@StartWorkActivity.jgdybh = this.jgdybh
                 }
             }
         }
@@ -185,8 +189,8 @@ class StartWorkActivity : BaseActivity<StartWorkViewModel, ActivityStartWorkBind
             listJgdy.clear()
             listJgdybh.clear()
             it.onEach {
-                listSbbh.add(it.sbbh)
-                listEquipment.add(it.sbmc)
+                listSbbh.add(it.sbbh?:"")
+                listEquipment.add(it.sbmc?:"")
                 listJgdybh.add(it.scxbh)
                 listJgdy.add(it.scxmc)
             }
@@ -250,7 +254,7 @@ class StartWorkActivity : BaseActivity<StartWorkViewModel, ActivityStartWorkBind
         if (resultCode == RESULT_OK && data != null) {
             when (requestCode) {
                 Constant.REQUEST_CODE_SCAN -> {
-                    val result = data.getStringExtra(Intents.Scan.RESULT)
+                    val result = data.getStringExtra(Intents.Scan.RESULT).trim { it <= ' ' }
                     cardno = result
                     v.etLzkh.setText(cardno)
                     vm.getKgInfo(cardno)

@@ -31,6 +31,10 @@ data class LzkDetailModel(
     val ZXBGGX: String,
     val jgdybh:String,
     val jgdymc:String,
+    val cjmc:String,
+    val cjbh:String,
+    val cjdd:String,
+    val sapddh:String,
     val items: List<LzkItem>
 )
 

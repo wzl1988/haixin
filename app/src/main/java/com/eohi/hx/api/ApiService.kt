@@ -11,6 +11,7 @@ import com.eohi.hx.ui.work.equipment.model.*
 import com.eohi.hx.ui.work.model.*
 import com.eohi.hx.ui.work.my.model.*
 import com.eohi.hx.ui.work.quality.rejects.model.GoodListItemModel
+import com.eohi.hx.ui.work.quality.rejects.model.RejectsDetermineSubmitModel
 import com.eohi.hx.ui.work.quality.rejects.model.RejectsListModel
 import com.eohi.hx.ui.work.tooling.model.*
 import com.eohi.hx.utils.retrofit.FatherList
@@ -243,8 +244,12 @@ interface ApiService {
     ): BaseResModel<EquipmentsModel>
 
     //物品列表
-    @GET("api/do?method= app_bpppd_bfwl_get")
+    @GET("api/do?method=app_bpppd_bfwl_get")
     suspend fun getDisposalItemList(@Query("rwdh")rwdh:String):BaseResModel<GoodListItemModel>
+
+    //不良品判定提交
+    @POST("api/do?method=app.scgl.blppd.tj")
+    suspend fun postRejects(@Body model: RejectsDetermineSubmitModel): BaseResModel<SubmitResult>
 
 
     //加工单员

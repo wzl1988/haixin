@@ -18,7 +18,7 @@ class UnQualifiedReportViewModel : BaseViewModel() {
     val gxResult = MutableLiveData<ArrayList<ProductionProcessesModel>>()
     val personResult = MutableLiveData<ArrayList<PersonModel>>()
     val postResult = MutableLiveData<ArrayList<SubmitResult>>()
-
+    var sblist = MutableLiveData<ArrayList<EquipmentsModel>>()
     fun getLzkDetail(cardno: String) {
         launchList({ httpUtil.getLzkDetail(cardno) }, lzkDetailResult, true, successCode = 200)
     }
@@ -64,6 +64,15 @@ class UnQualifiedReportViewModel : BaseViewModel() {
 
     fun post(unQualifiedPostModel: UnQualifiedPostModel) {
         launchList({ httpUtil.unQualifiedPost(unQualifiedPostModel) }, postResult, true)
+    }
+
+    fun getSblist(companycode: String, userid: String, scxbh: String) {
+        launchList(
+            { httpUtil.getNewSBxx(companycode, userid, scxbh) },
+            sblist,
+            isShowLoading = true,
+            successCode = 200
+        )
     }
 
 }

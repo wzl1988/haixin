@@ -253,11 +253,11 @@
                     android:inputType="numberDecimal"
                     android:textColor="#ff999999"
                     android:textSize="14sp"
+                    android:paddingStart="5dp"
                     android:hint="请输入劳动工时"
                     app:layout_constraintEnd_toEndOf="@id/btn_scgx"
                     app:layout_constraintStart_toStartOf="@id/et_scgx"
-                    app:layout_constraintTop_toBottomOf="@id/rg_jj" />
-
+                    app:layout_constraintTop_toBottomOf="@id/rg" />
 
 
 
@@ -281,7 +281,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
-                    android:visibility="gone"
+                    android:visibility="visible"
                     app:layout_constraintBottom_toBottomOf="@id/tv_bgwc_text"
                     app:layout_constraintStart_toEndOf="@id/tv_bgwc_text"
                     app:layout_constraintTop_toTopOf="@id/tv_bgwc_text">
@@ -487,10 +487,10 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
-                    android:text="报工完成："
+                    android:text="是否完工："
                     android:textColor="#ff333333"
                     android:textSize="15sp"
-                    android:visibility="gone"
+                    android:visibility="visible"
                     app:layout_constraintStart_toStartOf="@id/tv_ybsl_text"
                     app:layout_constraintTop_toBottomOf="@id/rg_jj" />
 
@@ -505,6 +505,10 @@
                     android:textSize="15sp"
                     app:layout_constraintStart_toStartOf="@id/tv_ybsl_text"
                     app:layout_constraintTop_toBottomOf="@id/et_bgsl" />
+
+
+
+
 
 
                 <TextView

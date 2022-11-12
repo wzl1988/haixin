@@ -1,5 +1,8 @@
 package com.eohi.hx.ui.work.quality.rejects.model
 
+import android.os.Parcel
+import android.os.Parcelable
+
 data class RejectsDetermineSubmitModel(
     val SWH: String,
     val SWRQ: Any,
@@ -26,23 +29,67 @@ data class RejectsDetermineSubmitModel(
     val sbmc: String
 )
 
-data class SubmitRejectsItem(
+data class SubmitRejectsItem (
     var blsl: Int,
-    var blxx: String,
-    var blxxbm: String,
-    var blyy: String,
-    var blyybm: String,
-    var czfs: String,
-    var scr: String,
-    var scrid: String,
-    var sm: String,
-    var zrgxh: String,
-    var zrgxm: String
-)
+    var blxx: String?,
+    var blxxbm: String?,
+    var blyy: String?,
+    var blyybm: String?,
+    var czfs: String?,
+    var scr: String?,
+    var scrid: String?,
+    var sm: String?,
+    var zrgxh: String?,
+    var zrgxm: String?
+):Parcelable{
+    constructor(parcel: Parcel) : this(
+        parcel.readInt(),
+        parcel.readString(),
+        parcel.readString(),
+        parcel.readString(),
+        parcel.readString(),
+        parcel.readString(),
+        parcel.readString(),
+        parcel.readString(),
+        parcel.readString(),
+        parcel.readString(),
+        parcel.readString()
+    ) {
+    }
+
+    override fun writeToParcel(parcel: Parcel, flags: Int) {
+        parcel.writeInt(blsl)
+        parcel.writeString(blxx)
+        parcel.writeString(blxxbm)
+        parcel.writeString(blyy)
+        parcel.writeString(blyybm)
+        parcel.writeString(czfs)
+        parcel.writeString(scr)
+        parcel.writeString(scrid)
+        parcel.writeString(sm)
+        parcel.writeString(zrgxh)
+        parcel.writeString(zrgxm)
+    }
+
+    override fun describeContents(): Int {
+        return 0
+    }
+
+    companion object CREATOR : Parcelable.Creator<SubmitRejectsItem> {
+        override fun createFromParcel(parcel: Parcel): SubmitRejectsItem {
+            return SubmitRejectsItem(parcel)
+        }
+
+        override fun newArray(size: Int): Array<SubmitRejectsItem?> {
+            return arrayOfNulls(size)
+        }
+    }
+
+}
 
 data class Clbf(
-    val clbfsl: Int,
-    val clblxx: String,
-    val clczfs: String,
-    val clwph: String
+    var clbfsl: Int,
+    var clblxx: String,
+    var clczfs: String,
+    var clwph: String
 )

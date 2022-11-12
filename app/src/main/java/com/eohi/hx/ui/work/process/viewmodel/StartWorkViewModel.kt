@@ -30,14 +30,15 @@ class StartWorkViewModel : BaseViewModel() {
         )
     }
 
-    fun getPersonalEquipmentList(companycode: String, userid: String) {
+    fun getPersonalEquipmentList(companycode: String, userid: String, scxbh: String) {
         launchList(
-            { httpUtil.getPersonalEquipments(companycode, userid) },
+            { httpUtil.getNewSBxx(companycode, userid, scxbh) },
             equipmentList,
             isShowLoading = true,
             successCode = 200
         )
     }
+
 
     fun getAllEquipmentList(hashMap: HashMap<String, String>) {
         launchList(

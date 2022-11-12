@@ -1,6 +1,7 @@
 package com.eohi.hx.ui.work.quality.unqualified
 
 import android.Manifest
+import android.app.AlertDialog
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
@@ -8,6 +9,7 @@ import android.content.IntentFilter
 import android.net.Uri
 import android.text.TextUtils
 import android.widget.Toast
+import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.eohi.hx.R
 import com.eohi.hx.base.BaseActivity
@@ -51,15 +53,14 @@ class UnQualifiedReportActivity :
     private lateinit var listGx: ArrayList<String>
     private lateinit var listGxH: ArrayList<String>
     private lateinit var dialogPerson: ListDialog
+    private lateinit var listPersonShow: ArrayList<String>
     private lateinit var listPerson: ArrayList<String>
     private lateinit var listPersonBh: ArrayList<String>
     private var produceuserid = accout//生产人员工号
     private var scr =""
     private var mxList = ArrayList<Items>()
     private lateinit var mxAdapter: MxAdapter
-    private var zs = 0
     private var slPosition = 0
-    private var temp = 0
     override fun isNeedEventBus(): Boolean {
         return false
     }
@@ -112,6 +113,15 @@ class UnQualifiedReportActivity :
             }
         }
         v.btnPost clicks {
+            var blsum =0
+            mxList.forEach {
+                blsum += it.blsl
+            }
+            if(blsum!= v.etBhgsl.text.toString().toInt() ){
+                showShortToast("不合格明细数量和总不合格数量不一致请修改确认")
+                return@clicks
+            }
+
             when {
                 TextUtils.isEmpty(v.tvLzkbh.text.toString()) -> {
                     Toast.makeText(this, "请扫码获取流转卡信息！", Toast.LENGTH_SHORT).show()
@@ -125,9 +135,7 @@ class UnQualifiedReportActivity :
                 v.etBhgsl.text.toString().toInt() < 0 -> {
                     showShortToast("不合格数量不能小于0")
                 }
-                zs != v.etBhgsl.text.toString().toInt() -> {
-                    showShortToast("不合格明细数量和总不合格数量不一致请修改确认")
-                }
+
                 else -> {
                     val unQualifiedPostModel = UnQualifiedPostModel()
                     unQualifiedPostModel.lzkkh = lzkkh
@@ -175,12 +183,17 @@ class UnQualifiedReportActivity :
             mxAdapter.notifyItemChanged(mxList.size - 1)
 
         }
+
+        v.tvSbbh.clicks {
+            vm.getSblist(companyNo, accout,jgdybh)
+        }
     }
 
     override fun initData() {
         listGx = ArrayList()
         listGxH = ArrayList()
         listPerson = ArrayList()
+        listPersonShow = ArrayList()
         listPersonBh = ArrayList()
 
         mxAdapter = MxAdapter(this, mxList).apply {
@@ -199,7 +212,7 @@ class UnQualifiedReportActivity :
                 gxno = listGxH[position]
             }
         })
-        dialogPerson = ListDialog(this, "人员选择", listPerson, object : ListDialog.MyListener {
+        dialogPerson = ListDialog(this, "人员选择", listPersonShow, object : ListDialog.MyListener {
             override fun refreshActivity(position: Int) {
                 v.tvScry.text = listPerson[position]
                 produceuserid = listPersonBh[position]
@@ -213,15 +226,36 @@ class UnQualifiedReportActivity :
             Toast.makeText(this, "执行成功！", Toast.LENGTH_SHORT).show()
             finish()
         }
+        vm.sblist.observe(this, Observer {
+            if(it.isNotEmpty()){
+                var list = ArrayList<String>()
+                it.forEach {
+                    list.add(it.sbmc+" "+it.sbbh)
+                }
+                val builder = AlertDialog.Builder(mContext, 3)
+                builder.setItems(list.toTypedArray()) { dialog, which ->
+                    dialog.dismiss()
+                    sbbh = it[which].sbbh
+                    sbmc = it[which].sbmc
+                    v.tvSbbh.text = it[which].sbbh
+                }
+                builder.create().show()
+            }else{
+                showShortToast("设备列表为空")
+            }
+        })
+
         vm.personResult.observe(this) { it ->
             listPerson.clear()
             listPersonBh.clear()
+            listPersonShow.clear()
             it.onEach {
+                listPersonShow.add(it.ygxm+"("+it.ygbh+")")
                 listPerson.add(it.ygxm)
                 listPersonBh.add(it.ygbh)
             }
             dialogPerson.show()
-            dialogPerson.refreshList(listPerson)
+            dialogPerson.refreshList(listPersonShow)
             dialogPerson.hideSearch()
         }
         vm.gxResult.observe(this) { it ->
@@ -244,6 +278,7 @@ class UnQualifiedReportActivity :
                 v.tvXqsl.text = bzs.toString()
                 v.tvWph.text = wph
                 v.tvJgdy.text = jgdymc
+                v.tvSbbh.text = sbbh
                 this@UnQualifiedReportActivity.lzkkh = lzkkh
                 this@UnQualifiedReportActivity.jgdybh = jgdybh
                 this@UnQualifiedReportActivity.jgdymc = jgdymc
@@ -330,7 +365,6 @@ class UnQualifiedReportActivity :
 
     override fun delete(position: Int) {
         showAlertDialog("确定", "重要提示", "是否删除") {
-            zs -= mxList[position].blsl
             mxList.removeAt(position)
             mxAdapter.notifyDataSetChanged()
         }
@@ -356,12 +390,8 @@ class UnQualifiedReportActivity :
     override fun setSl(position: Int, s: String) {
         if (slPosition != position) {
             slPosition = position
-            temp = 0
         }
         mxList[position].blsl = s.toInt()
-        zs -= temp
-        zs += s.toInt()
-        temp = s.toInt()
     }
 
     override fun setSm(position: Int, s: String) {

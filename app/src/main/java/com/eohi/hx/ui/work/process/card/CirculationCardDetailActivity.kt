@@ -72,12 +72,13 @@ class CirculationCardDetailActivity :
             if(it.isNotEmpty()){
                 it[0].apply {
                     v.tvWpmc.text = RWDH
-                    v.tvGg.text = SCPH
+                    v.tvGg.text =sapddh
                     v.tvLzkzt.text = SCSL.toString()
                     v.tvRwdh.text = DSCSL.toString()
                     v.tvKhmc.text = WPMC
                     v.tvJhsl.text = GG
                     v.tvJgdy.text = jgdymc
+                    v.tvSccj.text = cjmc
                     list.clear()
                     list.addAll(items)
                     adapter.notifyDataSetChanged()

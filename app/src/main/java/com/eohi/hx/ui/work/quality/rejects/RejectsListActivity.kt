@@ -22,6 +22,8 @@ import com.eohi.hx.R
 import com.eohi.hx.base.BaseActivity
 import com.eohi.hx.base.BaseViewModel
 import com.eohi.hx.databinding.ActivityRejectsListBinding
+import com.eohi.hx.event.EventCode
+import com.eohi.hx.event.EventMessage
 import com.eohi.hx.ui.main.agvmodel.ProductionlineModel
 import com.eohi.hx.ui.work.quality.incoming.IncomingCheckActivity
 import com.eohi.hx.ui.work.quality.rejects.model.RejectsListModel
@@ -34,6 +36,7 @@ import com.example.qrcode.Constant
 import com.example.qrcode.ScannerActivity
 import pub.devrel.easypermissions.AfterPermissionGranted
 import pub.devrel.easypermissions.EasyPermissions
+import java.lang.Exception
 import java.util.ArrayList
 
 class RejectsListActivity : BaseActivity<BaseViewModel,ActivityRejectsListBinding>(), EasyPermissions.PermissionCallbacks {
@@ -66,14 +69,17 @@ class RejectsListActivity : BaseActivity<BaseViewModel,ActivityRejectsListBindin
                 listdata.clear()
                 if(s.toString().isNotEmpty()){
                     for(i in alldata.indices){
-                        if(alldata[i].CJYH!!.contains(s.toString())||alldata[i].ZRRXM!!.contains(s.toString())){
+                        try{
+                        if(alldata[i]?.jgdybh?.contains(s.toString())||alldata[i]?.jgdymc?.contains(s.toString())){
                             if(v.etWph.text.isNotEmpty()){
-                                if( alldata[i].WPH!!.contains(v.etWph.text.toString()) ||alldata[i].wpmc!!.contains(v.etWph.text.toString()))
+                                if( alldata[i].cjbh?.contains(v.etWph.text.toString()) ||alldata[i].cjmc?.contains(v.etWph.text.toString()))
                                     listdata.add(alldata[i])
                             }else{
                                 listdata.add(alldata[i])
                             }
 
+                        }}catch (e:Exception){
+                            continue
                         }
                     }
                 }else{
@@ -96,13 +102,16 @@ class RejectsListActivity : BaseActivity<BaseViewModel,ActivityRejectsListBindin
                 listdata.clear()
                 if(s.toString().isNotEmpty() ){
                     for(i in alldata.indices){
-                        if(alldata[i].WPH!!.contains(s.toString()) ||alldata[i].wpmc!!.contains(s.toString())){
+                        try{
+                        if(alldata[i].cjbh!!.contains(s.toString()) ||alldata[i].cjmc!!.contains(s.toString())){
                             if(v.etScry.text.isNotEmpty()){
-                                if( alldata[i].CJYH!!.contains(v.etScry.text.toString()) ||alldata[i].ZRRXM!!.contains(s.toString()))
+                                if( alldata[i].jgdymc?.contains(v.etScry.text.toString()) ||alldata[i].jgdybh?.contains(s.toString()))
                                     listdata.add(alldata[i])
                             }else{
                                 listdata.add(alldata[i])
                             }
+                        }}catch (e:Exception){
+                            continue
                         }
                     }
                 }else{
@@ -248,5 +257,14 @@ class RejectsListActivity : BaseActivity<BaseViewModel,ActivityRejectsListBindin
         }
     }
 
+
+    override fun handleEvent(msg: EventMessage) {
+        super.handleEvent(msg)
+        when(msg.code){
+            EventCode.REFRESH->{
+                vm.launchList({vm.httpUtil.getRejectsList(accout)},list,true, successCode = 200)
+            }
+        }
+    }
 
 }
