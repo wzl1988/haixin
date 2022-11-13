@@ -185,7 +185,7 @@ class RejectsListActivity : BaseActivity<BaseViewModel,ActivityRejectsListBindin
                     return
                 listdata.clear()
                 for(i in alldata.indices){
-                    if(alldata[i].SCLZKKH.contains(result)){
+                    if(alldata[i].sclzkkh.contains(result)){
                         listdata.add(alldata[i])
                     }
                 }
@@ -214,7 +214,7 @@ class RejectsListActivity : BaseActivity<BaseViewModel,ActivityRejectsListBindin
                     return
                 listdata.clear()
                 for(i in alldata.indices){
-                    if(alldata[i].SCLZKKH.contains(result)){
+                    if(alldata[i].sclzkkh.contains(result)){
                         listdata.add(alldata[i])
                     }
                 }

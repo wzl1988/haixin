@@ -151,7 +151,7 @@ class FirstDetailActivity : BaseActivity<FirstCheckViewModel, ActivityFirstDetai
                         var str = ""
                         it.data.BLYY.forEachIndexed { index, blxxBean ->
                             if (index != it.data.BLYY.size - 1) {
-                                str += blxxBean.XXSM + ","
+                                str += blxxBean.xxsm + ","
                             }
                         }
                         v.tvBlxx.text = str

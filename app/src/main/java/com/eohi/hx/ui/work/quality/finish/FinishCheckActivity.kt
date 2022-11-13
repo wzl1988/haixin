@@ -312,7 +312,7 @@ class FinishCheckActivity : BaseActivity<FinishViewModel, ActivityFinishCheckBin
         v.tvBlxx clicks {
             val tempList = ArrayList<String>()
             blxxList.forEach {
-                tempList.add(it.XXSM)
+                tempList.add(it.xxsm)
             }
             val dialog =
                 MultiListDialog(this, "不良现象", tempList, object : MultiListDialog.MyListener {
@@ -320,7 +320,7 @@ class FinishCheckActivity : BaseActivity<FinishViewModel, ActivityFinishCheckBin
                         postBlxxList.clear()
                         var str = ""
                         listPosition.forEach {
-                            str += blxxList[it].XXSM + ","
+                            str += blxxList[it].xxsm + ","
                             postBlxxList.add(blxxList[it])
                         }
                         v.tvBlxx.text = str.substring(0, str.length - 1)
@@ -413,9 +413,9 @@ class FinishCheckActivity : BaseActivity<FinishViewModel, ActivityFinishCheckBin
                         var str = ""
                         it.data.BLYY.forEachIndexed { i, bean ->
                             str += if (i == it.data.BLYY.size - 1) {
-                                bean.XXSM
+                                bean.xxsm
                             } else {
-                                bean.XXSM + ","
+                                bean.xxsm + ","
                             }
                         }
                         v.tvBlxx.text = str

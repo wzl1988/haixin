@@ -126,9 +126,9 @@ class ProcessDetailActivity : BaseActivity<ProcessViewModel, ActivityProcessDeta
                             var str = ""
                             it.data.BLYY.forEachIndexed { index, blxxBean ->
                                 str += if (index == it.data.BLYY.size - 1) {
-                                    blxxBean.XXSM
+                                    blxxBean.xxsm
                                 } else {
-                                    blxxBean.XXSM + ","
+                                    blxxBean.xxsm + ","
                                 }
                             }
                             v.tvBlxx.text = str

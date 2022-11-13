@@ -25,7 +25,6 @@ import com.eohi.hx.utils.Extensions.showAlertDialog
 import com.eohi.hx.utils.Extensions.showShortToast
 import com.eohi.hx.utils.StatusBarUtil
 import com.eohi.hx.view.ListDialog
-import com.eohi.hx.view.MultiListDialog
 import com.eohi.hx.widget.clicks
 import com.example.qrcode.Constant
 import com.example.qrcode.ScannerActivity
@@ -373,12 +372,12 @@ class UnQualifiedReportActivity :
     override fun setBlyy(position: Int) {
         val tempList = ArrayList<String>()
         blxxList.forEach {
-            tempList.add(it.XXSM)
+            tempList.add(it.xxsm)
         }
         ListDialog(this, "不良现象", tempList, object : ListDialog.MyListener {
             override fun refreshActivity(i: Int) {
-                mxList[position].blxxbm = blxxList[i].XXBM
-                mxList[position].blxx = blxxList[i].XXSM
+                mxList[position].blxxbm = blxxList[i].xxbm
+                mxList[position].blxx = blxxList[i].xxsm
                 mxAdapter.notifyItemChanged(position)
             }
         }).apply {

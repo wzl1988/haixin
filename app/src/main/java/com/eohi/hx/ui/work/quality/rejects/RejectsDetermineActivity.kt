@@ -99,7 +99,9 @@ class RejectsDetermineActivity : BaseActivity<RejectsDetermineViewModel,Activity
             }
 
             var model = RejectsDetermineSubmitModel(
-                v.tvBlpdj.text.toString(),intent.getStringExtra("swrq"),
+                v.tvBlpdj.text.toString(),
+                v.tvWph.text.toString(),
+                intent.getStringExtra("swrq"),
                 v.tvBls.text.toString().toInt(), username, accout,DateUtil.audioTime,
                 v.etBz.text.toString(),username, accout,wasteList,
                 intent.getStringExtra("djr"),
@@ -205,8 +207,8 @@ class RejectsDetermineActivity : BaseActivity<RejectsDetermineViewModel,Activity
         })
         vm.blxxList.observe(this, Observer { it ->
             it.forEach {bean->
-                blxx.add(bean.XXSM)
-                blxxbm.add(bean.XXBM)
+                blxx.add(bean.xxsm)
+                blxxbm.add(bean.xxbm)
             }
 
         })
@@ -214,8 +216,8 @@ class RejectsDetermineActivity : BaseActivity<RejectsDetermineViewModel,Activity
         vm.blyyList.observe(this,Observer{
             if(it.isNotEmpty()){
                 it.forEach {bean->
-                    blyy.add(bean.YYSM)
-                    blyybm.add(bean.YYBM)
+                    blyy.add(bean.yysm)
+                    blyybm.add(bean.yybm)
                 }
             }
         })

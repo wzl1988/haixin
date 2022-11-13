@@ -108,7 +108,7 @@ class FinishDetailActivity : BaseActivity<FinishViewModel, ActivityFinishDetailB
                     v.llBlxx.show()
                     var str = ""
                     it.data.BLYY.onEach {
-                        str += it.XXSM + ","
+                        str += it.xxsm + ","
                     }
                     v.tvBlxx.text = str.substring(0, str.length - 1)
                 }

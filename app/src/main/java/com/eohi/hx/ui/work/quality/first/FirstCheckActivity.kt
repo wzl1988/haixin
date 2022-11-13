@@ -227,7 +227,7 @@ class FirstCheckActivity : BaseActivity<FirstCheckViewModel, ActivityFirstCheckB
         v.tvBlxx clicks {
             val tempList = ArrayList<String>()
             blxxList.forEach {
-                tempList.add(it.XXSM)
+                tempList.add(it.xxsm)
             }
             val dialog =
                 MultiListDialog(this, "不良现象", tempList, object : MultiListDialog.MyListener {
@@ -235,7 +235,7 @@ class FirstCheckActivity : BaseActivity<FirstCheckViewModel, ActivityFirstCheckB
                         postBlxxList.clear()
                         var str = ""
                         listPosition.forEach {
-                            str += blxxList[it].XXSM + ","
+                            str += blxxList[it].xxsm + ","
                             postBlxxList.add(blxxList[it])
                         }
                         v.tvBlxx.text = str.substring(0, str.length - 1)
@@ -309,9 +309,9 @@ class FirstCheckActivity : BaseActivity<FirstCheckViewModel, ActivityFirstCheckB
                             var str = ""
                             it.data.BLYY.forEachIndexed { index, blxxBean ->
                                 str += if (index == it.data.BLYY.size - 1) {
-                                    blxxBean.XXSM
+                                    blxxBean.xxsm
                                 } else {
-                                    blxxBean.XXSM + ","
+                                    blxxBean.xxsm + ","
                                 }
                             }
                             v.tvBlxx.text = str

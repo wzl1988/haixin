@@ -4,8 +4,9 @@ import android.os.Parcel
 import android.os.Parcelable
 
 data class RejectsDetermineSubmitModel(
-    val SWH: String,
-    val SWRQ: Any,
+    val swh: String,
+    val wph:String,
+    val swrq: String,
     val bhgzsl: Int,
     val blppdr: String,
     val blppdrid: String,

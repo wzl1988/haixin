@@ -1,6 +1,6 @@
 package com.eohi.hx.ui.work.model
 
 data class BlyyBean(
-    val YYBM: String,
-    val YYSM: String
+    val yybm: String,
+    val yysm: String
 )

@@ -13,7 +13,6 @@ import com.eohi.hx.R
 import com.eohi.hx.base.BaseActivity
 import com.eohi.hx.databinding.ActivityCirculationCardDetailBinding
 import com.eohi.hx.ui.work.adapter.LzkSubAdapter
-import com.eohi.hx.ui.work.model.LZKSubListModel
 import com.eohi.hx.ui.work.model.LzkItem
 import com.eohi.hx.ui.work.process.viewmodel.CirculationCardViewModel
 import com.eohi.hx.utils.Constant
@@ -71,12 +70,12 @@ class CirculationCardDetailActivity :
         vm.lzkdetailResult.observe(this, Observer {
             if(it.isNotEmpty()){
                 it[0].apply {
-                    v.tvWpmc.text = RWDH
+                    v.tvWpmc.text = rwdh
                     v.tvGg.text =sapddh
-                    v.tvLzkzt.text = SCSL.toString()
-                    v.tvRwdh.text = DSCSL.toString()
-                    v.tvKhmc.text = WPMC
-                    v.tvJhsl.text = GG
+                    v.tvLzkzt.text = scsl.toString()
+                    v.tvRwdh.text = dscsl.toString()
+                    v.tvKhmc.text = wpmc
+                    v.tvJhsl.text = gg
                     v.tvJgdy.text = jgdymc
                     v.tvSccj.text = cjmc
                     list.clear()
