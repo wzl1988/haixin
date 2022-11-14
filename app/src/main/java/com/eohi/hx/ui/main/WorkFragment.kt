@@ -82,7 +82,55 @@ class WorkFragment : BaseFragment<BaseViewModel, FragmentWorkNewBinding>() {
                     for (i in list.indices) {
                         if (pointlist.name == "不良品列表" && list[i].str == "不良品判定") {
                             list[i].number = pointlist.count
-                            zzpadapter.notifyItemChanged(i)
+                        }
+                    }
+                }
+
+                zzpadapter= ImageViewAdapter(mContext, list)
+                v.rcZzp.let {
+                    it.layoutManager = GridLayoutManager(mContext, 4)
+                    it.adapter = zzpadapter
+                }
+
+                zzpadapter.onNewItemClick {image,url->
+                    val intent = Intent()
+                    intent.putExtra("conmap",url)
+                    when (image) {
+                        R.mipmap.work_gxwx -> {
+                            intent.setClass(mContext, CoordinationStartActivity::class.java)
+                            startActivity(intent)
+                        }
+                        R.mipmap.work_wg -> {
+                            intent.setClass(mContext, CoordinationFinishedActivity::class.java)
+                            startActivity(intent)
+                        }
+                        R.mipmap.work_clck -> {
+                            intent.setClass(mContext, MaterialRemovalActivity::class.java)
+                            startActivity(intent)
+                        }
+                        R.mipmap.work_kg -> {
+                            intent.setClass(mContext, StartWorkActivity::class.java)
+                            startActivity(intent)
+                        }
+                        R.mipmap.work_lzkxq -> {
+                            intent.setClass(mContext, CirculationCardDetailActivity::class.java)
+                            startActivity(intent)
+                        }
+                        R.mipmap.work_lzkck -> {
+                            intent.setClass(mContext, CirculationCardActivity::class.java)
+                            startActivity(intent)
+                        }
+                        R.mipmap.work_scdj -> {
+                            intent.setClass(mContext, ProductionRegistrationActivity::class.java)
+                            startActivity(intent)
+                        }
+                        R.mipmap.work_zl_bhgpdj -> {
+                            intent.setClass(mContext, UnQualifiedReportActivity::class.java)
+                            startActivity(intent)
+                        }
+                        R.mipmap.work_djylb->{
+                            intent.setClass(mContext, RejectsListActivity::class.java)
+                            startActivity(intent)
                         }
                     }
                 }

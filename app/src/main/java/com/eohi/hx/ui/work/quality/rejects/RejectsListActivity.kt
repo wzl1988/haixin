@@ -161,6 +161,11 @@ class RejectsListActivity : BaseActivity<BaseViewModel,ActivityRejectsListBindin
                listdata.addAll(it)
                adapter.notifyDataSetChanged()
                v.tvDjy.text = "当前记录数量："+it.size
+           }else{
+               listdata.clear()
+               alldata.clear()
+               adapter.notifyDataSetChanged()
+               v.tvDjy.text = "当前记录数量：0"
            }
 
         })

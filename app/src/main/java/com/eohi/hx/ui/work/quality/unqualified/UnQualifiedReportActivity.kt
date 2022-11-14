@@ -30,6 +30,7 @@ import com.example.qrcode.Constant
 import com.example.qrcode.ScannerActivity
 import pub.devrel.easypermissions.AfterPermissionGranted
 import pub.devrel.easypermissions.EasyPermissions
+import java.util.*
 
 /*
 * 不合格品登记
@@ -116,7 +117,11 @@ class UnQualifiedReportActivity :
             mxList.forEach {
                 blsum += it.blsl
             }
-            if(blsum!= v.etBhgsl.text.toString().toInt() ){
+            var bhgs = 0
+            if(v.etBhgsl.text.toString().isNotEmpty()){
+                bhgs = v.etBhgsl.text.toString().toInt()
+            }
+            if(blsum!= bhgs){
                 showShortToast("不合格明细数量和总不合格数量不一致请修改确认")
                 return@clicks
             }
@@ -144,8 +149,8 @@ class UnQualifiedReportActivity :
                     unQualifiedPostModel.jgdybh = jgdybh
                     if(null != jgdymc)
                     unQualifiedPostModel.jgdymc = jgdymc
-                    unQualifiedPostModel.sbbh= sbbh
-                    unQualifiedPostModel.sbmc = sbmc
+                    unQualifiedPostModel.sbbh= sbbh?:""
+                    unQualifiedPostModel.sbmc = sbmc?:""
                     unQualifiedPostModel.gxbh = gxno
                     unQualifiedPostModel.gxmc = v.tvScgx.text.toString()
                     unQualifiedPostModel.scfs ="个人"
