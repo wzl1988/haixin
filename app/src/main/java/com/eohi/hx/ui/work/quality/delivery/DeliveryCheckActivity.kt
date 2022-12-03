@@ -1,15 +1,19 @@
 package com.eohi.hx.ui.work.quality.delivery
 
 import android.Manifest
+import android.annotation.SuppressLint
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
+import android.content.pm.PackageManager
 import android.net.Uri
+import android.os.Build
 import android.text.Editable
 import android.text.TextUtils
 import android.text.TextWatcher
 import android.widget.Toast
+import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.donkingliang.imageselector.utils.ImageSelector
 import com.eohi.hx.App.Companion.postPhoto
@@ -21,16 +25,21 @@ import com.eohi.hx.event.EventCode
 import com.eohi.hx.event.EventMessage
 import com.eohi.hx.ui.plusimage.PlusImageActivity
 import com.eohi.hx.ui.work.adapter.ImageAdapter
+import com.eohi.hx.ui.work.adapter.InspectionItemAdapter
 import com.eohi.hx.ui.work.adapter.ZjxmAdapter
 import com.eohi.hx.ui.work.model.BlxxBean
 import com.eohi.hx.ui.work.model.BtBean
 import com.eohi.hx.ui.work.model.CommonPostModel
+import com.eohi.hx.ui.work.model.InspectionitemModel
 import com.eohi.hx.ui.work.quality.incoming.IncomingCheckActivity
 import com.eohi.hx.utils.DateUtil
 import com.eohi.hx.utils.Extensions.asColor
 import com.eohi.hx.utils.Extensions.gone
 import com.eohi.hx.utils.Extensions.show
 import com.eohi.hx.utils.Extensions.showAlertDialog
+import com.eohi.hx.utils.Extensions.showLongToast
+import com.eohi.hx.utils.Extensions.showShortToast
+import com.eohi.hx.utils.Extensions.trimStr
 import com.eohi.hx.utils.StatusBarUtil
 import com.eohi.hx.utils.ToastUtil
 import com.eohi.hx.view.ListDialog
@@ -51,8 +60,8 @@ import java.io.File
 class DeliveryCheckActivity : BaseActivity<DeliveryViewModel, ActivityDeliveryCheckBinding>(),
     EasyPermissions.PermissionCallbacks {
 
-    private lateinit var adapter: ZjxmAdapter
-    private lateinit var list: ArrayList<BtBean>
+    private lateinit var adapter: InspectionItemAdapter
+    private lateinit var list: ArrayList<InspectionitemModel>
     var imgAdapter: ImageAdapter? = null
     var mPicList = ArrayList<String>()
     private lateinit var filterGdhList: ArrayList<String>
@@ -101,13 +110,7 @@ class DeliveryCheckActivity : BaseActivity<DeliveryViewModel, ActivityDeliveryCh
 
         vm.getBlxx()
 
-        adapter = ZjxmAdapter(this, list, fun(i: Int, b: Boolean) {
-            if (b) {
-                list[i].PDJG = "1"
-            } else {
-                list[i].PDJG = "2"
-            }
-        }, ::onTextResult)
+        adapter = InspectionItemAdapter(this, list, ::onTextResult)
         v.rc.layoutManager = LinearLayoutManager(this)
         v.rc.adapter = adapter
 
@@ -180,13 +183,18 @@ class DeliveryCheckActivity : BaseActivity<DeliveryViewModel, ActivityDeliveryCh
     }
 
     private fun onTextResult(i: Int, s: String) {
-        list[i].JYZ = s
+        list[i].scz = s
     }
 
     override fun initClick() {
         v.ivBack clicks { finish() }
         v.imageAdd clicks {
-            takeCameraPermissions()
+            try {
+                takeCameraPermissions()
+            }catch (e:Exception){
+                showLongToast(e.message.toString())
+            }
+
         }
         v.tvTmh clicks {
             checkCameraPermissions()
@@ -244,12 +252,12 @@ class DeliveryCheckActivity : BaseActivity<DeliveryViewModel, ActivityDeliveryCh
                         model.WPMC = v.tvWpmc.text.toString()
                         model.GG = v.tvGgms.text.toString()
                         model.JYJG = if (v.pass.isChecked) "1" else "2"
-                        model.HGSL = v.etHgsl.text.toString()
-                        model.BHGSL = v.etBhgsl.text.toString()
+                        model.HGSL = if(v.etHgsl.text.toString().isEmpty()) 0.0 else v.etHgsl.text.toString().toDouble()
+                        model.BHGSL =if(v.etBhgsl.text.toString().isEmpty()) 0.0 else v.etBhgsl.text.toString().toDouble()
                         model.GDH = v.tvGdh.text.toString()
-                        model.JYSL = v.etJysl.text.toString()
+                        model.JYSL = if(v.etJysl.text.toString().isEmpty()) 0.0 else v.etJysl.text.toString().toDouble()
                         model.JYMS = v.etJyms.text.toString()
-                        model.TMH = v.etTmh.text.toString()
+                        model.TMH = v.tvTmh.text.toString()
                         model.DATA = list
                         model.BLYY = postBlxxList
                         model.JYYID = accout
@@ -288,12 +296,13 @@ class DeliveryCheckActivity : BaseActivity<DeliveryViewModel, ActivityDeliveryCh
                         model.WPMC = v.tvWpmc.text.toString()
                         model.GG = v.tvGgms.text.toString()
                         model.JYJG = if (v.pass.isChecked) "1" else "2"
-                        model.HGSL = v.etHgsl.text.toString()
-                        model.BHGSL = v.etBhgsl.text.toString()
+                        model.HGSL = if(v.etHgsl.text.toString().isEmpty()) 0.0 else v.etHgsl.text.toString().toDouble()
+                        model.BHGSL =if(v.etBhgsl.text.toString().isEmpty()) 0.0 else v.etBhgsl.text.toString().toDouble()
                         model.GDH = v.tvGdh.text.toString()
-                        model.JYSL = v.etJysl.text.toString()
+                        model.JYSL =if(v.etJysl.text.toString().isEmpty()) 0.0 else v.etJysl.text.toString().toDouble()
                         model.JYMS = v.etJyms.text.toString()
-                        model.TMH = v.etTmh.text.toString()
+                        model.TMH = v.tvTmh.text.toString()
+                        model.JYYXM = username
                         model.DATA = list
                         model.BLYY = postBlxxList
                         model.JYYID = accout
@@ -307,10 +316,10 @@ class DeliveryCheckActivity : BaseActivity<DeliveryViewModel, ActivityDeliveryCh
         v.rg.setOnCheckedChangeListener { _, checkedId ->
             when (checkedId) {
                 R.id.pass -> {
-                    showBlxx(false)
+//                    showBlxx(false)
                 }
                 R.id.unPass -> {
-                    showBlxx(true)
+//                    showBlxx(true)
                 }
             }
         }
@@ -372,6 +381,7 @@ class DeliveryCheckActivity : BaseActivity<DeliveryViewModel, ActivityDeliveryCh
         }
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     override fun initVM() {
         vm.blxxList.observe(this) {
             blxxList.addAll(it)
@@ -427,14 +437,14 @@ class DeliveryCheckActivity : BaseActivity<DeliveryViewModel, ActivityDeliveryCh
                 v.tvSapddh.text  = it.data.list[0].SAPDDH
 
             }
-            if (it.data.BT.size > 0) {
-                v.cardZjxm.show()
-                list.clear()
-                list.addAll(it.data.BT)
-                adapter.notifyDataSetChanged()
-            } else {
-                v.cardZjxm.gone()
-            }
+//            if (it.data.BT.size > 0) {
+//                v.cardZjxm.show()
+//                list.clear()
+//                list.addAll(it.data.BT)
+//                adapter.notifyDataSetChanged()
+//            } else {
+//                v.cardZjxm.gone()
+//            }
         }
         vm.gdhList.observe(this) { it ->
             it.forEach {
@@ -448,34 +458,45 @@ class DeliveryCheckActivity : BaseActivity<DeliveryViewModel, ActivityDeliveryCh
             postPhoto.add(it.list.toString())
         }
         vm.response.observe(this) {
-            if (it[0].returncode == 1000) {
-                Toast.makeText(this, it[0].returnmsg, Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "提交成功", Toast.LENGTH_SHORT).show()
                 Event.getInstance().post(EventMessage(EventCode.REFRESH))
                 finish()
-            }
         }
         vm.detailmodel.observe(this) {
             if (it.data.list.size > 0) {
                 if (it.data.list[0].GDH != null) {
                     v.tvGdh.text = it.data.list[0].GDH
                 }
-
+                if(!it.data.list[0].DJH.isNullOrEmpty())
                 djh = it.data.list[0].DJH
 
                 wph = it.data.list[0].WPH
                 v.tvWpmc.text = it.data.list[0].WPMC
                 v.tvGgms.text = it.data.list[0].GGMS
                 v.tvSapddh.text =  it.data.list[0].SAPDDH
+
+                vm.getInspectionItems(wph, companyNo)
             }
-            if (it.data.BT.size > 0) {
+//            if (it.data.BT.size > 0) {
+//                v.cardZjxm.show()
+//                list.clear()
+//                list.addAll(it.data.BT)
+//                adapter.notifyDataSetChanged()
+//            } else {
+//                v.cardZjxm.gone()
+//            }
+        }
+        vm.InspectionitemModelList.observe(this){
+            if(it.isNotEmpty()){
                 v.cardZjxm.show()
                 list.clear()
-                list.addAll(it.data.BT)
+                list.addAll(it)
                 adapter.notifyDataSetChanged()
-            } else {
+            }else{
                 v.cardZjxm.gone()
             }
         }
+
     }
 
     @AfterPermissionGranted(IncomingCheckActivity.RC_CAMERA)
@@ -510,6 +531,33 @@ class DeliveryCheckActivity : BaseActivity<DeliveryViewModel, ActivityDeliveryCh
     private fun takeCameraPermissions() {
         val perms = arrayOf(Manifest.permission.CAMERA)
         if (EasyPermissions.hasPermissions(this, *perms)) { //有权限
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                val permissions = arrayOf(
+                    Manifest.permission.READ_EXTERNAL_STORAGE,
+                    Manifest.permission.WRITE_EXTERNAL_STORAGE
+                )
+                permissions.forEach {
+                    if (checkSelfPermission(it) != PackageManager.PERMISSION_GRANTED) {
+                        requestPermissions(permissions, 100)
+                        showShortToast("权限获取失败！")
+                        return
+                    }
+                }
+                //HarmonyOS获取权限
+//                if (android.os.Build.BRAND == "Huawei" || android.os.Build.BRAND == "HUAWEI" ||
+//                    Build.BRAND == "HONOR"
+//                ) {
+//                    val permissions = arrayOf(
+//                        "ohos.permission.READ_USER_STORAGE",
+//                        "ohos.permission.WRITE_USER_STORAGE",
+//                        "ohos.permission.DISTRIBUTED_DATASYNC"
+//                    )
+//                    requestPermissions(permissions,0)
+//                }
+            }
+
+
             if (mPicList.size >= IncomingCheckActivity.MAX_SELECT_PIC_NUM) {
                 ToastUtil.showToast(
                     mContext,
@@ -536,6 +584,9 @@ class DeliveryCheckActivity : BaseActivity<DeliveryViewModel, ActivityDeliveryCh
         }
     }
 
+
+
+
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == IncomingCheckActivity.REQUEST_CODE && data != null) {
@@ -547,7 +598,7 @@ class DeliveryCheckActivity : BaseActivity<DeliveryViewModel, ActivityDeliveryCh
 
                 val requestBody: RequestBody =
                     RequestBody.create(MediaType.parse("multipart/form-data"), file)
-                var conmap= intent.getStringExtra("conmap")
+                var conmap= intent.getStringExtra("conmap")?:""
                 if(conmap.isNullOrEmpty())
                     conmap ="fahuojianyan"
                 val body = MultipartBody.Builder().setType(MultipartBody.FORM)
@@ -573,7 +624,7 @@ class DeliveryCheckActivity : BaseActivity<DeliveryViewModel, ActivityDeliveryCh
             imgAdapter?.notifyDataSetChanged()
         } else if (requestCode == 1) {
             if (resultCode == RESULT_OK) {
-                v.tvTmh.text = data?.getStringExtra(Constant.EXTRA_RESULT_CONTENT)!!
+                v.tvTmh.text = data?.getStringExtra(Constant.EXTRA_RESULT_CONTENT)!!.trimStr()
                 val tmh = data.getStringExtra(Constant.EXTRA_RESULT_CONTENT)!!.trim { it <= ' ' }
                 vm.getDeliveryDetailTMH(
                     companyNo,

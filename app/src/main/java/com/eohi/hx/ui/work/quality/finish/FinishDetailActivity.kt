@@ -8,8 +8,10 @@ import com.eohi.hx.base.BaseActivity
 import com.eohi.hx.databinding.ActivityFinishDetailBinding
 import com.eohi.hx.ui.plusimage.PlusImageActivity
 import com.eohi.hx.ui.work.adapter.ImageAdapter
+import com.eohi.hx.ui.work.adapter.InspectionItemAdapter
 import com.eohi.hx.ui.work.adapter.ZjxmAdapter
 import com.eohi.hx.ui.work.model.BtBean
+import com.eohi.hx.ui.work.model.InspectionitemModel
 import com.eohi.hx.utils.Extensions.asColor
 import com.eohi.hx.utils.Extensions.gone
 import com.eohi.hx.utils.Extensions.show
@@ -18,8 +20,8 @@ import com.eohi.hx.widget.clicks
 
 class FinishDetailActivity : BaseActivity<FinishViewModel, ActivityFinishDetailBinding>() {
 
-    private lateinit var adapter: ZjxmAdapter
-    private lateinit var list: ArrayList<BtBean>
+    private lateinit var adapter: InspectionItemAdapter
+    private lateinit var list: ArrayList<InspectionitemModel>
     var imgAdapter: ImageAdapter? = null
     var mPicList = ArrayList<String>()
     private var djh = ""
@@ -40,13 +42,7 @@ class FinishDetailActivity : BaseActivity<FinishViewModel, ActivityFinishDetailB
         list = ArrayList()
         getGDList()
 
-        adapter = ZjxmAdapter(this, list, fun(i: Int, b: Boolean) {
-            if (b) {
-                list[i].PDJG = "1"
-            } else {
-                list[i].PDJG = "2"
-            }
-        }, ::onTextResult)
+        adapter = InspectionItemAdapter(this, list, ::onTextResult)
         v.rc.layoutManager = LinearLayoutManager(this)
         v.rc.adapter = adapter
 

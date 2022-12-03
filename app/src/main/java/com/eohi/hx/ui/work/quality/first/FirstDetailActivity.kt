@@ -8,8 +8,10 @@ import com.eohi.hx.base.BaseActivity
 import com.eohi.hx.databinding.ActivityFirstDetailBinding
 import com.eohi.hx.ui.plusimage.PlusImageActivity
 import com.eohi.hx.ui.work.adapter.ImageAdapter
+import com.eohi.hx.ui.work.adapter.InspectionItemAdapter
 import com.eohi.hx.ui.work.adapter.ZjxmAdapter
 import com.eohi.hx.ui.work.model.BtBean
+import com.eohi.hx.ui.work.model.InspectionitemModel
 import com.eohi.hx.utils.Extensions.asColor
 import com.eohi.hx.utils.Extensions.gone
 import com.eohi.hx.utils.Extensions.show
@@ -24,9 +26,8 @@ class FirstDetailActivity : BaseActivity<FirstCheckViewModel, ActivityFirstDetai
     private var rwbh = ""
     var mPicList = ArrayList<String>()
     var adapter: ImageAdapter? = null
-    private lateinit var subAdapter: ZjxmAdapter
-    private lateinit var list: ArrayList<BtBean>
-
+    private lateinit var subAdapter: InspectionItemAdapter
+    private lateinit var list: ArrayList<InspectionitemModel>
     companion object {
         var type = "detail"
     }
@@ -42,14 +43,7 @@ class FirstDetailActivity : BaseActivity<FirstCheckViewModel, ActivityFirstDetai
         list = ArrayList()
         hashMap = HashMap()
 
-        subAdapter = ZjxmAdapter(this, list, fun(i: Int, b: Boolean) {
-            if (b) {
-                list[i].PDJG = "1"
-            } else {
-                list[i].PDJG = "2"
-            }
-
-        }, ::onTextResult)
+        subAdapter = InspectionItemAdapter(this, list, ::onTextResult)
         v.rc.layoutManager = LinearLayoutManager(this)
         v.rc.adapter = subAdapter
 
@@ -73,7 +67,7 @@ class FirstDetailActivity : BaseActivity<FirstCheckViewModel, ActivityFirstDetai
 
     override fun initData() {
         if (intent.hasExtra("gdh")) {
-            gdh = intent.getStringExtra("gdh")
+            gdh = intent.getStringExtra("gdh")?:""
         }
         if (intent.hasExtra("rwbh")) {
             rwbh = intent.getStringExtra("rwbh")
@@ -117,12 +111,12 @@ class FirstDetailActivity : BaseActivity<FirstCheckViewModel, ActivityFirstDetai
                     v.tvBhgsl.text = it.data.list[0].BHGSL
                     v.tvCzy.text = it.data.list[0].JYYXM
                     v.tvRq.text = it.data.list[0].SJSJ
-                    v.tvJylx.text = it.data.list[0].JYLX
+                    v.tvJylx.text = it.data.list[0].JYLX?:""
 
                     if (type == "detail" || type == "modify") {
                         v.tvHgsl.text = it.data.list[0].HGSL
 
-                        if (it.data.list[0].TPWJM != "") {
+                        if (!it.data.list[0].TPWJM.isNullOrEmpty()) {
                             it.data.list[0].TPWJM.trim().split(",").forEach {
                                 postPhoto.add(it)
                                 mPicList.add("$apiurl/apidefine/image?filename=$it")
@@ -135,7 +129,7 @@ class FirstDetailActivity : BaseActivity<FirstCheckViewModel, ActivityFirstDetai
                     }
                     v.tvJyms.text = it.data.list[0].SQMS
 
-                    if (it.data.list[0].JYJG == "1") {
+                    if (it.data.list[0].JYJG == "1" || it.data.list[0].JYJG=="合格") {
                         v.tvPdjg.text = "合格"
                         v.tvCheckState.text = "合格"
                         v.tvCheckState.setTextColor(R.color.qualified.asColor())
@@ -160,14 +154,7 @@ class FirstDetailActivity : BaseActivity<FirstCheckViewModel, ActivityFirstDetai
                     if (it.data.BT.size > 0) {
                         v.cardZjxm.show()
                         list.clear()
-
-                        if (type == "detail" || type == "modify") {
-                            list.addAll(it.data.BT)
-                        } else {
-                            list.addAll(it.data.BT.onEach {
-                                it.PDJG = "2"
-                            })
-                        }
+                        list.addAll(it.data.BT)
 
                         subAdapter.notifyDataSetChanged()
                     } else {

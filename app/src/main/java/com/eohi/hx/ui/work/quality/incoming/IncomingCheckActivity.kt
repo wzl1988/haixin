@@ -2,7 +2,9 @@ package com.eohi.hx.ui.work.quality.incoming
 
 import android.Manifest
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.net.Uri
+import android.os.Build
 import android.text.Editable
 import android.text.TextUtils
 import android.text.TextWatcher
@@ -18,17 +20,22 @@ import com.eohi.hx.event.EventCode
 import com.eohi.hx.event.EventMessage
 import com.eohi.hx.ui.plusimage.PlusImageActivity
 import com.eohi.hx.ui.work.adapter.ImageAdapter
+import com.eohi.hx.ui.work.adapter.InspectionItemAdapter
 import com.eohi.hx.ui.work.adapter.ZjxmAdapter
 import com.eohi.hx.ui.work.model.BtBean
+import com.eohi.hx.ui.work.model.CheckPostModel
 import com.eohi.hx.ui.work.model.CommonPostModel
+import com.eohi.hx.ui.work.model.InspectionitemModel
 import com.eohi.hx.utils.DateUtil
 import com.eohi.hx.utils.Extensions.asColor
 import com.eohi.hx.utils.Extensions.gone
 import com.eohi.hx.utils.Extensions.show
 import com.eohi.hx.utils.Extensions.showAlertDialog
+import com.eohi.hx.utils.Extensions.showShortToast
 import com.eohi.hx.utils.StatusBarUtil
 import com.eohi.hx.utils.ToastUtil
 import com.eohi.hx.widget.clicks
+import kotlinx.android.synthetic.main.activity_equipment_maintenance.view.*
 import okhttp3.MediaType
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
@@ -42,8 +49,8 @@ class IncomingCheckActivity : BaseActivity<IncomingViewModel, ActivityIncomingCh
     EasyPermissions.PermissionCallbacks {
 
     var imgAdapter: ImageAdapter? = null
-    private lateinit var adapter: ZjxmAdapter
-    private lateinit var list: ArrayList<BtBean>
+    private lateinit var adapter: InspectionItemAdapter
+    private lateinit var list: ArrayList<InspectionitemModel>
     private lateinit var hashMap: HashMap<String, String>
     private var model = CommonPostModel()
     private var rwbh = ""
@@ -67,14 +74,7 @@ class IncomingCheckActivity : BaseActivity<IncomingViewModel, ActivityIncomingCh
         StatusBarUtil.setColor(this, R.color.white.asColor())
         StatusBarUtil.darkMode(this, true)
 
-        adapter = ZjxmAdapter(this, list, fun(i: Int, b: Boolean) {
-            if (b) {
-                list[i].PDJG = "1"
-            } else {
-                list[i].PDJG = "2"
-            }
-
-        }, ::onTextResult)
+        adapter = InspectionItemAdapter(this, list, ::onTextResult)
         v.rc.layoutManager = LinearLayoutManager(this)
         v.rc.adapter = adapter
 
@@ -100,31 +100,35 @@ class IncomingCheckActivity : BaseActivity<IncomingViewModel, ActivityIncomingCh
                         (total.toDouble() - tmp.toDouble()).toString()
                     }
                     if (num.toDouble() >= 0) {
-                        v.etHgsl.setText(num)
+                        v.etHgsl.text = num
                     }
                 } else {
-                    v.etHgsl.setText(total)
+                    v.etHgsl.text = total
                 }
             }
 
         })
 
         initMap()
-
-        when (type) {
-            "modify" -> {
-                v.tvTitle.text = "来料检验修改"
+        if(type=="modify"){
+            v.tvTitle.text = "来料检验修改"
                 vm.getDetail(hashMap)
-            }
-            else -> {
-                vm.getDetailModel(hashMap)
-            }
         }
+//
+//        when (type) {
+//            "modify" -> {
+//                v.tvTitle.text = "来料检验修改"
+//                vm.getDetail(hashMap)
+//            }
+//            else -> {
+//                vm.getDetailModel(hashMap)
+//            }
+//        }
 
     }
 
     private fun onTextResult(i: Int, s: String) {
-        list[i].JYZ = s
+        list[i].scz = s
     }
 
     override fun initClick() {
@@ -160,9 +164,9 @@ class IncomingCheckActivity : BaseActivity<IncomingViewModel, ActivityIncomingCh
                     model.WPMC = v.tvWpmc.text.toString()
                     model.GG = v.tvGgms.text.toString()
                     model.JYJG = if (v.pass.isChecked) "1" else "2"
-                    model.HGSL = v.etHgsl.text.toString()
-                    model.BHGSL = v.etBhgsl.text.toString()
-                    model.JSSL = v.etJssl.text.toString()
+                    model.HGSL = if(v.etHgsl.text.toString().isEmpty()) 0.0 else v.etHgsl.text.toString().toDouble()
+                    model.BHGSL =if(v.etBhgsl.text.toString().isEmpty()) 0.0 else v.etBhgsl.text.toString().toDouble()
+                    model.JSSL =if(v.etJssl.text.toString().isEmpty()) 0.0 else v.etJssl.text.toString().toDouble()
                     model.SQMS = v.etJyms.text.toString()
                     model.DATA = list
                     model.JYYID = accout
@@ -200,6 +204,16 @@ class IncomingCheckActivity : BaseActivity<IncomingViewModel, ActivityIncomingCh
             type = intent.getStringExtra("type")
         }
 
+        v.tvRwbh.text = rwbh
+        v.tvWph.text = intent.getStringExtra("wph")?:""
+        v.tvWpmc.text = intent.getStringExtra("wpmc")?:""
+        v.tvGgms.text = intent.getStringExtra("gg")?:""
+        v.etHgsl.text = intent.getStringExtra("dhsl")?:"0"
+        total = intent.getStringExtra("dhsl")?:"0"
+
+        if(type !="modify")
+        vm.getInspectionItems(v.tvWph.text.toString(), companyNo)
+
         imgAdapter = ImageAdapter(this, mPicList)
         v.rcPhoto.layoutManager =
             LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
@@ -231,6 +245,11 @@ class IncomingCheckActivity : BaseActivity<IncomingViewModel, ActivityIncomingCh
                 v.etJyms.setText(it.data.list[0].SQMS)
                 v.tvCzy.text = it.data.list[0].JYYXM
                 v.tvRq.text = it.data.list[0].JYSJ
+                if(it.data.list[0].JYJG =="1"){
+                    v.pass.isChecked = true
+                }else{
+                    v.unPass.isChecked = true
+                }
 
                 if (it.data.list[0].TPWJM != "") {
                     it.data.list[0].TPWJM.trim().split(",").forEach {
@@ -273,9 +292,9 @@ class IncomingCheckActivity : BaseActivity<IncomingViewModel, ActivityIncomingCh
                 total = it.data.list[0].JYSL
                 if (it.data.BT.size > 0) {
                     v.cardZjxm.show()
-                    list.addAll(it.data.BT.onEach {
-                        it.PDJG = "2"
-                    })
+//                    list.addAll(it.data.BT.onEach {
+//                        it.PDJG = "2"
+//                    })
                     adapter.notifyDataSetChanged()
                 } else {
                     v.cardZjxm.gone()
@@ -283,14 +302,24 @@ class IncomingCheckActivity : BaseActivity<IncomingViewModel, ActivityIncomingCh
             }
         }
         vm.submitmodel.observe(this) {
-            if (it.code == 1000) {
                 Event.getInstance().post(EventMessage(EventCode.REFRESH))
                 finish()
-            }
         }
         vm.resultFile.observe(this) {
             postPhoto.add(it.list.toString())
         }
+
+        vm.InspectionitemModelList.observe(this){
+            if(it.isNotEmpty()){
+                v.cardZjxm.show()
+                list.clear()
+                list.addAll(it)
+                adapter.notifyDataSetChanged()
+            }else{
+                v.cardZjxm.gone()
+            }
+        }
+
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -335,6 +364,30 @@ class IncomingCheckActivity : BaseActivity<IncomingViewModel, ActivityIncomingCh
     private fun takeCameraPermissions() {
         val perms = arrayOf(Manifest.permission.CAMERA)
         if (EasyPermissions.hasPermissions(this, *perms)) { //有权限
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                val permissions = arrayOf(
+                    Manifest.permission.READ_EXTERNAL_STORAGE,
+                    Manifest.permission.WRITE_EXTERNAL_STORAGE
+                )
+                permissions.forEach {
+                    if (checkSelfPermission(it) != PackageManager.PERMISSION_GRANTED) {
+                        requestPermissions(permissions, 100)
+                        showShortToast("权限获取失败！")
+                        return
+                    }
+                }
+                //HarmonyOS获取权限
+                if (android.os.Build.BRAND == "Huawei" || android.os.Build.BRAND == "HUAWEI" ||
+                    Build.BRAND == "HONOR"
+                ) {
+                    val permissions = arrayOf(
+                        "ohos.permission.READ_USER_STORAGE",
+                        "ohos.permission.WRITE_USER_STORAGE",
+                        "ohos.permission.DISTRIBUTED_DATASYNC"
+                    )
+                    requestPermissions(permissions,0)
+                }
+            }
             if (mPicList.size >= MAX_SELECT_PIC_NUM) {
                 ToastUtil.showToast(
                     mContext,

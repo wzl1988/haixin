@@ -5,9 +5,9 @@ data class CommonPostModel(
     var GG: String,
     var WPMC: String,
     var JYJG: String,
-    var HGSL: String,
-    var JSSL: String,
-    var BHGSL: String,
+    var HGSL: Double,
+    var JSSL: Double,
+    var BHGSL: Double,
     var SQMS: String,
     var JYYID: String,
     var JYSJ: String,
@@ -18,7 +18,7 @@ data class CommonPostModel(
     var CXID: String,
     var JYGX: String,
     var GXH: String,
-    var JYSL: String,
+    var JYSL: Double,
     var JYMS: String,
     var TMH: String,
     var DJH: String,
@@ -26,7 +26,10 @@ data class CommonPostModel(
     var CGDDH: String,
     var JYDH: String,
     var JYLXM: String,//检验类型
-    var DATA: ArrayList<BtBean>,
+    var LZKKH:String,
+    var SAPDDH:String,
+    var JYYXM: String,
+    var DATA: ArrayList<InspectionitemModel>,
     var BLYY: ArrayList<BlxxBean>
 ) {
     constructor() : this(
@@ -34,6 +37,9 @@ data class CommonPostModel(
         "",
         "",
         "",
+        0.0,
+        0.0,
+        0.0,
         "",
         "",
         "",
@@ -44,7 +50,7 @@ data class CommonPostModel(
         "",
         "",
         "",
-        "",
+        0.0,
         "",
         "",
         "",
@@ -59,3 +65,75 @@ data class CommonPostModel(
         ArrayList()
     )
 }
+
+
+//修改后的提价model
+data class CheckPostModel(
+    var tpwjm: String, //图片地址
+    var BLYY: ArrayList<BlxxBean>,
+    var DATA: List<InspectionitemModel>,
+    var bhgsl: Double,
+    var cjbh: String,
+    var cjmc: String,
+    var czr: String,
+    var czrid: String,
+    var czrq: String,
+    var gg: String,
+    var gxh: String,
+    var gxmc: String,
+    var hgsl: Double,
+    var jgdybh: String,
+    var jgdymc: String,
+    var jyjg: String,
+    var jylx: String,
+    var jyms: String,
+    var jysj: String,
+    var jysl: Double,
+    var lzkkh: String,
+    var rwdh: String,
+    var sapddh: String,
+    var wph: String,
+    var wpmc: String,
+    var zjrwdh: String,
+    var cxid:String,
+    var cx:String,
+    var jyfs:String,
+    var jylxmc:String
+){
+    constructor():this(
+        "",
+        ArrayList(),
+        ArrayList(),
+        0.0,
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        0.0,
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        0.0,
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        ""
+    )
+
+
+
+}
+

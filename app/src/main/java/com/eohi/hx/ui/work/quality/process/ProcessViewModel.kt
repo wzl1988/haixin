@@ -25,7 +25,8 @@ class ProcessViewModel : BaseViewModel() {
     var deleteProcess = MutableLiveData<DeleteResult>()
     var blxxList = MutableLiveData<ArrayList<BlxxBean>>()
     var jylxBean = MutableLiveData<ArrayList<JylxBean>>()
-
+    var kgInfoList = MutableLiveData<ArrayList<KgInfoModel>>()
+    var InspectionitemModelList = MutableLiveData<ArrayList<InspectionitemModel>>()
     fun getJylx(flbm: String) {
         launchList({ httpUtil.getJylx(flbm) }, jylxBean)
     }
@@ -33,6 +34,16 @@ class ProcessViewModel : BaseViewModel() {
     fun getBlxx() {
         launchList({ httpUtil.getBlxx() }, blxxList)
     }
+
+    fun getKgInfo(cardno: String) {
+        launchList(
+            { httpUtil.getKgInfoByCard(cardno) },
+            kgInfoList,
+            isShowLoading = true,
+            successCode = 200
+        )
+    }
+
 
     fun delete(gdh: String, jydh: String) {
         viewModelScope.launch {
@@ -57,14 +68,14 @@ class ProcessViewModel : BaseViewModel() {
         )
     }
 
-    fun postResponse(model: CommonPostModel) {
+    fun postResponse(model: CheckPostModel) {
         launchList(
             {
                 httpUtil.postGCXJ(model)
             },
             response,
             isShowLoading = true,
-            isShowError = true
+            isShowError = true,
         )
     }
 
@@ -162,5 +173,18 @@ class ProcessViewModel : BaseViewModel() {
             }
         }
     }
+
+
+
+    fun getInspectionItems(wph:String,gxh:String,gsh:String){
+        launchList(
+            { httpUtil.getProcessInsList(wph,gxh,gsh) },
+            InspectionitemModelList,
+            isShowLoading = true,
+            isShowError = true,
+            successCode = 200
+        )
+    }
+
 
 }

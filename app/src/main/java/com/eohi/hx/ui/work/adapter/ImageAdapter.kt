@@ -1,5 +1,6 @@
 package com.eohi.hx.ui.work.adapter
 
+import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
@@ -30,6 +31,7 @@ class ImageAdapter(context: AppCompatActivity, listDatas: ArrayList<String>) :
     ) {
     @Suppress("MISSING_DEPENDENCY_CLASS")
     override fun convert(v: LayoutPhotoItemBinding, t: String, position: Int) {
+        Log.i("imageurl",t)
         if (mContext.javaClass == IncomingDetailActivity::class.java || mContext.javaClass == FirstDetailActivity::class.java
             || mContext.javaClass == ProcessDetailActivity::class.java || mContext.javaClass == FinishDetailActivity::class.java
             || mContext.javaClass == DeliveryDetailActivity::class.java

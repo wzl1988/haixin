@@ -361,6 +361,7 @@
                             android:layout_marginStart="20dp"
                             android:background="@drawable/shape_rectangular_in_edit_bg"
                             android:enabled="false"
+                            android:inputType="numberDecimal"
                             android:hint="@string/please_input"
                             android:padding="5dp"
                             android:textSize="@dimen/font_middle" />

@@ -225,6 +225,7 @@
                             android:layout_marginStart="20dp"
                             android:background="@drawable/shape_rectangular_in_edit_bg"
                             android:gravity="top"
+                            android:inputType="numberDecimal"
                             android:hint="@string/please_input"
                             android:padding="5dp"
                             android:textSize="@dimen/font_middle" />
@@ -254,6 +255,7 @@
                             android:layout_marginStart="5dp"
                             android:background="@drawable/shape_rectangular_in_edit_bg"
                             android:gravity="top"
+                            android:inputType="numberDecimal"
                             android:hint="@string/please_input"
                             android:padding="5dp"
                             android:textSize="@dimen/font_middle" />
@@ -284,6 +286,7 @@
                             android:background="@drawable/shape_rectangular_in_edit_bg"
                             android:gravity="top"
                             android:hint="@string/please_input"
+                            android:inputType="numberDecimal"
                             android:padding="5dp"
                             android:textSize="@dimen/font_middle" />
 

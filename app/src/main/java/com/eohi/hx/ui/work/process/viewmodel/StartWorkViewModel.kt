@@ -11,7 +11,8 @@ class StartWorkViewModel : BaseViewModel() {
     var jgdyList = MutableLiveData<ArrayList<JgdyModel>>()
     var gxList = MutableLiveData<ArrayList<GxModel>>()
     var kgpostresult = MutableLiveData<ArrayList<SubmitResult>>()
-
+    var suspendresult = MutableLiveData<ArrayList<SubmitResult>>()
+    var recoverresult = MutableLiveData<ArrayList<SubmitResult>>()
     fun startWork(kgPostModel: KgPostModel) {
         launchList(
             { httpUtil.postKg(kgPostModel) },
@@ -20,6 +21,26 @@ class StartWorkViewModel : BaseViewModel() {
             successCode = 200
         )
     }
+
+    fun postSuspend(kgPostModel: KgPostModel){
+        launchList(
+            { httpUtil.postSuspend(kgPostModel) },
+            suspendresult,
+            isShowLoading = true,
+            successCode = 200
+        )
+    }
+
+    fun postRecover(kgPostModel: KgPostModel){
+        launchList(
+            { httpUtil.postRecover(kgPostModel) },
+            recoverresult,
+            isShowLoading = true,
+            successCode = 200
+        )
+    }
+
+
 
     fun getKgInfo(cardno: String) {
         launchList(

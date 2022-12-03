@@ -38,10 +38,13 @@ import com.eohi.hx.ui.work.purchasein.FinishingInActivity
 import com.eohi.hx.ui.work.purchasein.InstorageActivity
 import com.eohi.hx.ui.work.purchasein.retreat.ProcurementRetreatActivity
 import com.eohi.hx.ui.work.quality.delivery.DeliveryListActivity
+import com.eohi.hx.ui.work.quality.finish.FinishCheckActivity
 import com.eohi.hx.ui.work.quality.finish.FinishListActivity
 import com.eohi.hx.ui.work.quality.first.FirstCheckListActivity
 import com.eohi.hx.ui.work.quality.incoming.IncomingListActivity
+import com.eohi.hx.ui.work.quality.process.ProcessCheckActivity
 import com.eohi.hx.ui.work.quality.process.ProcessListActivity
+import com.eohi.hx.ui.work.quality.register.InspectionRegisterActivity
 import com.eohi.hx.ui.work.quality.rejects.RejectsListActivity
 import com.eohi.hx.ui.work.quality.unqualified.UnQualifiedReportActivity
 import com.eohi.hx.ui.work.sales.delivery.SalesDeliveryOutActivity
@@ -70,7 +73,9 @@ class WorkFragment : BaseFragment<BaseViewModel, FragmentWorkNewBinding>() {
     lateinit var workmenus: ArrayList<Secondcd>
     var pointResult = MutableLiveData<ArrayList<EquipNumModel>>()
     val list = ArrayList<ImageViewModel>()
+    val zllist = ArrayList<ImageViewModel>()
     lateinit var zzpadapter:ImageViewAdapter
+    lateinit var zladpater:ImageViewAdapter
     override fun isNeedEventBus(): Boolean {
         return false
     }
@@ -82,6 +87,14 @@ class WorkFragment : BaseFragment<BaseViewModel, FragmentWorkNewBinding>() {
                     for (i in list.indices) {
                         if (pointlist.name == "不良品列表" && list[i].str == "不良品判定") {
                             list[i].number = pointlist.count
+                        }
+                    }
+
+                    for (index in zllist.indices){
+                        if (pointlist.name == "首件检验" && zllist[index].str == "首件检验") {
+                            zllist[index].number = pointlist.count
+                            zladpater.notifyItemChanged(index)
+                            break
                         }
                     }
                 }
@@ -136,6 +149,8 @@ class WorkFragment : BaseFragment<BaseViewModel, FragmentWorkNewBinding>() {
                 }
 
             }
+
+
         })
     }
 
@@ -345,43 +360,41 @@ class WorkFragment : BaseFragment<BaseViewModel, FragmentWorkNewBinding>() {
 
     //质量管理
     private fun initZlgl(zlgl: ArrayList<Threecd>?) {
-        val list = ArrayList<ImageViewModel>()
 
         for (i in zlgl!!.indices) {
             when (zlgl[i].cdbh2) {
                 "D010601" -> {
                     if (zlgl[i].ifyqx2 == 1)
-                        list.add(ImageViewModel(R.mipmap.work_zl_lljy, "来料检验",zlgl[i].ftpdjmc))
+                        zllist.add(ImageViewModel(R.mipmap.work_zl_lljy, "来料检验",zlgl[i].ftpdjmc))
                 }
                 "D010602" -> {
                     if (zlgl[i].ifyqx2 == 1)
-                        list.add(ImageViewModel(R.mipmap.work_zl_sjjy, "首件检验",zlgl[i].ftpdjmc))
+                        zllist.add(ImageViewModel(R.mipmap.work_zl_sjjy, "首件检验",zlgl[i].ftpdjmc))
                 }
                 "D010603" -> {
                     if (zlgl[i].ifyqx2 == 1)
-                        list.add(ImageViewModel(R.mipmap.work_zl_gcyj, "过程检验",zlgl[i].ftpdjmc))
+                        zllist.add(ImageViewModel(R.mipmap.work_zl_gcyj, "过程检验",zlgl[i].ftpdjmc))
                 }
                 "D010604" -> {
                     if (zlgl[i].ifyqx2 == 1)
-                        list.add(ImageViewModel(R.mipmap.work_zl_wgjy, "完工检验",zlgl[i].ftpdjmc))
+                        zllist.add(ImageViewModel(R.mipmap.work_zl_wgjy, "完工检验",zlgl[i].ftpdjmc))
                 }
                 "D010605" -> {
                     if (zlgl[i].ifyqx2 == 1)
-                        list.add(ImageViewModel(R.mipmap.work_zl_fhjy, "发货检验",zlgl[i].ftpdjmc))
+                        zllist.add(ImageViewModel(R.mipmap.work_zl_fhjy, "发货检验",zlgl[i].ftpdjmc))
                 }
-//                "D010606" -> {
-//                    if (zlgl[i].ifyqx2 == 1)
-//                        list.add(ImageViewModel(R.mipmap.work_zl_bhgpdj, zlgl[i].cdmc2,zlgl[i].ftpdjmc))
-//                }
             }
         }
 
-        val adapter = ImageViewAdapter(mContext, list)
+
+        zllist.add(ImageViewModel(R.mipmap.work_sjdj, "送检登记",""))
+
+        zladpater = ImageViewAdapter(mContext, zllist)
         v.rcZlgl.let {
             it.layoutManager = GridLayoutManager(mContext, 4)
-            it.adapter = adapter
+            it.adapter = zladpater
         }
-        adapter.onNewItemClick {image,url->
+        zladpater.onNewItemClick {image,url->
             val intent = Intent()
             intent.putExtra("conmap",url)
             when (image) {
@@ -394,15 +407,19 @@ class WorkFragment : BaseFragment<BaseViewModel, FragmentWorkNewBinding>() {
                     startActivity(intent)
                 }
                 R.mipmap.work_zl_gcyj -> {
-                    intent.setClass(mContext, ProcessListActivity::class.java)
+                    intent.setClass(mContext, ProcessCheckActivity::class.java)
                     startActivity(intent)
                 }
                 R.mipmap.work_zl_wgjy -> {
-                    intent.setClass(mContext, FinishListActivity::class.java)
+                    intent.setClass(mContext, FinishCheckActivity::class.java)
                     startActivity(intent)
                 }
                 R.mipmap.work_zl_fhjy -> {
                     intent.setClass(mContext, DeliveryListActivity::class.java)
+                    startActivity(intent)
+                }
+                R.mipmap.work_sjdj->{
+                    intent.setClass(mContext, InspectionRegisterActivity::class.java)
                     startActivity(intent)
                 }
             }

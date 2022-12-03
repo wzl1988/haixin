@@ -16,13 +16,14 @@ import okhttp3.MultipartBody
 class FirstCheckViewModel : BaseViewModel() {
 
     var firstCheckList = MutableLiveData<ArrayList<FirstCheckListResult>>()
+    var odlchecklist =  MutableLiveData<ArrayList<OldFirstCheckListResult>>()
     var resultFile = MutableLiveData<FileUploadResult.DataBean>()
     var dataList = MutableLiveData<CommonDetailModel>()
     var firstCheckPostResult = MutableLiveData<BaseResModel<SubmitResult>>()
     var deleteFirstCheck = MutableLiveData<DeleteResult>()
     var blxxList = MutableLiveData<ArrayList<BlxxBean>>()
     var jylxBean = MutableLiveData<ArrayList<JylxBean>>()
-
+    var InspectionitemModelList = MutableLiveData<ArrayList<InspectionitemModel>>()
     fun getJylx(flbm: String) {
         launchList({ httpUtil.getJylx(flbm) }, jylxBean)
     }
@@ -81,14 +82,18 @@ class FirstCheckViewModel : BaseViewModel() {
         }
     }
 
-    fun postCheckFirst(commonPostModel: CommonPostModel) {
+    fun postCheckFirst(commonPostModel: CheckPostModel) {
         showLoading()
         viewModelScope.launch {
             try {
                 val result = withContext(Dispatchers.IO) {
                     httpUtil.postFirstCheck(commonPostModel)
                 }
-                firstCheckPostResult.value = result
+                if(result.code==200){
+                    firstCheckPostResult.value = result
+                }else{
+                    showError(ErrorResult(result.code, result.msg, true))
+                }
                 dismissLoading()
             } catch (e: Exception) {
                 val errorResult = ErrorUtil.getError(e)
@@ -140,6 +145,7 @@ class FirstCheckViewModel : BaseViewModel() {
         }
     }
 
+    //未启用
     fun getFirstCheckList(hashMap: HashMap<String, String>) {
         launchList(
             { httpUtil.getFirstCheckList(hashMap) },
@@ -149,13 +155,36 @@ class FirstCheckViewModel : BaseViewModel() {
         )
     }
 
+    fun getFirstCheckList(userid:String) {
+        launchList(
+            { httpUtil.getFirstCheckList(userid) },
+            firstCheckList,
+            isShowLoading = true,
+            isShowError = true,
+            successCode = 200
+        )
+    }
+
     fun getFirstCheckResultList(hashMap: HashMap<String, String>) {
         launchList(
             { httpUtil.getFirstCheckResultList(hashMap) },
-            firstCheckList,
+            odlchecklist,
             isShowLoading = true,
             isShowError = true
         )
     }
+
+
+    fun getInspectionItems(wph:String,gsh:String){
+        launchList(
+            { httpUtil.getInspectionItems(wph,gsh) },
+            InspectionitemModelList,
+            isShowLoading = true,
+            isShowError = true,
+            successCode = 200
+        )
+    }
+
+
 
 }

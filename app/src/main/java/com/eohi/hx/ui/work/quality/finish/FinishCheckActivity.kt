@@ -1,15 +1,22 @@
 package com.eohi.hx.ui.work.quality.finish
 
 import android.Manifest
+import android.annotation.SuppressLint
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
+import android.content.pm.PackageManager
 import android.net.Uri
+import android.os.Build
 import android.text.Editable
 import android.text.TextUtils
 import android.text.TextWatcher
+import android.view.MotionEvent
+import android.view.View
 import android.widget.Toast
+import androidx.annotation.RequiresApi
+import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.donkingliang.imageselector.utils.ImageSelector
 import com.eohi.hx.App.Companion.postPhoto
@@ -21,10 +28,10 @@ import com.eohi.hx.event.EventCode
 import com.eohi.hx.event.EventMessage
 import com.eohi.hx.ui.plusimage.PlusImageActivity
 import com.eohi.hx.ui.work.adapter.ImageAdapter
-import com.eohi.hx.ui.work.adapter.ZjxmAdapter
+import com.eohi.hx.ui.work.adapter.InspectionItemAdapter
 import com.eohi.hx.ui.work.model.BlxxBean
-import com.eohi.hx.ui.work.model.BtBean
 import com.eohi.hx.ui.work.model.CommonPostModel
+import com.eohi.hx.ui.work.model.InspectionitemModel
 import com.eohi.hx.ui.work.quality.incoming.IncomingCheckActivity
 import com.eohi.hx.ui.work.quality.incoming.IncomingCheckActivity.Companion.RC_CAMERA
 import com.eohi.hx.ui.work.quality.incoming.IncomingCheckActivity.Companion.REQUEST_CODE
@@ -33,6 +40,9 @@ import com.eohi.hx.utils.Extensions.asColor
 import com.eohi.hx.utils.Extensions.gone
 import com.eohi.hx.utils.Extensions.show
 import com.eohi.hx.utils.Extensions.showAlertDialog
+import com.eohi.hx.utils.Extensions.showLongToast
+import com.eohi.hx.utils.Extensions.showShortToast
+import com.eohi.hx.utils.LogUtil
 import com.eohi.hx.utils.StatusBarUtil
 import com.eohi.hx.utils.ToastUtil
 import com.eohi.hx.view.ListDialog
@@ -46,6 +56,7 @@ import okhttp3.RequestBody
 import pub.devrel.easypermissions.AfterPermissionGranted
 import pub.devrel.easypermissions.EasyPermissions
 import java.io.File
+import java.lang.Exception
 
 /*
 * 完工检验
@@ -53,8 +64,8 @@ import java.io.File
 class FinishCheckActivity : BaseActivity<FinishViewModel, ActivityFinishCheckBinding>(),
     EasyPermissions.PermissionCallbacks {
 
-    private lateinit var adapter: ZjxmAdapter
-    private lateinit var list: ArrayList<BtBean>
+    private lateinit var adapter: InspectionItemAdapter
+    private lateinit var list: ArrayList<InspectionitemModel>
     var imgAdapter: ImageAdapter? = null
     var mPicList = ArrayList<String>()
     private lateinit var filterGdhList: ArrayList<String>
@@ -72,6 +83,8 @@ class FinishCheckActivity : BaseActivity<FinishViewModel, ActivityFinishCheckBin
 
     companion object {
         var type = ""
+        const val REQUEST_TMH = 0x001
+        const val REQUEST_LZK = 0x002
     }
 
     override fun isNeedEventBus(): Boolean {
@@ -87,7 +100,6 @@ class FinishCheckActivity : BaseActivity<FinishViewModel, ActivityFinishCheckBin
             v.tvYjsl.gone()
             v.etJysl.gone()
             v.tvTmh.gone()
-            v.etTmh.gone()
             v.btnGdh.isEnabled = false
             v.etHgsl.isEnabled = false
             v.tvGdh.isEnabled = false
@@ -98,13 +110,7 @@ class FinishCheckActivity : BaseActivity<FinishViewModel, ActivityFinishCheckBin
 
         vm.getBlxx()
 
-        adapter = ZjxmAdapter(this, list, fun(i: Int, b: Boolean) {
-            if (b) {
-                list[i].PDJG = "1"
-            } else {
-                list[i].PDJG = "2"
-            }
-        }, ::onTextResult)
+        adapter = InspectionItemAdapter(this, list, ::onTextResult)
         v.rc.layoutManager = LinearLayoutManager(this)
         v.rc.adapter = adapter
 
@@ -176,17 +182,56 @@ class FinishCheckActivity : BaseActivity<FinishViewModel, ActivityFinishCheckBin
     }
 
     private fun onTextResult(i: Int, s: String) {
-        list[i].JYZ = s
+        list[i].scz = s
     }
-
+    @SuppressLint("ClickableViewAccessibility")
     override fun initClick() {
         v.ivBack clicks { finish() }
         v.imageAdd clicks {
-            takeCameraPermissions()
+            try {
+                takeCameraPermissions()
+            }catch (e:Exception){
+                showLongToast(e.message.toString())
+            }
+
         }
-        v.tvTmh clicks {
-            checkCameraPermissions()
-        }
+        v.tvTmh.setOnTouchListener(object : View.OnTouchListener {
+            override fun onTouch(view: View?, event: MotionEvent?): Boolean {
+                // getCompoundDrawables获取是一个数组，数组0,1,2,3,对应着左，上，右，下 这4个位置的图片，如果没有就为null
+                val drawable =  v.tvTmh.compoundDrawables[2]
+                //如果不是按下事件，不再处理
+                if (event?.action != MotionEvent.ACTION_DOWN) {
+                    return false
+                }
+                if (event.x >  v.tvTmh.width
+                    - v.tvTmh.paddingRight
+                    - drawable.intrinsicWidth
+                ) {
+                    //具体操作
+                    checkCameraPermissions(REQUEST_TMH)
+                }
+                return false
+            }
+        })
+
+        v.tvLzkbh.setOnTouchListener(object : View.OnTouchListener {
+            override fun onTouch(view: View?, event: MotionEvent?): Boolean {
+                // getCompoundDrawables获取是一个数组，数组0,1,2,3,对应着左，上，右，下 这4个位置的图片，如果没有就为null
+                val drawable =  v.tvLzkbh.compoundDrawables[2]
+                //如果不是按下事件，不再处理
+                if (event?.action != MotionEvent.ACTION_DOWN) {
+                    return false
+                }
+                if (event.x >  v.tvLzkbh.width
+                    - v.tvLzkbh.paddingRight
+                    - drawable.intrinsicWidth
+                ) {
+                    //具体操作
+                    checkCameraPermissions(REQUEST_LZK)
+                }
+                return false
+            }
+        })
         v.btnPost clicks {
             if (type == "modify") {
                 when {
@@ -215,15 +260,17 @@ class FinishCheckActivity : BaseActivity<FinishViewModel, ActivityFinishCheckBin
                         model.WPMC = v.tvWpmc.text.toString()
                         model.GG = v.tvGgms.text.toString()
                         model.JYJG = if (v.pass.isChecked) "1" else "2"
-                        model.HGSL = v.etHgsl.text.toString()
-                        model.BHGSL = v.etBhgsl.text.toString()
+                        model.HGSL = if(v.etHgsl.text.toString().isEmpty()) 0.0 else v.etHgsl.text.toString().toDouble()
+                        model.BHGSL =if(v.etBhgsl.text.toString().isEmpty()) 0.0 else v.etBhgsl.text.toString().toDouble()
                         model.GDH = v.tvGdh.text.toString()
-                        model.JYSL = v.etJysl.text.toString()
+                        model.JYSL = if(v.etJysl.text.toString().isEmpty()) 0.0 else v.etJysl.text.toString().toDouble()
                         model.JYMS = v.etJyms.text.toString()
-                        model.TMH = v.etTmh.text.toString()
+                        model.TMH = v.tvTmh.text.toString()
                         model.DATA = list
                         model.BLYY = postBlxxList
+                        model.SAPDDH = v.tvSapddh.text.toString()
                         model.JYYID = accout
+                        model.LZKKH = v.tvLzkbh.text.toString()
                         model.JYSJ = v.tvRq.text.toString()
                         vm.modifyFinishCheck(model)
                     }
@@ -259,16 +306,20 @@ class FinishCheckActivity : BaseActivity<FinishViewModel, ActivityFinishCheckBin
                         model.WPMC = v.tvWpmc.text.toString()
                         model.GG = v.tvGgms.text.toString()
                         model.JYJG = if (v.pass.isChecked) "1" else "2"
-                        model.HGSL = v.etHgsl.text.toString()
-                        model.BHGSL = v.etBhgsl.text.toString()
+                        model.HGSL = if(v.etHgsl.text.toString().isEmpty()) 0.0 else v.etHgsl.text.toString().toDouble()
+                        model.BHGSL =if(v.etBhgsl.text.toString().isEmpty()) 0.0 else v.etBhgsl.text.toString().toDouble()
                         model.GDH = v.tvGdh.text.toString()
-                        model.JYSL = v.etJysl.text.toString()
+                        model.JYSL = if(v.etJysl.text.toString().isEmpty()) 0.0 else v.etJysl.text.toString().toDouble()
                         model.JYMS = v.etJyms.text.toString()
-                        model.TMH = v.etTmh.text.toString()
+                        model.TMH = v.tvTmh.text.toString()
                         model.DATA = list
                         model.BLYY = postBlxxList
                         model.JYYID = accout
+                        model.SAPDDH = v.tvSapddh.text.toString()
+                        model.LZKKH = v.tvLzkbh.text.toString()
                         model.JYSJ = v.tvRq.text.toString()
+                        model.JYYXM = username
+
                         vm.postFinishCheck(model)
                     }
                 }
@@ -388,95 +439,112 @@ class FinishCheckActivity : BaseActivity<FinishViewModel, ActivityFinishCheckBin
         }
 
         vm.response.observe(this) {
-            if (it[0].returncode == 1000) {
-                Toast.makeText(this, it[0].returnmsg, Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "提交成功", Toast.LENGTH_SHORT).show()
                 Event.getInstance().post(EventMessage(EventCode.REFRESH))
                 finish()
-            }
         }
         vm.detailmodel.observe(this) { it ->
             if (it.data.list.size > 0) {
-                if (type == "modify") {
-
-                    v.tvGdh.text = it.data.list[0].GDH
-                    v.tvSapddh.text = it.data.list[0].SAPDDH
-                    v.tvWpmc.text = it.data.list[0].WPMC
-                    v.tvGgms.text = it.data.list[0].GGMS
-
-                    total = if (type == "modify") {
-                        (it.data.list[0].HGSL.toDouble() + it.data.list[0].BHGSL.toDouble()).toString()
-                    } else {
-                        it.data.list[0].JYSL
-                    }
-
-                    if (it.data.BLYY != null && it.data.BLYY.size > 0) {
-                        var str = ""
-                        it.data.BLYY.forEachIndexed { i, bean ->
-                            str += if (i == it.data.BLYY.size - 1) {
-                                bean.xxsm
-                            } else {
-                                bean.xxsm + ","
-                            }
-                        }
-                        v.tvBlxx.text = str
-                        postBlxxList = it.data.BLYY
-                    }
-
-                    v.etHgsl.setText(it.data.list[0].HGSL)
-                    v.etBhgsl.setText(it.data.list[0].BHGSL)
-
-                    if (it.data.list[0].JYJG == "1") {
-                        v.pass.isChecked = true
-                    } else if (it.data.list[0].JYJG == "2") {
-                        v.unPass.isChecked = true
-                    }
-
-                    if (it.data.list[0].TPWJM != "") {
-                        it.data.list[0].TPWJM.trim().split(",").forEach {
-                            postPhoto.add(it)
-                            mPicList.add("$apiurl/apidefine/image?filename=$it")
-                        }
-                    }
-
-                    imgAdapter?.notifyDataSetChanged()
-
-                    v.etJyms.setText(it.data.list[0].JYMS)
-                    v.tvCzy.text = it.data.list[0].JYYXM
-                    v.tvRq.text = it.data.list[0].JYSJ
-                } else {
-                    if (it.data.list[0].GDH != null) {
-                        v.tvGdh.text = it.data.list[0].GDH
-                    }
-
+//                if (type == "modify") {
+//
+//                    v.tvGdh.text = it.data.list[0].GDH
+//                    v.tvSapddh.text = it.data.list[0].SAPDDH
+//                    v.tvWpmc.text = it.data.list[0].WPMC
+//                    v.tvGgms.text = it.data.list[0].GGMS
+//                    v.tvWph.text = it.data.list[0].WPH
+//                    total = if (type == "modify") {
+//                        (it.data.list[0].HGSL.toDouble() + it.data.list[0].BHGSL.toDouble()).toString()
+//                    } else {
+//                        it.data.list[0].JYSL
+//                    }
+//
+//                    if (it.data.BLYY != null && it.data.BLYY.size > 0) {
+//                        var str = ""
+//                        it.data.BLYY.forEachIndexed { i, bean ->
+//                            str += if (i == it.data.BLYY.size - 1) {
+//                                bean.xxsm
+//                            } else {
+//                                bean.xxsm + ","
+//                            }
+//                        }
+//                        v.tvBlxx.text = str
+//                        postBlxxList = it.data.BLYY
+//                    }
+//
+//                    v.etHgsl.setText(it.data.list[0].HGSL)
+//                    v.etBhgsl.setText(it.data.list[0].BHGSL)
+//
+//                    if (it.data.list[0].JYJG == "1") {
+//                        v.pass.isChecked = true
+//                    } else if (it.data.list[0].JYJG == "2") {
+//                        v.unPass.isChecked = true
+//                    }
+//
+//                    if (it.data.list[0].TPWJM != "") {
+//                        it.data.list[0].TPWJM.trim().split(",").forEach {
+//                            postPhoto.add(it)
+//                            mPicList.add("$apiurl/apidefine/image?filename=$it")
+//                        }
+//                    }
+//
+//                    imgAdapter?.notifyDataSetChanged()
+//
+//                    v.etJyms.setText(it.data.list[0].JYMS)
+//                    v.tvCzy.text = it.data.list[0].JYYXM
+//                    v.tvRq.text = it.data.list[0].JYSJ
+//                } else {
+                    if(!it.data.list[0].DJH.isNullOrEmpty())
                     djh = it.data.list[0].DJH
-
                     wph = it.data.list[0].WPH
                     v.tvWpmc.text = it.data.list[0].WPMC
                     v.tvGgms.text = it.data.list[0].GGMS
+                    v.tvWph.text = wph
+                    if(!it.data.list[0].GDH.isNullOrEmpty())
+                    v.tvGdh.text = it.data.list[0].GDH
                     v.tvSapddh.text = it.data.list[0].SAPDDH
-                }
+                    vm.getInspectionItems(wph, companyNo)
+//                vm.getDetailGDH(companyNo,  v.tvGdh.text.toString())
 
-                if (it.data.BT.size > 0) {
-                    v.cardZjxm.show()
-                    list.clear()
-                    list.addAll(it.data.BT)
-                    adapter.notifyDataSetChanged()
-                } else {
-                    v.cardZjxm.gone()
-                }
+//                }
+
+//                if (it.data.BT.size > 0) {
+//                    v.cardZjxm.show()
+//                    list.clear()
+//                    list.addAll(it.data.BT)
+//                    adapter.notifyDataSetChanged()
+//                } else {
+//                    v.cardZjxm.gone()
+//                }
+            }else{
+                v.tvWpmc.text = ""
+                v.tvGgms.text =""
+                v.tvWph.text = ""
+                v.tvSapddh.text = ""
             }
         }
+
+        vm.InspectionitemModelList.observe(this){
+            if(it.isNotEmpty()){
+                v.cardZjxm.show()
+                list.clear()
+                list.addAll(it)
+                adapter.notifyDataSetChanged()
+            }else{
+                v.cardZjxm.gone()
+            }
+        }
+
     }
 
     @AfterPermissionGranted(RC_CAMERA)
-    private fun checkCameraPermissions() {
+    private fun checkCameraPermissions(requestCode:Int) {
         val perms = arrayOf(Manifest.permission.CAMERA)
         if (EasyPermissions.hasPermissions(this, *perms)) { //有权限
             val intent = Intent(this, ScannerActivity::class.java)
             intent.putExtra(Constant.EXTRA_IS_ENABLE_SCAN_FROM_PIC, true)
             intent.putExtra(Constant.EXTRA_SCANNER_FRAME_WIDTH, window.decorView.width / 2)
             intent.putExtra(Constant.EXTRA_SCANNER_FRAME_HEIGHT, window.decorView.width / 2)
-            startActivityForResult(intent, 1)
+            startActivityForResult(intent, requestCode)
         } else {
             // Do not have permissions, request them now
             EasyPermissions.requestPermissions(
@@ -497,9 +565,32 @@ class FinishCheckActivity : BaseActivity<FinishViewModel, ActivityFinishCheckBin
         startActivityForResult(intent, PlusImageActivity.REQUEST_CODE_MAIN)
     }
 
+
+
+
     private fun takeCameraPermissions() {
         val perms = arrayOf(Manifest.permission.CAMERA)
         if (EasyPermissions.hasPermissions(this, *perms)) { //有权限
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                val permissions = arrayOf(
+                    Manifest.permission.READ_EXTERNAL_STORAGE,
+                    Manifest.permission.WRITE_EXTERNAL_STORAGE
+                )
+                permissions.forEach {
+                    if (checkSelfPermission(it) != PackageManager.PERMISSION_GRANTED) {
+                        requestPermissions(permissions, 100)
+                        showShortToast("权限获取失败！")
+                        return
+                    }
+                }
+//                if (android.os.Build.BRAND == "Huawei" || android.os.Build.BRAND == "HUAWEI" ||
+//                    Build.BRAND == "HONOR"
+//                ) {
+//                    requestPermission()
+//                }
+            }
+
             if (mPicList.size >= IncomingCheckActivity.MAX_SELECT_PIC_NUM) {
                 ToastUtil.showToast(
                     mContext,
@@ -526,6 +617,19 @@ class FinishCheckActivity : BaseActivity<FinishViewModel, ActivityFinishCheckBin
         }
     }
 
+
+    //HarmonyOS获取权限
+    @RequiresApi(Build.VERSION_CODES.M)
+    private fun requestPermission() {
+        val permissions = arrayOf(
+            "ohos.permission.READ_USER_STORAGE",
+            "ohos.permission.WRITE_USER_STORAGE",
+            "ohos.permission.DISTRIBUTED_DATASYNC"
+        )
+        requestPermissions(permissions,0)
+    }
+
+
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == REQUEST_CODE && data != null) {
@@ -538,7 +642,7 @@ class FinishCheckActivity : BaseActivity<FinishViewModel, ActivityFinishCheckBin
                 val requestBody: RequestBody =
                     RequestBody.create(MediaType.parse("multipart/form-data"), file)
 
-                var conmap= intent.getStringExtra("conmap")
+                var conmap= intent.getStringExtra("conmap")?:""
                 if(conmap.isNullOrEmpty())
                     conmap ="wangongjianyan"
                 val body = MultipartBody.Builder().setType(MultipartBody.FORM)
@@ -562,14 +666,19 @@ class FinishCheckActivity : BaseActivity<FinishViewModel, ActivityFinishCheckBin
             mPicList.clear()
             mPicList.addAll(toDeletePicList)
             imgAdapter?.notifyDataSetChanged()
-        } else if (requestCode == 1) {
+        } else if (requestCode == REQUEST_TMH) {
             if (resultCode == RESULT_OK) {
-                val result = intent.getStringExtra("scannerdata").toString().trim { it <= ' ' }
-                v.tvTmh.text = result
+                val result = data!!.getStringExtra(Constant.EXTRA_RESULT_CONTENT).toString().trim { it <= ' ' }
+                v.tvTmh.setText(result)
                 vm.getDetailTMH(
                     companyNo,
                     result
                 )
+            }
+        }else if(requestCode == REQUEST_LZK){
+            if (resultCode == RESULT_OK) {
+                val result = data!!.getStringExtra(Constant.EXTRA_RESULT_CONTENT).toString().trim { it <= ' ' }
+                v.tvLzkbh.setText(result)
             }
         }
     }
@@ -606,17 +715,26 @@ class FinishCheckActivity : BaseActivity<FinishViewModel, ActivityFinishCheckBin
         intentFilter.priority = Int.MAX_VALUE
         registerReceiver(scanReceiver, intentFilter)
         super.onResume()
+        v.tvTmh
     }
 
     var scanReceiver: BroadcastReceiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context, intent: Intent) {
             if (intent.action == SCANACTION) {
                 val result = intent.getStringExtra("scannerdata").toString().trim { it <= ' ' }
-                v.tvTmh.text = result
-                vm.getDetailTMH(
-                    companyNo,
-                    result
-                )
+                v.tvTmh.setText(result)
+                when{
+                    v.tvTmh.isFocused->
+                    {
+                        vm.getDetailTMH(
+                            companyNo,
+                            result
+                        )
+                    }
+                    v.tvLzkbh.isFocused->
+                        v.tvLzkbh.setText(result)
+                }
+
             }
         }
     }

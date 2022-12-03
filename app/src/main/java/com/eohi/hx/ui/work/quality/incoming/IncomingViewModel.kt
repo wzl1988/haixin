@@ -20,7 +20,7 @@ class IncomingViewModel : BaseViewModel() {
     var resultFile = MutableLiveData<FileUploadResult.DataBean>()
     var submitmodel = MutableLiveData<BaseResModel<SubmitResult>>()
     var incomingDetail = MutableLiveData<CommonDetailModel>()
-
+    var InspectionitemModelList = MutableLiveData<ArrayList<InspectionitemModel>>()
     var deleteInComing = MutableLiveData<DeleteResult>()
 
     fun delete(rwdh: String) {
@@ -80,7 +80,12 @@ class IncomingViewModel : BaseViewModel() {
                 val result = withContext(Dispatchers.IO) {
                     httpUtil.submitInspection(model)
                 }
-                submitmodel.value = result
+                if(result.code ==1000){
+                    submitmodel.value = result
+                }else{
+                    showError(ErrorResult(result.code, result.msg, true))
+                }
+
                 dismissLoading()
             } catch (e: Exception) {
                 val errorResult = ErrorUtil.getError(e)
@@ -146,6 +151,16 @@ class IncomingViewModel : BaseViewModel() {
             { httpUtil.getIncomingHistoryList(hashMap) },
             incominglist,
             isShowLoading = true
+        )
+    }
+
+    fun getInspectionItems(wph:String,gsh:String){
+        launchList(
+            { httpUtil.getInspectionItems(wph,gsh) },
+            InspectionitemModelList,
+            isShowLoading = true,
+            isShowError = true,
+            successCode = 200
         )
     }
 

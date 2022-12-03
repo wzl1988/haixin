@@ -57,7 +57,9 @@ class PlusImageActivity : BaseActivity<BaseViewModel, ActivityPlusImageBinding>(
         v.backIv.clicks {
             back()
         }
-        v.deleteIv.clicks { deletePic() }
+        v.deleteIv.clicks {
+            deletePic()
+        }
     }
 
     override fun initData() {
@@ -88,7 +90,7 @@ class PlusImageActivity : BaseActivity<BaseViewModel, ActivityPlusImageBinding>(
         normalDialog.setPositiveButton("确定",
             DialogInterface.OnClickListener { dialog, which ->
                 imgList!!.removeAt(mPosition) //从数据源移除删除的图片
-                if (postPhoto.size > 0) {
+                if (postPhoto.size > 0 && mPosition<postPhoto.size) {
                     postPhoto.removeAt(mPosition)
                 }
                 postList?.removeAt(mPosition)

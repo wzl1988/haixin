@@ -40,6 +40,9 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
+
+
+
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
@@ -69,17 +72,48 @@
                         android:layout_height="wrap_content"
                         android:orientation="vertical">
 
+
+                        <RelativeLayout
+                            style="@style/item_text_container"
+                            android:layout_marginTop="10dp">
+
+                            <TextView
+                                style="@style/item_text_name"
+                                android:text="送检单号:" />
+
+                            <TextView
+                                android:id="@+id/tv_sjdh"
+                                style="@style/item_text_content" />
+
+                        </RelativeLayout>
+
+
                         <RelativeLayout style="@style/item_text_container">
 
                             <TextView
                                 style="@style/item_text_name"
-                                android:text="工单号：" />
+                                android:text="流转卡号:" />
 
                             <TextView
-                                android:id="@+id/tv_gdh"
+                                android:id="@+id/tv_lzkh"
                                 style="@style/item_text_content" />
 
                         </RelativeLayout>
+
+                        <RelativeLayout style="@style/item_text_container">
+
+                            <TextView
+                                style="@style/item_text_name"
+                                android:text="任务单号:" />
+
+                            <TextView
+                                android:id="@+id/tv_rwbh"
+                                style="@style/item_text_content" />
+
+                        </RelativeLayout>
+
+
+
                         <RelativeLayout style="@style/item_text_container">
 
                             <TextView
@@ -87,16 +121,17 @@
                                 android:text="生产订单号：" />
 
                             <TextView
-                                android:id="@+id/tv_sapddh"
+                                android:id="@+id/tv_scddh"
                                 style="@style/item_text_content" />
 
                         </RelativeLayout>
+
 
                         <RelativeLayout style="@style/item_text_container">
 
                             <TextView
                                 style="@style/item_text_name"
-                                android:text="物品号：" />
+                                android:text="物品：" />
 
                             <TextView
                                 android:id="@+id/tv_wph"
@@ -104,17 +139,6 @@
 
                         </RelativeLayout>
 
-                        <RelativeLayout style="@style/item_text_container">
-
-                            <TextView
-                                style="@style/item_text_name"
-                                android:text="物品名称：" />
-
-                            <TextView
-                                android:id="@+id/tv_wpmc"
-                                style="@style/item_text_content" />
-
-                        </RelativeLayout>
 
                         <RelativeLayout style="@style/item_text_container">
 
@@ -128,19 +152,74 @@
 
                         </RelativeLayout>
 
-                        <RelativeLayout
-                            style="@style/item_text_container"
-                            android:layout_marginBottom="16dp">
+
+                        <RelativeLayout style="@style/item_text_container">
 
                             <TextView
                                 style="@style/item_text_name"
-                                android:text="任务编号：" />
+                                android:text="工序：" />
 
                             <TextView
-                                android:id="@+id/tv_rwbh"
+                                android:id="@+id/tv_gx"
                                 style="@style/item_text_content" />
 
                         </RelativeLayout>
+
+
+
+
+
+                        <RelativeLayout style="@style/item_text_container">
+
+                            <TextView
+                                style="@style/item_text_name"
+                                android:text="车间：" />
+
+                            <TextView
+                                android:id="@+id/tv_cj"
+                                style="@style/item_text_content" />
+
+                        </RelativeLayout>
+
+                        <RelativeLayout style="@style/item_text_container">
+
+                            <TextView
+                                style="@style/item_text_name"
+                                android:text="加工单元：" />
+
+                            <TextView
+                                android:id="@+id/tv_jgdy"
+                                style="@style/item_text_content" />
+
+                        </RelativeLayout>
+
+
+                        <RelativeLayout style="@style/item_text_container">
+
+                            <TextView
+                                style="@style/item_text_name"
+                                android:text="送检数量：" />
+
+                            <TextView
+                                android:id="@+id/tv_sl"
+                                style="@style/item_text_content" />
+
+                        </RelativeLayout>
+
+
+                        <RelativeLayout style="@style/item_text_container"
+                            android:layout_marginBottom="10dp">
+
+                            <TextView
+                                style="@style/item_text_name"
+                                android:text="送检时间：" />
+
+                            <TextView
+                                android:id="@+id/tv_cjsj"
+                                style="@style/item_text_content" />
+
+                        </RelativeLayout>
+
 
                     </LinearLayout>
 

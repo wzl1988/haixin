@@ -9,7 +9,7 @@ data class CommonDetailModel(
 
 data class DataBean(
     var list: ArrayList<ListBean>,
-    var BT: ArrayList<BtBean>,
+    var BT: ArrayList<InspectionitemModel>,
     var BLYY: ArrayList<BlxxBean>,
     var count: Int
 )
@@ -38,7 +38,7 @@ data class ListBean(
     val TPWJM: String,
     val SJSJ: String,
     val jylxm: String, //检验类型id
-    val JYLX: String,  //检验类型名称
+    val JYLX: String?,  //检验类型名称
     val JYLXMC:String,
     val SAPDDH:String //sap 订单号
 )

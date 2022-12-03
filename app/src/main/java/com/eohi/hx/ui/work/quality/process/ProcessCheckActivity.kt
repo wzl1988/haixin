@@ -1,11 +1,18 @@
 package com.eohi.hx.ui.work.quality.process
 
 import android.Manifest
+import android.annotation.SuppressLint
+import android.content.BroadcastReceiver
+import android.content.Context
 import android.content.Intent
+import android.content.IntentFilter
+import android.content.pm.PackageManager
 import android.net.Uri
+import android.os.Build
 import android.text.Editable
 import android.text.TextUtils
 import android.text.TextWatcher
+import android.view.MotionEvent
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
@@ -21,11 +28,11 @@ import com.eohi.hx.event.EventCode
 import com.eohi.hx.event.EventMessage
 import com.eohi.hx.ui.plusimage.PlusImageActivity
 import com.eohi.hx.ui.work.adapter.ImageAdapter
+import com.eohi.hx.ui.work.adapter.InspectionItemAdapter
 import com.eohi.hx.ui.work.adapter.ZjxmAdapter
-import com.eohi.hx.ui.work.model.BlxxBean
-import com.eohi.hx.ui.work.model.BtBean
-import com.eohi.hx.ui.work.model.CommonPostModel
-import com.eohi.hx.ui.work.model.JylxBean
+import com.eohi.hx.ui.work.model.*
+import com.eohi.hx.ui.work.picking.outbound.PickingOutboundFragment
+import com.eohi.hx.ui.work.quality.incoming.IncomingCheckActivity
 import com.eohi.hx.ui.work.quality.incoming.IncomingCheckActivity.Companion.MAX_SELECT_PIC_NUM
 import com.eohi.hx.ui.work.quality.incoming.IncomingCheckActivity.Companion.REQUEST_CODE
 import com.eohi.hx.utils.DateUtil
@@ -34,15 +41,20 @@ import com.eohi.hx.utils.Extensions.gone
 import com.eohi.hx.utils.Extensions.show
 import com.eohi.hx.utils.Extensions.showAlertDialog
 import com.eohi.hx.utils.Extensions.showShortToast
+import com.eohi.hx.utils.Extensions.trimStr
 import com.eohi.hx.utils.StatusBarUtil
 import com.eohi.hx.utils.ToastUtil
 import com.eohi.hx.view.ListDialog
 import com.eohi.hx.view.MultiListDialog
 import com.eohi.hx.view.MySpinnerAdapter
 import com.eohi.hx.widget.clicks
+import com.example.qrcode.Constant
+import com.example.qrcode.ScannerActivity
+import kotlinx.android.synthetic.main.activity_equipment_maintenance.*
 import okhttp3.MediaType
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
+import pub.devrel.easypermissions.AfterPermissionGranted
 import pub.devrel.easypermissions.EasyPermissions
 import java.io.File
 
@@ -52,8 +64,8 @@ import java.io.File
 class ProcessCheckActivity : BaseActivity<ProcessViewModel, ActivityProcessCheckBinding>(),
     EasyPermissions.PermissionCallbacks {
 
-    private lateinit var adapter: ZjxmAdapter
-    private lateinit var list: ArrayList<BtBean>
+    private lateinit var adapter: InspectionItemAdapter
+    private lateinit var list: ArrayList<InspectionitemModel>
     private lateinit var cxList: ArrayList<String>
     private lateinit var cxidList: ArrayList<String>
     private lateinit var gxList: ArrayList<String>
@@ -81,7 +93,7 @@ class ProcessCheckActivity : BaseActivity<ProcessViewModel, ActivityProcessCheck
     private lateinit var cxDialog: ListDialog
     private lateinit var gdDialog: ListDialog
 
-    private var model = CommonPostModel()
+    private var model = CheckPostModel()
     private var total = "100"
 
     companion object {
@@ -96,21 +108,15 @@ class ProcessCheckActivity : BaseActivity<ProcessViewModel, ActivityProcessCheck
         StatusBarUtil.setColor(this, R.color.white.asColor())
         StatusBarUtil.darkMode(this, true)
 
-        adapter = ZjxmAdapter(this, list, fun(i: Int, b: Boolean) {
-            if (b) {
-                list[i].PDJG = "1"
-            } else {
-                list[i].PDJG = "2"
-            }
-        }, ::onTextResult)
+        adapter = InspectionItemAdapter(this, list, ::onTextResult)
         v.rc.layoutManager = LinearLayoutManager(this)
         v.rc.adapter = adapter
 
         getCXList()
         getGDList()
         vm.getJylx("46")
-
         vm.getBlxx()
+//        vm.getKgInfo( "RWD20221101007975002")
 
         v.spinnerJygx.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(
@@ -121,6 +127,8 @@ class ProcessCheckActivity : BaseActivity<ProcessViewModel, ActivityProcessCheck
             ) {
                 gx = gxList[position]
                 gxh = gxhList[position]
+                vm.getInspectionItems(v.tvWph.text.toString(),gxh, companyNo)
+//                vm.getInspectionItems("100024824","3A009","01")
             }
 
             override fun onNothingSelected(parent: AdapterView<*>?) {
@@ -200,6 +208,7 @@ class ProcessCheckActivity : BaseActivity<ProcessViewModel, ActivityProcessCheck
                     return
                 } else {
                     jylx = jylxList[position - 1].xmfldm
+                    jylxmc = jylxList[position - 1].xmflmc
                 }
             }
 
@@ -209,21 +218,21 @@ class ProcessCheckActivity : BaseActivity<ProcessViewModel, ActivityProcessCheck
 
         }
 
-        if (type == "modify") {
-            v.tvTitle.text = "过程检验修改"
-            v.tvGdh.isEnabled = false
-            v.etHgsl.isEnabled = false
-            v.etJyms.isEnabled = true
-            v.tvYjsl.gone()
-            v.etJysl.gone()
-            vm.getGxList(companyNo, gdh)
-            vm.getDetail(companyNo, gdh, gxh, djh)
-        }
+//        if (type == "modify") {
+//            v.tvTitle.text = "过程检验修改"
+//            v.tvGdh.isEnabled = false
+//            v.etHgsl.isEnabled = false
+//            v.etJyms.isEnabled = true
+//            v.tvYjsl.gone()
+//            v.etJysl.gone()
+//            vm.getGxList(companyNo, gdh)
+//            vm.getDetail(companyNo, gdh, gxh, djh)
+//        }
 
     }
 
     private fun onTextResult(i: Int, s: String) {
-        list[i].JYZ = s
+        list[i].scz = s
     }
 
     private fun getCXList() {
@@ -234,57 +243,29 @@ class ProcessCheckActivity : BaseActivity<ProcessViewModel, ActivityProcessCheck
         vm.getGDList(companyNo)
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     override fun initClick() {
         v.ivBack clicks { finish() }
-        v.btnPost clicks {
-            if (type == "modify") {
-                when {
-                    TextUtils.isEmpty(v.tvCx.text.toString()) -> {
-                        Toast.makeText(this, "请先选择产线", Toast.LENGTH_SHORT).show()
-                    }
-                    TextUtils.isEmpty(v.tvGdh.text.toString()) -> {
-                        Toast.makeText(this, "请选择工单号", Toast.LENGTH_SHORT).show()
-                    }
-                    v.etHgsl.text.toString() == "" -> {
-                        Toast.makeText(this, "请输入合格数量", Toast.LENGTH_SHORT).show()
-                    }
-                    v.etBhgsl.text.toString() == "" -> {
-                        Toast.makeText(this, "请输入不合格数量", Toast.LENGTH_SHORT).show()
-                    }
-                    else -> {
-                        var tpwjm = ""
-                        postPhoto.forEach {
-                            tpwjm += "$it,"
-                        }
-                        model.TPWJM = if (tpwjm == "") "" else tpwjm.substring(0, tpwjm.length - 1)
-                        model.DJH = djh
-                        model.GSH = companyNo
-                        model.WPH = v.tvWph.text.toString()
-                        model.WPMC = v.tvWpmc.text.toString()
-                        model.GG = v.tvGgms.text.toString()
-                        model.JYJG = if (v.pass.isChecked) "1" else "2"
-                        model.HGSL = v.etHgsl.text.toString()
-                        model.BHGSL = v.etBhgsl.text.toString()
-                        model.JYSL = v.etJysl.text.toString()
-                        model.JYMS = v.etJyms.text.toString()
-                        model.GDH = v.tvGdh.text.toString()
-                        model.CX = v.tvCx.text.toString()
-                        model.CXID = cxid
-                        model.JYGX = gx
-                        model.GXH = gxh
-                        model.JYYID = accout
-                        model.JYSJ = v.tvRq.text.toString()
-                        model.DATA = list
-                        model.JYLXM = jylx
-                        model.BLYY = postBlxxList
-                        if (type == "modify") {
-                            vm.modifyResponse(model)
-                        } else {
-                            vm.postResponse(model)
-                        }
-                    }
+
+        v.tvLzkbh.setOnTouchListener(object : View.OnTouchListener {
+            override fun onTouch(view: View?, event: MotionEvent?): Boolean {
+                // getCompoundDrawables获取是一个数组，数组0,1,2,3,对应着左，上，右，下 这4个位置的图片，如果没有就为null
+                val drawable =  v.tvLzkbh.compoundDrawables[2]
+                //如果不是按下事件，不再处理
+                if (event?.action != MotionEvent.ACTION_DOWN) {
+                    return false
                 }
-            } else {
+                if (event.x >  v.tvLzkbh.width
+                    - v.tvLzkbh.paddingRight
+                    - drawable.intrinsicWidth
+                ) {
+                    //具体操作
+                    checkCameraPermissions()
+                }
+                return false
+            }
+        })
+        v.btnPost clicks {
                 when {
                     TextUtils.isEmpty(v.tvCx.text.toString()) -> {
                         Toast.makeText(this, "请先选择产线", Toast.LENGTH_SHORT).show()
@@ -311,35 +292,31 @@ class ProcessCheckActivity : BaseActivity<ProcessViewModel, ActivityProcessCheck
                         postPhoto.forEach {
                             tpwjm += "$it,"
                         }
-                        model.TPWJM = if (tpwjm == "") "" else tpwjm.substring(0, tpwjm.length - 1)
-                        model.DJH = djh
-                        model.GSH = companyNo
-                        model.WPH = v.tvWph.text.toString()
-                        model.WPMC = v.tvWpmc.text.toString()
-                        model.GG = v.tvGgms.text.toString()
-                        model.JYJG = if (v.pass.isChecked) "1" else "2"
-                        model.HGSL = v.etHgsl.text.toString()
-                        model.BHGSL = v.etBhgsl.text.toString()
-                        model.JYSL = v.etJysl.text.toString()
-                        model.JYMS = v.etJyms.text.toString()
-                        model.GDH = v.tvGdh.text.toString()
-                        model.CX = v.tvCx.text.toString()
-                        model.CXID = cxid
-                        model.JYGX = gx
-                        model.GXH = gxh
-                        model.JYYID = accout
-                        model.JYSJ = v.tvRq.text.toString()
+                        model.tpwjm = if (tpwjm == "") "" else tpwjm.substring(0, tpwjm.length - 1)
+                        model.lzkkh = v.tvLzkbh.text.toString().trimStr()
+                        model.cxid = cxid
+                        model.cx = v.tvCx.text.toString()
+                        model.sapddh = v.tvSapddh.text.toString()
+                        model.wph = v.tvWph.text.toString()
+                        model.wpmc = v.tvWpmc.text.toString()
+                        model.gg =  v.tvGgms.text.toString()
+                        model.jyfs = ""
+                        model.jyjg = if (v.pass.isChecked) "合格" else "不合格"
+                        model.jysl =  v.etJysl.text.toString().toDouble()
+                        model.hgsl =  v.etHgsl.text.toString().toDouble()
+                        model.bhgsl = if(v.etBhgsl.text.toString().isEmpty())0.0 else v.etBhgsl.text.toString().toDouble()
+                        model.jylx = jylx
+                        model.jylxmc = jylxmc
+                        model.czr = username
+                        model.czrq= DateUtil.data
+                        model.gxh = gxh
+                        model.gxmc = gx
+                        model.czrid = accout
+                        model.jyms = v.etJyms.text.toString()
                         model.DATA = list
-                        model.JYLXM = jylx
-                        model.BLYY = postBlxxList
-                        if (type == "modify") {
-                            vm.modifyResponse(model)
-                        } else {
-                            vm.postResponse(model)
-                        }
+                        vm.postResponse(model)
                     }
                 }
-            }
         }
         v.imageAdd clicks {
             takeCameraPermissions()
@@ -384,10 +361,10 @@ class ProcessCheckActivity : BaseActivity<ProcessViewModel, ActivityProcessCheck
         v.rg.setOnCheckedChangeListener { _, checkedId ->
             when (checkedId) {
                 R.id.pass -> {
-                    showBlxx(false)
+//                    showBlxx(false)
                 }
                 R.id.unPass -> {
-                    showBlxx(true)
+//                    showBlxx(true)
                 }
             }
         }
@@ -425,21 +402,21 @@ class ProcessCheckActivity : BaseActivity<ProcessViewModel, ActivityProcessCheck
         v.tvCzy.text = accout
         v.tvRq.text = DateUtil.audioTime
 
-        if (intent.hasExtra("type")) {
-            type = intent.getStringExtra("type")
-        }
-        if (intent.hasExtra("GX")) {
-            gx = intent.getStringExtra("GX")
-        }
-        if (intent.hasExtra("GXH")) {
-            gxh = intent.getStringExtra("GXH")
-        }
-        if (intent.hasExtra("GDH")) {
-            gdh = intent.getStringExtra("GDH")
-        }
-        if (intent.hasExtra("DJH")) {
-            djh = intent.getStringExtra("DJH")
-        }
+//        if (intent.hasExtra("type")) {
+//            type = intent.getStringExtra("type")
+//        }
+//        if (intent.hasExtra("GX")) {
+//            gx = intent.getStringExtra("GX")
+//        }
+//        if (intent.hasExtra("GXH")) {
+//            gxh = intent.getStringExtra("GXH")
+//        }
+//        if (intent.hasExtra("GDH")) {
+//            gdh = intent.getStringExtra("GDH")
+//        }
+//        if (intent.hasExtra("DJH")) {
+//            djh = intent.getStringExtra("DJH")
+//        }
 
         list = ArrayList()
         cxList = ArrayList()
@@ -482,103 +459,36 @@ class ProcessCheckActivity : BaseActivity<ProcessViewModel, ActivityProcessCheck
             blxxList.addAll(it)
         }
         vm.detailmodel.observe(this) {
-            if (it.code == 1000) {
-                if (it.data.BT.size <= 0) {
-                    v.cardZjxm.gone()
-                } else {
-                    v.cardZjxm.show()
-                    list.clear()
-                    list.addAll(it.data.BT)
-                    adapter.notifyDataSetChanged()
-                }
-                if (it.data.list.size > 0) {
-                    v.tvCx.text = it.data.list[0].CX
-                    v.tvGdh.text = it.data.list[0].SCRWDH
-                    v.tvWph.text = it.data.list[0].WPH
-                    v.tvWpmc.text = it.data.list[0].WPMC
-                    v.tvGgms.text = it.data.list[0].GGMS
-                    v.tvSapddh.text = it.data.list[0].SAPDDH
-                    if (it.data.list[0].JYJG == "1") {
-                        v.pass.isChecked = true
-                    } else if (it.data.list[0].JYJG == "2") {
-                        v.unPass.isChecked = true
-                    }
-                    jylx = it.data.list[0].JYLX
-                    jylxmc =  it.data.list[0].JYLXMC
-                    for (i in jylxList.indices){
-                        if(jylxList[i].xmfldm ==it.data.list[0].JYLX ){
-                            v.spJylx.setSelection(i+1,true)
-                            break
-                        }
-                    }
 
-                    if (it.data.BLYY != null && it.data.BLYY.size > 0) {
-                        var str = ""
-                        it.data.BLYY.forEachIndexed { index, blxxBean ->
-                            str += if (index == it.data.BLYY.size - 1) {
-                                blxxBean.xxsm
-                            } else {
-                                blxxBean.xxsm + ","
-                            }
-                        }
-                        v.tvBlxx.text = str
-                        postBlxxList = it.data.BLYY
-                    }
-
-                    total = if (type == "modify") {
-                        (it.data.list[0].HGSL.toDouble() + it.data.list[0].BHGSL.toDouble()).toString()
-                    } else {
-                        it.data.list[0].JYSL
-                    }
-
-                    if (!TextUtils.isEmpty(it.data.list[0].TPWJM) && it.data.list[0].TPWJM != "") {
-                        it.data.list[0].TPWJM.trim().split(",").forEach {
-                            postPhoto.add(it)
-                            mPicList.add("$apiurl/apidefine/image?filename=$it")
-                        }
-                    }
-
-                    imgAdapter?.notifyDataSetChanged()
-
-                    v.etHgsl.setText(it.data.list[0].HGSL)
-                    v.etBhgsl.setText(it.data.list[0].BHGSL)
-                    v.etJyms.setText(it.data.list[0].JYMS)
-
-                    v.tvCzy.text = it.data.list[0].JYYXM
-                    v.tvRq.text = it.data.list[0].JYSJ
-                }
-            } else {
-                showShortToast(it.msg)
-            }
         }
         vm.resultFile.observe(this) {
             postPhoto.add(it.list.toString())
         }
         vm.response.observe(this) {
-            if (it[0].returncode == 1000) {
-                Toast.makeText(this, it[0].returnmsg, Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "提交成功", Toast.LENGTH_SHORT).show()
                 finish()
                 Event.getInstance().post(EventMessage(EventCode.REFRESH))
-            }
         }
         vm.gdResult.observe(this) {
-            it.data.list[0].apply {
-                v.tvWph.text = this.WPH
-                v.tvWpmc.text = this.WPMC
-                v.tvGgms.text = this.GGMS
-                v.tvSapddh.text = this.SAPDDH
-                djh = it.data.list[0].DJH
-            }
-            if (it.data.BT.size > 0) {
-                v.cardZjxm.show()
-                list.clear()
-                list.addAll(it.data.BT)
-                adapter.notifyDataSetChanged()
-            } else {
-                v.cardZjxm.gone()
-            }
+//            it.data.list[0].apply {
+//                v.tvWph.text = this.WPH
+//                v.tvWpmc.text = this.WPMC
+//                v.tvGgms.text = this.GGMS
+//                v.tvSapddh.text = this.SAPDDH
+//                djh = it.data.list[0].DJH
+//            }
+//            if (it.data.BT.size > 0) {
+//                v.cardZjxm.show()
+//                list.clear()
+//                list.addAll(it.data.BT)
+//                adapter.notifyDataSetChanged()
+//            } else {
+//                v.cardZjxm.gone()
+//            }
         }
         vm.gxList.observe(this) { it ->
+            if(it.isNullOrEmpty())
+                return@observe
             gxList.clear()
             it.forEach {
                 gxList.add(it.JYGX)
@@ -587,6 +497,8 @@ class ProcessCheckActivity : BaseActivity<ProcessViewModel, ActivityProcessCheck
             val adapter = ArrayAdapter(mContext, android.R.layout.simple_spinner_item, gxList)
             adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
             v.spinnerJygx.adapter = adapter
+            gxh =gxhList[0]
+            gx =gxList[0]
             if (type == "modify") {
                 val position = gxhList.indexOf(gxh)
                 v.spinnerJygx.setSelection(position)
@@ -606,7 +518,48 @@ class ProcessCheckActivity : BaseActivity<ProcessViewModel, ActivityProcessCheck
                 filterMygdhList.add(it.GDH)
             }
         }
+
+
+        vm.kgInfoList.observe(this){
+            if(it.isNotEmpty()){
+                v.tvCx.text = it[0].jgdymc
+                v.tvGdh.text = it[0].rwdh
+                v.tvSapddh.text = it[0].sapddh
+                v.tvWph.text = it[0].wph
+                v.tvWpmc.text = it[0].wpmc
+                v.tvGgms.text = it[0].gg
+                v.etJysl.setText(it[0].scsl.toString())
+                vm.getGxList(companyNo,  it[0].rwdh)
+            }
+        }
+
+        vm.InspectionitemModelList.observe(this){
+            if(it.isNotEmpty()){
+                list.clear()
+                list.addAll(it)
+                adapter.notifyDataSetChanged()
+            }
+        }
+
     }
+
+    @AfterPermissionGranted(IncomingCheckActivity.RC_CAMERA)
+    private fun checkCameraPermissions() {
+        val perms = arrayOf(Manifest.permission.CAMERA)
+        if (EasyPermissions.hasPermissions(this, *perms)) { //有权限
+            val intent = Intent(this, ScannerActivity::class.java)
+            intent.putExtra(Constant.EXTRA_IS_ENABLE_SCAN_FROM_PIC, true)
+            intent.putExtra(Constant.EXTRA_SCANNER_FRAME_WIDTH, window.decorView.width / 2)
+            intent.putExtra(Constant.EXTRA_SCANNER_FRAME_HEIGHT, window.decorView.width / 2)
+            startActivityForResult(intent, 1)
+        } else {
+            // Do not have permissions, request them now
+            EasyPermissions.requestPermissions(
+                this, getString(R.string.permission_camera), IncomingCheckActivity.RC_CAMERA, *perms
+            )
+        }
+    }
+
 
     //查看大图
     private fun viewPluImg(position: Int) {
@@ -623,6 +576,31 @@ class ProcessCheckActivity : BaseActivity<ProcessViewModel, ActivityProcessCheck
     private fun takeCameraPermissions() {
         val perms = arrayOf(Manifest.permission.CAMERA)
         if (EasyPermissions.hasPermissions(this, *perms)) { //有权限
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                val permissions = arrayOf(
+                    Manifest.permission.READ_EXTERNAL_STORAGE,
+                    Manifest.permission.WRITE_EXTERNAL_STORAGE
+                )
+                permissions.forEach {
+                    if (checkSelfPermission(it) != PackageManager.PERMISSION_GRANTED) {
+                        requestPermissions(permissions, 100)
+                        showShortToast("权限获取失败！")
+                        return
+                    }
+                }
+                //HarmonyOS获取权限
+                if (android.os.Build.BRAND == "Huawei" || android.os.Build.BRAND == "HUAWEI" ||
+                    Build.BRAND == "HONOR"
+                ) {
+                    val permissions = arrayOf(
+                        "ohos.permission.READ_USER_STORAGE",
+                        "ohos.permission.WRITE_USER_STORAGE",
+                        "ohos.permission.DISTRIBUTED_DATASYNC"
+                    )
+                    requestPermissions(permissions,0)
+                }
+            }
+
             if (mPicList.size >= MAX_SELECT_PIC_NUM) {
                 ToastUtil.showToast(
                     mContext,
@@ -660,7 +638,7 @@ class ProcessCheckActivity : BaseActivity<ProcessViewModel, ActivityProcessCheck
 
                 val requestBody: RequestBody =
                     RequestBody.create(MediaType.parse("multipart/form-data"), file)
-                var conmap= intent.getStringExtra("conmap")
+                var conmap= intent.getStringExtra("conmap")?:""
                 if(conmap.isNullOrEmpty())
                     conmap ="guochengxunjian"
                 val body = MultipartBody.Builder().setType(MultipartBody.FORM)
@@ -684,6 +662,12 @@ class ProcessCheckActivity : BaseActivity<ProcessViewModel, ActivityProcessCheck
             mPicList.clear()
             mPicList.addAll(toDeletePicList)
             imgAdapter?.notifyDataSetChanged()
+        }else if (requestCode == 1) {
+            if (resultCode == RESULT_OK) {
+                v.tvLzkbh.setText(data?.getStringExtra(Constant.EXTRA_RESULT_CONTENT)!!.trimStr())
+                val lzkh = data.getStringExtra(Constant.EXTRA_RESULT_CONTENT)!!.trim { it <= ' ' }
+                vm.getKgInfo(lzkh)
+            }
         }
     }
 
@@ -711,5 +695,33 @@ class ProcessCheckActivity : BaseActivity<ProcessViewModel, ActivityProcessCheck
             .setMaxSelectCount(MAX_SELECT_PIC_NUM - mPicList.size) // 图片的最大选择数量，小于等于0时，不限数量。
             .start(this, REQUEST_CODE) // 打开相册
     }
+
+
+
+    private val SCANACTION = "com.android.server.scannerservice.broadcast.haixin"
+    override fun onResume() {
+        // 注册广播接收器
+        val intentFilter = IntentFilter(SCANACTION)
+        intentFilter.priority = Int.MAX_VALUE
+        registerReceiver(scanReceiver, intentFilter)
+        super.onResume()
+    }
+
+    var scanReceiver: BroadcastReceiver = object : BroadcastReceiver() {
+        override fun onReceive(context: Context, intent: Intent) {
+            if (intent.action == SCANACTION) {
+                val result = intent.getStringExtra("scannerdata").toString().trimStr()
+                v.tvLzkbh.setText(result)
+                vm.getKgInfo(result)
+            }
+        }
+    }
+
+    override fun onPause() {
+        //取消广播注册
+        unregisterReceiver(scanReceiver)
+        super.onPause()
+    }
+
 
 }

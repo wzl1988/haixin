@@ -124,7 +124,6 @@ class IncomingListActivity : BaseActivity<IncomingViewModel, ActivityIncomingLis
     }
 
     override fun initData() {
-
     }
 
     override fun initVM() {

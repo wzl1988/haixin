@@ -23,6 +23,11 @@ object Extensions {
         this.visibility = View.INVISIBLE
     }
 
+    fun String.trimStr() :String{
+        return this.trim { it <= ' ' }
+    }
+
+
     fun View.gone() {
         this.visibility = View.GONE
     }

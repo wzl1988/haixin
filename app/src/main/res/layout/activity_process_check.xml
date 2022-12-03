@@ -40,11 +40,45 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
+
+    <EditText
+        android:id="@+id/tv_lzkbh"
+        android:layout_width="0dp"
+        android:layout_height="27dp"
+        android:layout_marginEnd="15dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="12dp"
+        android:background="@drawable/shape_rectangular_in_edit_bg"
+        android:drawableRight="@mipmap/ic_scan"
+        android:gravity="center_vertical"
+        android:hint="请扫描流转卡编号"
+        android:padding="5dp"
+        android:textSize="@dimen/font_13sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/tv_lzk_text"
+        app:layout_constraintTop_toBottomOf="@id/cons_title" />
+
+
+    <TextView
+        android:id="@+id/tv_lzk_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="15dp"
+        android:text="流转卡号："
+        android:textColor="@color/black_333333"
+        android:textSize="@dimen/font_15sp"
+        app:layout_constraintBottom_toBottomOf="@id/tv_lzkbh"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/tv_lzkbh" />
+
+
+
+
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
         app:layout_constraintBottom_toTopOf="@id/rl"
-        app:layout_constraintTop_toBottomOf="@id/cons_title">
+        app:layout_constraintTop_toBottomOf="@id/tv_lzkbh">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -539,7 +573,7 @@
                 android:layout_marginTop="12dp"
                 android:layout_marginEnd="15dp"
                 android:background="@color/white"
-                android:visibility="gone">
+                android:visibility="visible">
 
                 <LinearLayout
                     android:layout_width="match_parent"

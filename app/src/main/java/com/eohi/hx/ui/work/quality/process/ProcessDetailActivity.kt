@@ -103,7 +103,7 @@ class ProcessDetailActivity : BaseActivity<ProcessViewModel, ActivityProcessDeta
                 } else {
                     v.cardZjxm.show()
                     list.clear()
-                    list.addAll(it.data.BT)
+//                    list.addAll(it.data.BT)
                     adapter.notifyDataSetChanged()
                 }
                 if (it.data.list.size > 0) {

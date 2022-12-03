@@ -22,7 +22,7 @@ class DeliveryViewModel : BaseViewModel() {
     var response = MutableLiveData<ArrayList<SubmitResult>>()
     var deleteDeliveryCheck = MutableLiveData<DeleteResult>()
     var blxxList = MutableLiveData<ArrayList<BlxxBean>>()
-
+    var InspectionitemModelList = MutableLiveData<ArrayList<InspectionitemModel>>()
     fun getBlxx() {
         launchList({ httpUtil.getBlxx() }, blxxList)
     }
@@ -139,6 +139,16 @@ class DeliveryViewModel : BaseViewModel() {
             }
             dismissLoading()
         }
+    }
+
+    fun getInspectionItems(wph:String,gsh:String){
+        launchList(
+            { httpUtil.getInspectionItems(wph,gsh) },
+            InspectionitemModelList,
+            isShowLoading = true,
+            isShowError = true,
+            successCode = 200
+        )
     }
 
 }

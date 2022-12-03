@@ -9,5 +9,7 @@ data class KgInfoModel(
     val jldw: String,
     val sybzs: String,
     val jgdybh:String,
-    val jgdymc:String
+    val jgdymc:String,
+    val sapddh:String,
+    val scsl:Double
 )

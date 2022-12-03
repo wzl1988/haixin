@@ -154,7 +154,9 @@ class DeliveryListActivity : BaseActivity<DeliveryViewModel, ActivityDeliveryLis
 
     override fun initClick() {
         v.ivBack clicks { finish() }
-        v.ivCheck clicks { startActivity(Intent(this, DeliveryCheckActivity::class.java)) }
+        val mIntent=Intent(this, DeliveryCheckActivity::class.java)
+        mIntent.putExtra("type","add")
+        v.ivCheck clicks { startActivity(mIntent) }
         v.ivSearch clicks {
             popupWindow = PopupWindow(
                 popView,

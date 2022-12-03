@@ -26,6 +26,12 @@ class IncomingListAdapter(mContext: Activity, listData: ArrayList<IncomingListMo
             val intent = Intent(mContext, IncomingCheckActivity::class.java).apply {
                 putExtra("RWDH", t.RWDH)
                 putExtra("cgddh", t.CGDDH)
+                putExtra("wph",t.WPH)
+                putExtra("wpmc",t.WPMC)
+                putExtra("gg",t.GGMS)
+                putExtra("dhsl",t.DHSL)
+                putExtra("jyrq",t.CJRQ)
+                putExtra("type","post")
             }
             mContext.startActivity(intent)
         }

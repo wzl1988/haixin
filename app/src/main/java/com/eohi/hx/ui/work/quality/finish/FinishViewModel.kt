@@ -21,7 +21,7 @@ class FinishViewModel : BaseViewModel() {
     var response = MutableLiveData<ArrayList<SubmitResult>>()
     var deleteFinishCheck = MutableLiveData<DeleteResult>()
     var blxxList = MutableLiveData<ArrayList<BlxxBean>>()
-
+    var InspectionitemModelList = MutableLiveData<ArrayList<InspectionitemModel>>()
     fun getBlxx() {
         launchList({ httpUtil.getBlxx() }, blxxList)
     }
@@ -67,7 +67,7 @@ class FinishViewModel : BaseViewModel() {
             { httpUtil.postFinish(commonPostModel) },
             response,
             isShowLoading = true,
-            isShowError = true
+            isShowError = true,
         )
     }
 
@@ -139,5 +139,17 @@ class FinishViewModel : BaseViewModel() {
             isShowError = true
         )
     }
+
+    fun getInspectionItems(wph:String,gsh:String){
+        launchList(
+            { httpUtil.getInspectionItems(wph,gsh) },
+            InspectionitemModelList,
+            isShowLoading = true,
+            isShowError = true,
+            successCode = 200
+        )
+    }
+
+
 
 }

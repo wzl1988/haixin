@@ -98,6 +98,17 @@ class StartWorkActivity : BaseActivity<StartWorkViewModel, ActivityStartWorkBind
             kgPostModel = KgPostModel(cardno, gxno, sbbh, jgdybh, accout)
             vm.startWork(kgPostModel)
         }
+
+        v.btnSuspend.clicks {
+            kgPostModel = KgPostModel(cardno, gxno, "", jgdybh, accout)
+            vm.postSuspend(kgPostModel)
+        }
+        v
+        v.btnRecovery.clicks {
+            kgPostModel = KgPostModel(cardno, gxno, "", jgdybh, accout)
+            vm.postRecover(kgPostModel)
+        }
+
     }
 
     override fun initData() {
@@ -149,6 +160,17 @@ class StartWorkActivity : BaseActivity<StartWorkViewModel, ActivityStartWorkBind
             finish()
             showShortToast("提交成功")
         }
+
+        vm.suspendresult.observe(this){
+            finish()
+            showShortToast("暂停成功")
+        }
+
+        vm.recoverresult.observe(this){
+            finish()
+            showShortToast("恢复成功")
+        }
+
         vm.gxList.observe(this) { it ->
             listGx.clear()
             it.onEach {

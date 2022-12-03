@@ -110,7 +110,9 @@ class FirstCheckListActivity : BaseActivity<FirstCheckViewModel, ActivityFirstLi
             page++
             getList()
         }
-
+        //设置刷新不可用
+        v.refreshLayout.setEnableRefresh(false)
+        v.refreshLayout.setEnableLoadMore(false)
     }
 
     private fun initMap() {
@@ -126,7 +128,7 @@ class FirstCheckListActivity : BaseActivity<FirstCheckViewModel, ActivityFirstLi
 
     private fun getList() {
         initMap()
-        vm.getFirstCheckList(hashMap)
+        vm.getFirstCheckList(accout)
         v.refreshLayout.finishRefresh()
         v.refreshLayout.finishLoadMore()
     }

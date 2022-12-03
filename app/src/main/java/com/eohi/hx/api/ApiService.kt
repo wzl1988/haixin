@@ -305,6 +305,25 @@ interface ApiService {
     @GET("api/do?method=app_scbg_lzkxx_get")
     suspend fun getKgInfoByCard(@Query("cardno") cardno: String): BaseResModel<KgInfoModel>
 
+
+    @GET("api/do?method=app_scbg_checkuser_get")
+    suspend fun getJYRY(
+        @Query("gsh") gsh: String,
+        @Query("username") username: String
+    ): BaseResModel<PersonModel>
+
+
+    //物品信息
+    @GET("api/do?method=app_qm_wpxx_get")
+    suspend fun getItemInfo(@Query("wph")wph:String):BaseResModel<ItemModel>
+
+    @GET("api/do?method=app_qm_gxxx_get")
+    suspend fun getGXList(@Query("wph")wph:String):BaseResModel<GxListModel>
+
+    //送检登记提交
+    @POST("api/do?method=app_qm_sjd_add")
+    suspend fun postRegister(@Body model:RegisterSubmitModel):BaseResModel<SubmitResult>
+
     //获取个人设备列表
     @GET("api/do?method=app_scbg_sbxx_get")
     suspend fun getPersonalEquipments(
@@ -331,6 +350,15 @@ interface ApiService {
     //开工提交
     @POST("api/do?method=app_scbg_scdj_kg_add")
     suspend fun postKg(@Body kgPostModel: KgPostModel): BaseResModel<SubmitResult>
+
+    //暂停提交
+    @POST("api/do?method=app_scbg_scdj_stop")
+    suspend fun postSuspend(@Body kgPostModel: KgPostModel): BaseResModel<SubmitResult>
+
+    //恢复提交
+    @POST("api/do?method=app_scbg_scdj_recover")
+    suspend fun postRecover(@Body kgPostModel: KgPostModel): BaseResModel<SubmitResult>
+
 
     //流转卡拆卡——获取流转卡信息
     @GET("api/do?method=app_scbg_lzkxx_get")
@@ -418,9 +446,17 @@ interface ApiService {
     @GET("api/do?method=APP_QM_SJJYRWLB")
     suspend fun getFirstCheckList(@QueryMap hashMap: HashMap<String, String>): BaseResModel<FirstCheckListResult>
 
+    //首件检验列表——新版
+    @GET("api/do?method=app_qm_getsjList")
+    suspend fun getFirstCheckList(@Query("userid")userid:String): BaseResModel<FirstCheckListResult>
+
+    //首件检验-来料检验 ——检验项目列表
+    @GET("api/do?method=app_qm_jyxmbywp")
+    suspend fun getInspectionItems(@Query("wph")wph:String,@Query("gsh")gsh:String):BaseResModel<InspectionitemModel>
+
     //首件检验——结果列表
     @GET("api/do?method=APP_QM_SJJYJGLB")
-    suspend fun getFirstCheckResultList(@QueryMap hashMap: HashMap<String, String>): BaseResModel<FirstCheckListResult>
+    suspend fun getFirstCheckResultList(@QueryMap hashMap: HashMap<String, String>): BaseResModel<OldFirstCheckListResult>
 
     //首件检验——处理(任务编号)
     @GET("api/do?method=APP_QM_SJJY_CL_GDH")
@@ -428,7 +464,7 @@ interface ApiService {
 
     //首件检验——提交
     @POST("api/do?method=APP_SJJY_TJ")
-    suspend fun postFirstCheck(@Body commonPostModel: CommonPostModel): BaseResModel<SubmitResult>
+    suspend fun postFirstCheck(@Body commonPostModel: CheckPostModel): BaseResModel<SubmitResult>
 
     //首件检验——结果详情
     @GET("api/do?method=APP_QM_SJJYJGXQ")
@@ -465,6 +501,11 @@ interface ApiService {
     @GET("api/do?method=APP_QM_GCXJ_CXXZ")
     suspend fun getGCCXList(@Query("gsh") gsh: String): BaseResModel<CxBean>
 
+
+    //过程巡检——项目列表
+    @GET("api/do?method=app_qm_jyxmbywpgx")
+    suspend fun getProcessInsList(@Query("wph")wph:String,@Query("gxh")gxh:String,@Query("gsh")gsh:String):BaseResModel<InspectionitemModel>
+
     //过程巡检——工序选择
     @GET("api/do?method=APP_QM_GCXJ_GXXZ")
     suspend fun getGXList(
@@ -481,7 +522,7 @@ interface ApiService {
 
     //过程巡检——提交
     @POST("api/do?method=APP_QM_GCXJ_TJ")
-    suspend fun postGCXJ(@Body model: CommonPostModel): BaseResModel<SubmitResult>
+    suspend fun postGCXJ(@Body model: CheckPostModel): BaseResModel<SubmitResult>
 
     //过程巡检——删除
     @GET("api/do?method=APP_QM_GCXJ_JGSC")

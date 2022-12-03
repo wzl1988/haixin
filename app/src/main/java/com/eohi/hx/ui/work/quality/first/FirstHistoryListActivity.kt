@@ -13,6 +13,7 @@ import com.eohi.hx.event.EventMessage
 import com.eohi.hx.ui.work.adapter.FirstHistoryListAdapter
 import com.eohi.hx.ui.work.model.FirstCheckListResult
 import com.eohi.hx.ui.work.model.JylxBean
+import com.eohi.hx.ui.work.model.OldFirstCheckListResult
 import com.eohi.hx.utils.DateUtil
 import com.eohi.hx.utils.Extensions.asColor
 import com.eohi.hx.utils.Extensions.showShortToast
@@ -22,13 +23,14 @@ import com.eohi.hx.view.MySpinnerAdapter
 import com.eohi.hx.widget.clicks
 import java.util.*
 
+//不启用
 class FirstHistoryListActivity :
     BaseActivity<FirstCheckViewModel, ActivityFirstHistoryListBinding>() {
 
     private lateinit var hashMap: HashMap<String, String>
     private var page: Int = 1
     private lateinit var adapter: FirstHistoryListAdapter
-    private lateinit var list: ArrayList<FirstCheckListResult>
+    private lateinit var list: ArrayList<OldFirstCheckListResult>
     private lateinit var popView: View
     private lateinit var etGdh: EditText
     private lateinit var etWpmc: EditText
@@ -203,7 +205,7 @@ class FirstHistoryListActivity :
     }
 
     override fun initVM() {
-        vm.firstCheckList.observe(this) {
+        vm.odlchecklist.observe(this) {
             if (page == 1) list.clear()
             it.let { it1 -> list.addAll(it1) }
             adapter.notifyDataSetChanged()
