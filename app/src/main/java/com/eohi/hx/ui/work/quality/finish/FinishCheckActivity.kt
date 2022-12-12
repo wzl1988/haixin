@@ -7,6 +7,7 @@ import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
 import android.content.pm.PackageManager
+import android.icu.lang.UCharacter.GraphemeClusterBreak.V
 import android.net.Uri
 import android.os.Build
 import android.text.Editable
@@ -16,7 +17,6 @@ import android.view.MotionEvent
 import android.view.View
 import android.widget.Toast
 import androidx.annotation.RequiresApi
-import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.donkingliang.imageselector.utils.ImageSelector
 import com.eohi.hx.App.Companion.postPhoto
@@ -42,7 +42,6 @@ import com.eohi.hx.utils.Extensions.show
 import com.eohi.hx.utils.Extensions.showAlertDialog
 import com.eohi.hx.utils.Extensions.showLongToast
 import com.eohi.hx.utils.Extensions.showShortToast
-import com.eohi.hx.utils.LogUtil
 import com.eohi.hx.utils.StatusBarUtil
 import com.eohi.hx.utils.ToastUtil
 import com.eohi.hx.view.ListDialog
@@ -187,6 +186,9 @@ class FinishCheckActivity : BaseActivity<FinishViewModel, ActivityFinishCheckBin
     @SuppressLint("ClickableViewAccessibility")
     override fun initClick() {
         v.ivBack clicks { finish() }
+        v.tvHistory.clicks {
+            startActivity(Intent(this,FinishListActivity::class.java))
+        }
         v.imageAdd clicks {
             try {
                 takeCameraPermissions()
@@ -214,24 +216,6 @@ class FinishCheckActivity : BaseActivity<FinishViewModel, ActivityFinishCheckBin
             }
         })
 
-        v.tvLzkbh.setOnTouchListener(object : View.OnTouchListener {
-            override fun onTouch(view: View?, event: MotionEvent?): Boolean {
-                // getCompoundDrawables获取是一个数组，数组0,1,2,3,对应着左，上，右，下 这4个位置的图片，如果没有就为null
-                val drawable =  v.tvLzkbh.compoundDrawables[2]
-                //如果不是按下事件，不再处理
-                if (event?.action != MotionEvent.ACTION_DOWN) {
-                    return false
-                }
-                if (event.x >  v.tvLzkbh.width
-                    - v.tvLzkbh.paddingRight
-                    - drawable.intrinsicWidth
-                ) {
-                    //具体操作
-                    checkCameraPermissions(REQUEST_LZK)
-                }
-                return false
-            }
-        })
         v.btnPost clicks {
             if (type == "modify") {
                 when {
@@ -270,7 +254,7 @@ class FinishCheckActivity : BaseActivity<FinishViewModel, ActivityFinishCheckBin
                         model.BLYY = postBlxxList
                         model.SAPDDH = v.tvSapddh.text.toString()
                         model.JYYID = accout
-                        model.LZKKH = v.tvLzkbh.text.toString()
+                        model.LZKKH = v.tvLzkh.text.toString()
                         model.JYSJ = v.tvRq.text.toString()
                         vm.modifyFinishCheck(model)
                     }
@@ -316,7 +300,7 @@ class FinishCheckActivity : BaseActivity<FinishViewModel, ActivityFinishCheckBin
                         model.BLYY = postBlxxList
                         model.JYYID = accout
                         model.SAPDDH = v.tvSapddh.text.toString()
-                        model.LZKKH = v.tvLzkbh.text.toString()
+                        model.LZKKH = v.tvLzkh.text.toString()
                         model.JYSJ = v.tvRq.text.toString()
                         model.JYYXM = username
 
@@ -383,17 +367,17 @@ class FinishCheckActivity : BaseActivity<FinishViewModel, ActivityFinishCheckBin
     }
 
     private fun showBlxx(isShow: Boolean) {
-        if (isShow) {
-            v.llBlxx.show()
-        } else {
-            v.llBlxx.gone()
-        }
+//        if (isShow) {
+//            v.llBlxx.show()
+//        } else {
+//            v.llBlxx.gone()
+//        }
     }
 
     override fun initData() {
         v.tvCzy.text = accout
         v.tvRq.text = DateUtil.audioTime
-
+        postPhoto.clear()
         if (intent.hasExtra("type")) {
             type = intent.getStringExtra("type")
         }
@@ -410,7 +394,6 @@ class FinishCheckActivity : BaseActivity<FinishViewModel, ActivityFinishCheckBin
         gdhList = ArrayList()
         filterMygdhList = ArrayList()
 
-        postPhoto.clear()
 
         imgAdapter = ImageAdapter(this, mPicList)
         v.rcPhoto.layoutManager =
@@ -502,6 +485,10 @@ class FinishCheckActivity : BaseActivity<FinishViewModel, ActivityFinishCheckBin
                     if(!it.data.list[0].GDH.isNullOrEmpty())
                     v.tvGdh.text = it.data.list[0].GDH
                     v.tvSapddh.text = it.data.list[0].SAPDDH
+                    v.tvLzkh.text = it.data.list[0].LZKKH
+                    v.tvBgjllsh.text = it.data.list[0].BGJYID.toString()
+                    v.tvBgsl.text = it.data.list[0].BGSL.toString()
+                    v.tvGltmh.text = it.data.list[0].GLTMH
                     vm.getInspectionItems(wph, companyNo)
 //                vm.getDetailGDH(companyNo,  v.tvGdh.text.toString())
 
@@ -523,7 +510,7 @@ class FinishCheckActivity : BaseActivity<FinishViewModel, ActivityFinishCheckBin
             }
         }
 
-        vm.InspectionitemModelList.observe(this){
+        vm.inspectionitemModelList.observe(this){
             if(it.isNotEmpty()){
                 v.cardZjxm.show()
                 list.clear()
@@ -678,7 +665,6 @@ class FinishCheckActivity : BaseActivity<FinishViewModel, ActivityFinishCheckBin
         }else if(requestCode == REQUEST_LZK){
             if (resultCode == RESULT_OK) {
                 val result = data!!.getStringExtra(Constant.EXTRA_RESULT_CONTENT).toString().trim { it <= ' ' }
-                v.tvLzkbh.setText(result)
             }
         }
     }
@@ -731,8 +717,6 @@ class FinishCheckActivity : BaseActivity<FinishViewModel, ActivityFinishCheckBin
                             result
                         )
                     }
-                    v.tvLzkbh.isFocused->
-                        v.tvLzkbh.setText(result)
                 }
 
             }

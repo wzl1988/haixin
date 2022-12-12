@@ -30,7 +30,7 @@
             android:layout_width="wrap_content"
             android:layout_height="44dp"
             android:gravity="center"
-            android:text="完工检验详情"
+            android:text="入库检验新增"
             android:textColor="@color/black_333333"
             android:textSize="@dimen/font_17sp"
             android:textStyle="bold"
@@ -38,12 +38,28 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
+        <TextView
+            android:id="@+id/tv_history"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="13dp"
+            android:gravity="center_vertical"
+            android:text="历史记录"
+            android:paddingStart="20dp"
+            android:textSize="@dimen/font_middle"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+
     </androidx.constraintlayout.widget.ConstraintLayout>
+
+
 
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/rl"
         app:layout_constraintTop_toBottomOf="@id/cons_title">
 
         <LinearLayout
@@ -69,18 +85,79 @@
                         android:layout_height="wrap_content"
                         android:orientation="vertical">
 
-                        <RelativeLayout style="@style/item_text_container">
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="15dp"
+                            android:layout_marginTop="10dp"
+                            android:layout_marginEnd="15dp"
+                            android:layout_marginBottom="16dp"
+                            android:gravity="center_vertical">
 
                             <TextView
-                                style="@style/item_text_name"
-                                android:text="工单号:" />
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="条码号:"
+                                android:textColor="@color/black_333333"
+                                android:textSize="@dimen/font_15sp" />
+
+                            <EditText
+                                android:id="@+id/tv_tmh"
+                                android:layout_width="match_parent"
+                                android:layout_height="27dp"
+                                android:layout_marginStart="20dp"
+                                android:layout_marginEnd="15dp"
+                                android:background="@drawable/shape_rectangular_in_edit_bg"
+                                android:drawableRight="@mipmap/ic_scan"
+                                android:hint="扫描条码号"
+                                android:padding="5dp"
+                                android:textSize="@dimen/font_middle" />
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="15dp"
+                            android:layout_marginEnd="15dp"
+                            android:gravity="center_vertical">
+
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="top"
+                                android:layout_weight="1.2"
+                                android:text="工单号:"
+                                android:textColor="@color/black_333333"
+                                android:textSize="@dimen/font_15sp" />
 
                             <TextView
                                 android:id="@+id/tv_gdh"
-                                style="@style/item_text_content" />
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="20dp"
+                                android:layout_weight="3"
+                                android:background="@drawable/shape_rectangular_in_edit_bg"
+                                android:enabled="false"
+                                android:hint="请选择"
+                                android:padding="5dp"
+                                android:textColor="@color/black_333333"
+                                android:textSize="@dimen/font_middle" />
 
-                        </RelativeLayout>
+                            <Button
+                                android:id="@+id/btn_gdh"
+                                android:layout_width="0dp"
+                                android:layout_height="25dp"
+                                android:layout_alignParentRight="true"
+                                android:layout_centerVertical="true"
+                                android:layout_marginStart="10dp"
+                                android:layout_weight="1"
+                                android:background="@drawable/shape_rectangular_button_5_bg"
+                                android:text="选择"
+                                android:textColor="@color/white"
+                                android:textSize="@dimen/font_middle" />
 
+                        </LinearLayout>
                         <RelativeLayout style="@style/item_text_container">
 
                             <TextView
@@ -92,7 +169,17 @@
                                 style="@style/item_text_content" />
 
                         </RelativeLayout>
+                        <RelativeLayout style="@style/item_text_container">
 
+                            <TextView
+                                style="@style/item_text_name"
+                                android:text="物品号：" />
+
+                            <TextView
+                                android:id="@+id/tv_wph"
+                                style="@style/item_text_content" />
+
+                        </RelativeLayout>
 
                         <RelativeLayout style="@style/item_text_container">
 
@@ -118,6 +205,7 @@
                                 style="@style/item_text_content" />
 
                         </RelativeLayout>
+
                         <RelativeLayout
                             style="@style/item_text_container">
 
@@ -174,6 +262,7 @@
                                 style="@style/item_text_content" />
 
                         </RelativeLayout>
+
                     </LinearLayout>
 
                 </RelativeLayout>
@@ -218,10 +307,42 @@
                             android:textColor="@color/black_333333"
                             android:textSize="@dimen/font_15sp" />
 
-                        <TextView
-                            android:id="@+id/tv_pdjg"
-                            style="@style/item_text_content"
-                            android:layout_marginStart="20dp" />
+                        <RadioGroup
+                            android:id="@+id/rg"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="20dp"
+                            android:orientation="horizontal">
+
+                            <RadioButton
+                                android:id="@+id/pass"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:buttonTint="@color/main"
+                                android:checked="true" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="合格"
+                                android:textColor="@color/gray6"
+                                android:textSize="@dimen/font_middle" />
+
+                            <RadioButton
+                                android:id="@+id/unPass"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="15dp"
+                                android:buttonTint="@color/main" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="不合格"
+                                android:textColor="@color/gray6"
+                                android:textSize="@dimen/font_middle" />
+
+                        </RadioGroup>
 
                     </LinearLayout>
 
@@ -238,14 +359,49 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:layout_gravity="top"
                             android:text="不良现象:"
                             android:textColor="@color/black_333333"
                             android:textSize="@dimen/font_15sp" />
 
                         <TextView
                             android:id="@+id/tv_blxx"
-                            style="@style/item_text_content"
-                            android:layout_marginStart="20dp" />
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="20dp"
+                            android:background="@drawable/shape_rectangular_in_edit_bg"
+                            android:gravity="top"
+                            android:hint="@string/please_choose"
+                            android:padding="5dp"
+                            android:textSize="@dimen/font_middle" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="15dp"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginEnd="15dp"
+                        android:gravity="center_vertical">
+
+                        <TextView
+                            android:id="@+id/tv_yjsl"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="质检数量:"
+                            android:textColor="@color/black_333333"
+                            android:textSize="@dimen/font_15sp" />
+
+                        <EditText
+                            android:id="@+id/et_jysl"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="20dp"
+                            android:background="@drawable/shape_rectangular_in_edit_bg"
+                            android:hint="@string/please_input"
+                            android:padding="5dp"
+                            android:textSize="@dimen/font_middle" />
 
                     </LinearLayout>
 
@@ -264,10 +420,17 @@
                             android:textColor="@color/black_333333"
                             android:textSize="@dimen/font_15sp" />
 
-                        <TextView
-                            android:id="@+id/tv_hgsl"
-                            style="@style/item_text_content"
-                            android:layout_marginStart="20dp" />
+                        <EditText
+                            android:id="@+id/et_hgsl"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="20dp"
+                            android:background="@drawable/shape_rectangular_in_edit_bg"
+                            android:enabled="false"
+                            android:hint="@string/please_input"
+                            android:inputType="numberDecimal"
+                            android:padding="5dp"
+                            android:textSize="@dimen/font_middle" />
 
                     </LinearLayout>
 
@@ -286,10 +449,16 @@
                             android:textColor="@color/black_333333"
                             android:textSize="@dimen/font_15sp" />
 
-                        <TextView
-                            android:id="@+id/tv_bhgsl"
-                            style="@style/item_text_content"
-                            android:layout_marginStart="5dp" />
+                        <EditText
+                            android:id="@+id/et_bhgsl"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="5dp"
+                            android:background="@drawable/shape_rectangular_in_edit_bg"
+                            android:hint="@string/please_input"
+                            android:inputType="number|numberDecimal"
+                            android:padding="5dp"
+                            android:textSize="@dimen/font_middle" />
 
                     </LinearLayout>
 
@@ -309,12 +478,49 @@
                             android:textColor="@color/black_333333"
                             android:textSize="@dimen/font_15sp" />
 
-                        <TextView
-                            android:id="@+id/tv_jyms"
-                            style="@style/item_text_content"
-                            android:layout_marginStart="20dp" />
+                        <EditText
+                            android:id="@+id/et_jyms"
+                            android:layout_width="match_parent"
+                            android:layout_height="85dp"
+                            android:layout_marginStart="20dp"
+                            android:background="@drawable/shape_rectangular_in_edit_bg"
+                            android:gravity="top"
+                            android:hint="@string/please_input"
+                            android:padding="5dp"
+                            android:textSize="@dimen/font_middle" />
 
                     </LinearLayout>
+
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="15dp"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginEnd="15dp"
+                        android:visibility="gone"
+                        android:gravity="center_vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="检验工时:"
+                            android:textColor="@color/black_333333"
+                            android:textSize="@dimen/font_15sp" />
+
+                        <EditText
+                            android:id="@+id/et_jygs"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="20dp"
+                            android:background="@drawable/shape_rectangular_in_edit_bg"
+                            android:hint="@string/please_input"
+                            android:inputType="number|numberDecimal"
+                            android:padding="5dp"
+                            android:textSize="@dimen/font_middle" />
+
+                    </LinearLayout>
+
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -338,7 +544,15 @@
                             android:id="@+id/rc_photo"
                             android:layout_width="wrap_content"
                             android:layout_height="65dp"
-                            android:layout_marginStart="50dp" />
+                            android:layout_marginStart="19dp" />
+
+                        <ImageView
+                            android:id="@+id/image_add"
+                            android:layout_width="68dp"
+                            android:layout_height="65dp"
+                            android:src="@mipmap/ic_upload"
+                            app:layout_constraintStart_toStartOf="@id/et_describe"
+                            app:layout_constraintTop_toBottomOf="@id/et_describe" />
 
                     </LinearLayout>
 
@@ -353,7 +567,8 @@
                 android:layout_marginStart="15dp"
                 android:layout_marginTop="12dp"
                 android:layout_marginEnd="15dp"
-                android:background="@color/white">
+                android:background="@color/white"
+                android:visibility="gone">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -432,5 +647,33 @@
         </LinearLayout>
 
     </ScrollView>
+
+    <RelativeLayout
+        android:id="@+id/rl"
+        android:layout_width="match_parent"
+        android:layout_height="55dp"
+        android:background="@color/white"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#EBE7E7" />
+
+        <Button
+            android:id="@+id/btn_post"
+            android:layout_width="80dp"
+            android:layout_height="30dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="12dp"
+            android:background="@drawable/shape_rectangular_button_5_bg"
+            android:text="提交"
+            android:textColor="@color/white"
+            android:textSize="@dimen/font_middle" />
+
+    </RelativeLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

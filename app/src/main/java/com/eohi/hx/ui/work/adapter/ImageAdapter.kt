@@ -16,6 +16,8 @@ import com.eohi.hx.ui.work.quality.incoming.IncomingCheckActivity
 import com.eohi.hx.ui.work.quality.incoming.IncomingDetailActivity
 import com.eohi.hx.ui.work.quality.process.ProcessCheckActivity
 import com.eohi.hx.ui.work.quality.process.ProcessDetailActivity
+import com.eohi.hx.ui.work.quality.storage.StorageActivity
+import com.eohi.hx.ui.work.quality.storage.StorageDetailActivity
 import java.io.File
 
 /**
@@ -34,7 +36,7 @@ class ImageAdapter(context: AppCompatActivity, listDatas: ArrayList<String>) :
         Log.i("imageurl",t)
         if (mContext.javaClass == IncomingDetailActivity::class.java || mContext.javaClass == FirstDetailActivity::class.java
             || mContext.javaClass == ProcessDetailActivity::class.java || mContext.javaClass == FinishDetailActivity::class.java
-            || mContext.javaClass == DeliveryDetailActivity::class.java
+            || mContext.javaClass == DeliveryDetailActivity::class.java||mContext.javaClass == StorageDetailActivity::class.java
         ) {
             Glide.with(mContext).load(t).into(v.ivItem)
         } else if ((mContext.javaClass == IncomingCheckActivity::class.java && IncomingCheckActivity.type == "modify") ||
@@ -42,6 +44,7 @@ class ImageAdapter(context: AppCompatActivity, listDatas: ArrayList<String>) :
             (mContext.javaClass == ProcessCheckActivity::class.java && ProcessCheckActivity.type == "modify") ||
             (mContext.javaClass == FinishCheckActivity::class.java && FinishCheckActivity.type == "modify") ||
             (mContext.javaClass == DeliveryCheckActivity::class.java && DeliveryCheckActivity.type == "modify")
+            || mContext.javaClass == StorageActivity::class.java && StorageActivity.type == "modify"
         ) {
             Glide.with(mContext).load(t).into(v.ivItem)
         } else {

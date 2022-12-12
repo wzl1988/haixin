@@ -38,38 +38,22 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
+        <TextView
+            android:id="@+id/tv_history"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="13dp"
+            android:gravity="center_vertical"
+            android:text="历史记录"
+            android:paddingStart="20dp"
+            android:textSize="@dimen/font_middle"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-
-    <EditText
-        android:id="@+id/tv_lzkbh"
-        android:layout_width="0dp"
-        android:layout_height="27dp"
-        android:layout_marginEnd="15dp"
-        android:layout_marginStart="10dp"
-        android:layout_marginTop="12dp"
-        android:background="@drawable/shape_rectangular_in_edit_bg"
-        android:drawableRight="@mipmap/ic_scan"
-        android:gravity="center_vertical"
-        android:hint="请扫描流转卡编号"
-        android:padding="5dp"
-        android:textSize="@dimen/font_13sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/tv_lzk_text"
-        app:layout_constraintTop_toBottomOf="@id/cons_title" />
-
-
-    <TextView
-        android:id="@+id/tv_lzk_text"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="15dp"
-        android:text="流转卡号："
-        android:textColor="@color/black_333333"
-        android:textSize="@dimen/font_15sp"
-        app:layout_constraintBottom_toBottomOf="@id/tv_lzkbh"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@id/tv_lzkbh" />
 
 
 
@@ -77,7 +61,7 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         app:layout_constraintBottom_toTopOf="@id/rl"
-        app:layout_constraintTop_toBottomOf="@id/tv_lzkbh">
+        app:layout_constraintTop_toBottomOf="@id/cons_title">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -211,8 +195,7 @@
                         </RelativeLayout>
 
                         <RelativeLayout
-                            style="@style/item_text_container"
-                            android:layout_marginBottom="15dp">
+                            style="@style/item_text_container">
 
                             <TextView
                                 style="@style/item_text_name"
@@ -220,6 +203,64 @@
 
                             <TextView
                                 android:id="@+id/tv_ggms"
+                                style="@style/item_text_content" />
+
+                        </RelativeLayout>
+
+
+                        <RelativeLayout
+                            style="@style/item_text_container">
+
+                            <TextView
+                                style="@style/item_text_name"
+                                android:text="流转卡号：" />
+
+                            <TextView
+                                android:id="@+id/tv_lzkh"
+                                style="@style/item_text_content" />
+
+                        </RelativeLayout>
+
+
+                        <RelativeLayout
+                            style="@style/item_text_container">
+
+                            <TextView
+                                style="@style/item_text_name"
+                                android:text="报工记录流水号：" />
+
+                            <TextView
+                                android:id="@+id/tv_bgjllsh"
+                                android:layout_marginStart="120dp"
+                                style="@style/item_text_content" />
+
+                        </RelativeLayout>
+
+
+                        <RelativeLayout
+                            style="@style/item_text_container">
+
+                            <TextView
+                                style="@style/item_text_name"
+                                android:text="报工数量：" />
+
+                            <TextView
+                                android:id="@+id/tv_bgsl"
+                                style="@style/item_text_content" />
+
+                        </RelativeLayout>
+
+
+                        <RelativeLayout
+                            style="@style/item_text_container"
+                            android:layout_marginBottom="15dp">
+
+                            <TextView
+                                style="@style/item_text_name"
+                                android:text="关联条码号：" />
+
+                            <TextView
+                                android:id="@+id/tv_gltmh"
                                 style="@style/item_text_content" />
 
                         </RelativeLayout>

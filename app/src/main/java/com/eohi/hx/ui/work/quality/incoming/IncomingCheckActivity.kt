@@ -73,7 +73,6 @@ class IncomingCheckActivity : BaseActivity<IncomingViewModel, ActivityIncomingCh
     override fun initView() {
         StatusBarUtil.setColor(this, R.color.white.asColor())
         StatusBarUtil.darkMode(this, true)
-
         adapter = InspectionItemAdapter(this, list, ::onTextResult)
         v.rc.layoutManager = LinearLayoutManager(this)
         v.rc.adapter = adapter
@@ -190,7 +189,7 @@ class IncomingCheckActivity : BaseActivity<IncomingViewModel, ActivityIncomingCh
 
         v.tvCzy.text = accout
         v.tvRq.text = DateUtil.audioTime
-
+        postPhoto.clear()
         hashMap = HashMap()
         list = ArrayList()
 

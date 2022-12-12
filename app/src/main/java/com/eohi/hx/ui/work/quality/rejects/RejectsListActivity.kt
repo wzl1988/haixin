@@ -14,6 +14,8 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
 import android.view.MotionEvent
+import androidx.core.app.ActivityCompat
+import androidx.core.app.ActivityOptionsCompat
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.DividerItemDecoration
@@ -32,6 +34,8 @@ import com.eohi.hx.utils.Extensions.showAlertDialog
 import com.eohi.hx.utils.StatusBarUtil
 import com.eohi.hx.view.SpacesItemDecoration
 import com.eohi.hx.widget.clicks
+import com.eohi.zxinglibrary.CaptureActivity
+import com.eohi.zxinglibrary.Intents
 import com.example.qrcode.Constant
 import com.example.qrcode.ScannerActivity
 import pub.devrel.easypermissions.AfterPermissionGranted
@@ -213,7 +217,7 @@ class RejectsListActivity : BaseActivity<BaseViewModel,ActivityRejectsListBindin
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == 1) {
             if (resultCode == RESULT_OK) {
-               val result=data?.getStringExtra(Constant.EXTRA_RESULT_CONTENT)?.trim { it <= ' ' }!!
+               val result=data?.getStringExtra(Intents.Scan.RESULT)?.trim { it <= ' ' }!!
                 v.tvLzkbh.setText(result)
                 if( alldata.isEmpty() )
                     return
@@ -233,11 +237,17 @@ class RejectsListActivity : BaseActivity<BaseViewModel,ActivityRejectsListBindin
     private fun checkCameraPermissions() {
         val perms = arrayOf(Manifest.permission.CAMERA)
         if (EasyPermissions.hasPermissions(this, *perms)) { //有权限
-            val intent = Intent(this, ScannerActivity::class.java)
-            intent.putExtra(Constant.EXTRA_IS_ENABLE_SCAN_FROM_PIC, true)
-            intent.putExtra(Constant.EXTRA_SCANNER_FRAME_WIDTH, window.decorView.width / 2)
-            intent.putExtra(Constant.EXTRA_SCANNER_FRAME_HEIGHT, window.decorView.width / 2)
-            startActivityForResult(intent, 1)
+            val optionsCompat =
+                ActivityOptionsCompat.makeCustomAnimation(this, R.anim.`in`, R.anim.out)
+            val intent = Intent(this, CaptureActivity::class.java)
+            intent.putExtra(com.eohi.hx.utils.Constant.KEY_TITLE, "扫码")
+            intent.putExtra(com.eohi.hx.utils.Constant.KEY_IS_CONTINUOUS, com.eohi.hx.utils.Constant.isContinuousScan)
+            ActivityCompat.startActivityForResult(
+                this,
+                intent,
+                1,
+                optionsCompat.toBundle()
+            )
         } else {
             // Do not have permissions, request them now
             EasyPermissions.requestPermissions(

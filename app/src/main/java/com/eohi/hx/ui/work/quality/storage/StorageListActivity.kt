@@ -1,4 +1,4 @@
-package com.eohi.hx.ui.work.quality.process
+package com.eohi.hx.ui.work.quality.storage
 
 import android.content.Intent
 import android.text.TextUtils
@@ -8,42 +8,34 @@ import android.widget.*
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.eohi.hx.R
 import com.eohi.hx.base.BaseActivity
-import com.eohi.hx.databinding.ActivityProcessListBinding
+import com.eohi.hx.databinding.ActivityStorageListBinding
 import com.eohi.hx.event.EventCode
 import com.eohi.hx.event.EventMessage
-import com.eohi.hx.ui.work.adapter.ProcessListAdapter
-import com.eohi.hx.ui.work.model.JylxBean
-import com.eohi.hx.ui.work.model.ProcessCheckListResult
+import com.eohi.hx.ui.work.adapter.FinishListAdapter
+import com.eohi.hx.ui.work.model.FinishCheckListResult
+import com.eohi.hx.ui.work.quality.finish.FinishCheckActivity
 import com.eohi.hx.utils.DateUtil
 import com.eohi.hx.utils.Extensions.asColor
 import com.eohi.hx.utils.Extensions.showShortToast
 import com.eohi.hx.utils.StatusBarUtil
 import com.eohi.hx.view.DialogPrompt
-import com.eohi.hx.view.MySpinnerAdapter
 import com.eohi.hx.widget.clicks
 import java.util.*
 
-class ProcessListActivity : BaseActivity<ProcessViewModel, ActivityProcessListBinding>() {
+class StorageListActivity : BaseActivity<StorageViewModel, ActivityStorageListBinding>() {
 
-    private lateinit var adapter: ProcessListAdapter
-    private lateinit var list: ArrayList<ProcessCheckListResult>
+    private lateinit var adapter: StorageListAdapter
+    private lateinit var list: ArrayList<FinishCheckListResult>
     private var page: Int = 1
     private lateinit var hashMap: HashMap<String, String>
     private lateinit var popView: View
-    private lateinit var etGdh: EditText
     private lateinit var etWpmc: EditText
-    private lateinit var etCx: EditText
-    private lateinit var etJygx: EditText
+    private lateinit var etJydh: EditText
     private lateinit var tvStartTime: TextView
     private lateinit var tvEndTime: TextView
     private var startDate: Date? = null
     private var endDate: Date? = null
     private lateinit var popupWindow: PopupWindow
-    private lateinit var spJylx: Spinner
-    private var jylx = ""
-    private var jylxList = ArrayList<JylxBean>()
-    private var jylxMcList = ArrayList<String>()
-    private lateinit var jylxAdapter: ArrayAdapter<String>
 
     override fun isNeedEventBus(): Boolean {
         return true
@@ -52,38 +44,15 @@ class ProcessListActivity : BaseActivity<ProcessViewModel, ActivityProcessListBi
     override fun initView() {
         StatusBarUtil.setColor(this, R.color.white.asColor())
         StatusBarUtil.darkMode(this, true)
+
         list = ArrayList()
         hashMap = HashMap()
 
-        popView = LayoutInflater.from(this).inflate(R.layout.pop_process_filter, null, false)
-        etGdh = popView.findViewById(R.id.et_gdh)
+        popView = LayoutInflater.from(this).inflate(R.layout.pop_finish_filter, null, false)
         etWpmc = popView.findViewById(R.id.et_wpmc)
-        etCx = popView.findViewById(R.id.et_cx)
-        etJygx = popView.findViewById(R.id.et_jygx)
+        etJydh = popView.findViewById(R.id.et_jydh)
         tvStartTime = popView.findViewById(R.id.tv_start_time)
         tvEndTime = popView.findViewById(R.id.tv_end_time)
-        spJylx = popView.findViewById(R.id.sp_jylx)
-        jylxAdapter = MySpinnerAdapter(this, android.R.layout.simple_spinner_item, jylxMcList)
-        spJylx.adapter = jylxAdapter
-        spJylx.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onItemSelected(
-                parent: AdapterView<*>?,
-                view: View?,
-                position: Int,
-                id: Long
-            ) {
-                if (position == 0) {
-                    return
-                } else {
-                    jylx = jylxList[position - 1].xmfldm
-                }
-            }
-
-            override fun onNothingSelected(parent: AdapterView<*>?) {
-
-            }
-
-        }
         tvStartTime clicks {
             startDate = DateUtil.chooseStartDate(mContext, tvStartTime, startDate, endDate)
         }
@@ -91,10 +60,8 @@ class ProcessListActivity : BaseActivity<ProcessViewModel, ActivityProcessListBi
             endDate = DateUtil.chooseEndDate(mContext, tvEndTime, startDate, endDate)
         }
         popView.findViewById<Button>(R.id.btn_reset) clicks {
-            etGdh.setText("")
             etWpmc.setText("")
-            etCx.setText("")
-            etJygx.setText("")
+            etJydh.setText("")
             tvStartTime.text = ""
             tvEndTime.text = ""
         }
@@ -116,9 +83,7 @@ class ProcessListActivity : BaseActivity<ProcessViewModel, ActivityProcessListBi
             }
         }
 
-        vm.getJylx("46")
-
-        adapter = ProcessListAdapter(mContext, list)
+        adapter = StorageListAdapter(mContext, list)
         v.mRecyclerView.layoutManager = LinearLayoutManager(mContext)
         v.mRecyclerView.adapter = adapter
 
@@ -171,26 +136,24 @@ class ProcessListActivity : BaseActivity<ProcessViewModel, ActivityProcessListBi
 
     private fun initMap() {
         hashMap["gsh"] = companyNo
-        hashMap["gdh"] = etGdh.text.toString()
-        hashMap["cx"] = etCx.text.toString()
+        hashMap["gdh"] = etJydh.text.toString()
         hashMap["wpmc"] = etWpmc.text.toString()
-        hashMap["jygx"] = etJygx.text.toString()
         hashMap["ksrq"] = tvStartTime.text.toString()
         hashMap["jsrq"] = tvEndTime.text.toString()
-        hashMap["pagesize"] = "10"
         hashMap["pageindex"] = page.toString()
-        hashMap["jylxm"] = jylx
+        hashMap["pagesize"] = "10"
     }
 
     private fun getList() {
         initMap()
-        vm.getProcessList(hashMap)
+        vm.getStorageCheckList(hashMap)
         v.refreshLayout.finishRefresh()
         v.refreshLayout.finishLoadMore()
     }
 
     override fun initClick() {
         v.ivBack clicks { finish() }
+        v.ivCheck clicks { startActivity(Intent(this, FinishCheckActivity::class.java)) }
         v.ivSearch clicks {
             popupWindow = PopupWindow(
                 popView,
@@ -200,14 +163,8 @@ class ProcessListActivity : BaseActivity<ProcessViewModel, ActivityProcessListBi
                 isTouchable = true
                 isFocusable = true
                 isOutsideTouchable = true
-/*                animationStyle = R.style.anim_pop_filter*/
             }
             popupWindow.showAsDropDown(v.consTitle, 0, 1)
-        }
-        v.ivCheck clicks {
-           val intent =  Intent(this, ProcessCheckActivity::class.java)
-            intent.putExtra("type", "post")
-            startActivity(intent)
         }
     }
 
@@ -216,27 +173,22 @@ class ProcessListActivity : BaseActivity<ProcessViewModel, ActivityProcessListBi
     }
 
     override fun initVM() {
-        vm.processList.observe(this) {
+        vm.finishCheckResult.observe(this) {
             if (page == 1) list.clear()
             it.let { it1 -> list.addAll(it1) }
             adapter.notifyDataSetChanged()
         }
-        vm.deleteProcess.observe(this) {
+        vm.deleteFinishCheck.observe(this) {
             Toast.makeText(mContext, it.fhxx, Toast.LENGTH_SHORT).show()
             adapter.notifyDataSetChanged()
-        }
-        vm.jylxBean.observe(this) {
-            jylxList.addAll(it)
-            jylxList.forEach { jylxBean ->
-                jylxMcList.add(jylxBean.xmflmc)
-            }
         }
     }
 
     override fun handleEvent(msg: EventMessage) {
         if (msg.code == EventCode.REFRESH) {
             page = 1
-            getList()
+            //vm.getFinishCheckList(hashMap)
         }
     }
+
 }

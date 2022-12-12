@@ -12,6 +12,7 @@ data class ProductionSubmitModel (
     var scbz: String? = null,
     var producetype: String? = null,
     var gxno: String? = null,
+    var gxtxh:Int=0,
     var sl: Int = 0,
     var equno: String? = null,
     var jgdybh: String? = null,
@@ -26,7 +27,8 @@ data class ProductionSubmitModel (
     var scrq: String? = null,
     var bz: String? = null, //备注
     var sfjj: String? = null,
-    var rggs:Double =0.0
+    var rggs:Double =0.0,
+    var tmh:String? =null
 ):Cloneable{
     public override fun clone(): Any {
         return super.clone()

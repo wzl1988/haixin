@@ -17,6 +17,8 @@ import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Toast
+import androidx.core.app.ActivityCompat
+import androidx.core.app.ActivityOptionsCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.donkingliang.imageselector.utils.ImageSelector
 import com.eohi.hx.App.Companion.postPhoto
@@ -48,6 +50,8 @@ import com.eohi.hx.view.ListDialog
 import com.eohi.hx.view.MultiListDialog
 import com.eohi.hx.view.MySpinnerAdapter
 import com.eohi.hx.widget.clicks
+import com.eohi.zxinglibrary.CaptureActivity
+import com.eohi.zxinglibrary.Intents
 import com.example.qrcode.Constant
 import com.example.qrcode.ScannerActivity
 import kotlinx.android.synthetic.main.activity_equipment_maintenance.*
@@ -246,7 +250,9 @@ class ProcessCheckActivity : BaseActivity<ProcessViewModel, ActivityProcessCheck
     @SuppressLint("ClickableViewAccessibility")
     override fun initClick() {
         v.ivBack clicks { finish() }
-
+        v.tvHistory.clicks {
+            startActivity(Intent(this,ProcessListActivity::class.java))
+        }
         v.tvLzkbh.setOnTouchListener(object : View.OnTouchListener {
             override fun onTouch(view: View?, event: MotionEvent?): Boolean {
                 // getCompoundDrawables获取是一个数组，数组0,1,2,3,对应着左，上，右，下 这4个位置的图片，如果没有就为null
@@ -301,7 +307,7 @@ class ProcessCheckActivity : BaseActivity<ProcessViewModel, ActivityProcessCheck
                         model.wpmc = v.tvWpmc.text.toString()
                         model.gg =  v.tvGgms.text.toString()
                         model.jyfs = ""
-                        model.jyjg = if (v.pass.isChecked) "合格" else "不合格"
+                        model.jyjg = if (v.pass.isChecked) "1" else "2"
                         model.jysl =  v.etJysl.text.toString().toDouble()
                         model.hgsl =  v.etHgsl.text.toString().toDouble()
                         model.bhgsl = if(v.etBhgsl.text.toString().isEmpty())0.0 else v.etBhgsl.text.toString().toDouble()
@@ -401,7 +407,6 @@ class ProcessCheckActivity : BaseActivity<ProcessViewModel, ActivityProcessCheck
     override fun initData() {
         v.tvCzy.text = accout
         v.tvRq.text = DateUtil.audioTime
-
 //        if (intent.hasExtra("type")) {
 //            type = intent.getStringExtra("type")
 //        }
@@ -547,11 +552,17 @@ class ProcessCheckActivity : BaseActivity<ProcessViewModel, ActivityProcessCheck
     private fun checkCameraPermissions() {
         val perms = arrayOf(Manifest.permission.CAMERA)
         if (EasyPermissions.hasPermissions(this, *perms)) { //有权限
-            val intent = Intent(this, ScannerActivity::class.java)
-            intent.putExtra(Constant.EXTRA_IS_ENABLE_SCAN_FROM_PIC, true)
-            intent.putExtra(Constant.EXTRA_SCANNER_FRAME_WIDTH, window.decorView.width / 2)
-            intent.putExtra(Constant.EXTRA_SCANNER_FRAME_HEIGHT, window.decorView.width / 2)
-            startActivityForResult(intent, 1)
+            val optionsCompat =
+                ActivityOptionsCompat.makeCustomAnimation(this, R.anim.`in`, R.anim.out)
+            val intent = Intent(this, CaptureActivity::class.java)
+            intent.putExtra(com.eohi.hx.utils.Constant.KEY_TITLE, "扫码")
+            intent.putExtra(com.eohi.hx.utils.Constant.KEY_IS_CONTINUOUS, com.eohi.hx.utils.Constant.isContinuousScan)
+            ActivityCompat.startActivityForResult(
+                this,
+                intent,
+                1,
+                optionsCompat.toBundle()
+            )
         } else {
             // Do not have permissions, request them now
             EasyPermissions.requestPermissions(
@@ -664,8 +675,8 @@ class ProcessCheckActivity : BaseActivity<ProcessViewModel, ActivityProcessCheck
             imgAdapter?.notifyDataSetChanged()
         }else if (requestCode == 1) {
             if (resultCode == RESULT_OK) {
-                v.tvLzkbh.setText(data?.getStringExtra(Constant.EXTRA_RESULT_CONTENT)!!.trimStr())
-                val lzkh = data.getStringExtra(Constant.EXTRA_RESULT_CONTENT)!!.trim { it <= ' ' }
+                v.tvLzkbh.setText(data?.getStringExtra(Intents.Scan.RESULT)!!.trimStr())
+                val lzkh = data.getStringExtra(Intents.Scan.RESULT)!!.trim { it <= ' ' }
                 vm.getKgInfo(lzkh)
             }
         }

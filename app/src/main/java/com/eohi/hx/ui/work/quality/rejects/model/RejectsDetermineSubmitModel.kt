@@ -41,7 +41,8 @@ data class SubmitRejectsItem (
     var scrid: String?,
     var sm: String?,
     var zrgxh: String?,
-    var zrgxm: String?
+    var zrgxm: String?,
+    var gxtxh:Int
 ):Parcelable{
     constructor(parcel: Parcel) : this(
         parcel.readInt(),
@@ -54,7 +55,8 @@ data class SubmitRejectsItem (
         parcel.readString(),
         parcel.readString(),
         parcel.readString(),
-        parcel.readString()
+        parcel.readString(),
+        parcel.readInt()
     ) {
     }
 
@@ -70,6 +72,7 @@ data class SubmitRejectsItem (
         parcel.writeString(sm)
         parcel.writeString(zrgxh)
         parcel.writeString(zrgxm)
+        parcel.writeInt(gxtxh)
     }
 
     override fun describeContents(): Int {

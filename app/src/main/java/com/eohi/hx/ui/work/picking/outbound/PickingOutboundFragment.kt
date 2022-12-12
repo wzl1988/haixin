@@ -52,7 +52,7 @@ class PickingOutboundFragment :
     companion object {
         const val REQUEST_GDH = 0x001
         const val REQUEST_TMH = 0x002
-
+        const val REQUEST_KWH = 0x003
     }
 
 
@@ -244,6 +244,25 @@ class PickingOutboundFragment :
             }
 
         })
+        v.etKwh.setOnTouchListener(object : View.OnTouchListener {
+            override fun onTouch(view: View?, event: MotionEvent?): Boolean {
+                // getCompoundDrawables获取是一个数组，数组0,1,2,3,对应着左，上，右，下 这4个位置的图片，如果没有就为null
+                val drawable =  v.etKwh.compoundDrawables[2]
+                //如果不是按下事件，不再处理
+                if (event?.action != MotionEvent.ACTION_DOWN) {
+                    return false
+                }
+                if (event.x >  v.etKwh.width
+                    -  v.etKwh.paddingRight
+                    - drawable.intrinsicWidth
+                ) {
+                    //具体操作
+                    checkCameraPermissions(REQUEST_KWH)
+                }
+                return false
+            }
+
+        })
     }
 
     override fun initData() {
@@ -354,6 +373,10 @@ class PickingOutboundFragment :
                         v.etKwh.text.toString(),
                         v.etGdh.text.toString()
                     )
+                }
+                REQUEST_KWH->{
+                    v.etKwh.setText(result)
+                    v.etGdh.requestFocus()
                 }
 
             }

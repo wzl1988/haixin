@@ -62,10 +62,10 @@ class FinishDetailActivity : BaseActivity<FinishViewModel, ActivityFinishDetailB
 
     override fun initData() {
         if (intent.hasExtra("GDH")) {
-            jydh = intent.getStringExtra("GDH")
+            jydh = intent.getStringExtra("GDH")?:""
         }
         if (intent.hasExtra("DJH")) {
-            djh = intent.getStringExtra("DJH")
+            djh = intent.getStringExtra("DJH")?:""
         }
         imgAdapter = ImageAdapter(this, mPicList)
         v.rcPhoto.layoutManager =
@@ -95,18 +95,14 @@ class FinishDetailActivity : BaseActivity<FinishViewModel, ActivityFinishDetailB
                 v.tvSapddh.text = it.data.list[0].SAPDDH
                 v.tvHgsl.text = it.data.list[0].HGSL
                 v.tvBhgsl.text = it.data.list[0].BHGSL
-
+                v.tvLzkh.text = it.data.list[0].LZKKH
+                v.tvBgjllsh.text = it.data.list[0].BGJYID.toString()
+                v.tvBgsl.text = it.data.list[0].BGSL.toString()
+                v.tvGltmh.text = it.data.list[0].GLTMH
                 if (it.data.list[0].JYJG == "1") {
                     v.tvPdjg.text = "合格"
-                    v.llBlxx.gone()
                 } else {
                     v.tvPdjg.text = "不合格"
-                    v.llBlxx.show()
-                    var str = ""
-                    it.data.BLYY.onEach {
-                        str += it.xxsm + ","
-                    }
-                    v.tvBlxx.text = str.substring(0, str.length - 1)
                 }
 
                 if (it.data.list[0].TPWJM != "") {

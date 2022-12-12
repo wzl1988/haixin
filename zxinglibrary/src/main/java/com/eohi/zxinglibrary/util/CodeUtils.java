@@ -41,6 +41,7 @@ import com.google.zxing.qrcode.QRCodeWriter;
 import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel;
 
 import java.util.HashMap;
+import java.util.Hashtable;
 import java.util.Map;
 import java.util.Vector;
 
@@ -684,5 +685,8 @@ public final class CodeUtils {
 
         return bitmap;
     }
+
+
+
 
 }

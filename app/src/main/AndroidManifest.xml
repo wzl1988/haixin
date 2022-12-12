@@ -8,14 +8,26 @@
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:networkSecurityConfig="@xml/network_security_config"
-        android:supportsRtl="true"
         android:requestLegacyExternalStorage="true"
+        android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar">
-
+        <activity
+            android:name=".ui.work.quality.repair.RepairDisposeActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.work.quality.storage.StorageDetailActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.work.quality.storage.StorageListActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.work.quality.storage.StorageActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:exported="false"
+            android:windowSoftInputMode="adjustPan|stateHidden" />
         <activity
             android:name=".ui.work.quality.register.InspectionRegisterActivity"
             android:exported="false" />
-
         <activity
             android:name="com.eohi.hx.ui.work.quality.rejects.RejectsDetermineActivity"
             android:configChanges="orientation|keyboardHidden"
@@ -268,9 +280,11 @@
             </intent-filter>
         </service>
     </application>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.USE_FULL_SCREEN_INTENT" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+
 </manifest>

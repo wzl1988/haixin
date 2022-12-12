@@ -46,6 +46,8 @@ import com.eohi.hx.ui.work.quality.process.ProcessCheckActivity
 import com.eohi.hx.ui.work.quality.process.ProcessListActivity
 import com.eohi.hx.ui.work.quality.register.InspectionRegisterActivity
 import com.eohi.hx.ui.work.quality.rejects.RejectsListActivity
+import com.eohi.hx.ui.work.quality.repair.RepairDisposeActivity
+import com.eohi.hx.ui.work.quality.storage.StorageActivity
 import com.eohi.hx.ui.work.quality.unqualified.UnQualifiedReportActivity
 import com.eohi.hx.ui.work.sales.delivery.SalesDeliveryOutActivity
 import com.eohi.hx.ui.work.sales.retreat.SalesRetreatActivity
@@ -122,6 +124,7 @@ class WorkFragment : BaseFragment<BaseViewModel, FragmentWorkNewBinding>() {
                             startActivity(intent)
                         }
                         R.mipmap.work_kg -> {
+                            intent.putExtra("type","start")
                             intent.setClass(mContext, StartWorkActivity::class.java)
                             startActivity(intent)
                         }
@@ -143,6 +146,14 @@ class WorkFragment : BaseFragment<BaseViewModel, FragmentWorkNewBinding>() {
                         }
                         R.mipmap.work_djylb->{
                             intent.setClass(mContext, RejectsListActivity::class.java)
+                            startActivity(intent)
+                        }
+                        R.mipmap.work_sjdj->{
+                            intent.setClass(mContext, InspectionRegisterActivity::class.java)
+                            startActivity(intent)
+                        }
+                        R.mipmap.work_sbwx->{
+                            intent.setClass(mContext, RepairDisposeActivity::class.java)
                             startActivity(intent)
                         }
                     }
@@ -306,8 +317,15 @@ class WorkFragment : BaseFragment<BaseViewModel, FragmentWorkNewBinding>() {
                     if (zzp[i].ifyqx2 == 1)
                         list.add(ImageViewModel(R.mipmap.work_djylb, zzp[i].cdmc2,zzp[i].ftpdjmc))
                 }
+                "D010409" ->{
+                    if (zzp[i].ifyqx2 == 1)
+                        list.add(ImageViewModel(R.mipmap.work_sjdj, zzp[i].cdmc2,zzp[i].ftpdjmc))
+                }
             }
         }
+
+        list.add(ImageViewModel(R.mipmap.work_sbwx, "返修处理",""))
+
         zzpadapter= ImageViewAdapter(mContext, list)
         v.rcZzp.let {
             it.layoutManager = GridLayoutManager(mContext, 4)
@@ -331,6 +349,7 @@ class WorkFragment : BaseFragment<BaseViewModel, FragmentWorkNewBinding>() {
                     startActivity(intent)
                 }
                 R.mipmap.work_kg -> {
+                    intent.putExtra("type","start")
                     intent.setClass(mContext, StartWorkActivity::class.java)
                     startActivity(intent)
                 }
@@ -354,6 +373,15 @@ class WorkFragment : BaseFragment<BaseViewModel, FragmentWorkNewBinding>() {
                     intent.setClass(mContext, RejectsListActivity::class.java)
                     startActivity(intent)
                 }
+                R.mipmap.work_sjdj->{
+                    intent.setClass(mContext, InspectionRegisterActivity::class.java)
+                    startActivity(intent)
+                }
+                R.mipmap.work_sbwx->{
+                    intent.setClass(mContext, RepairDisposeActivity::class.java)
+                    startActivity(intent)
+                }
+
             }
         }
     }
@@ -383,11 +411,17 @@ class WorkFragment : BaseFragment<BaseViewModel, FragmentWorkNewBinding>() {
                     if (zlgl[i].ifyqx2 == 1)
                         zllist.add(ImageViewModel(R.mipmap.work_zl_fhjy, "发货检验",zlgl[i].ftpdjmc))
                 }
+                "D010606" ->{
+                    if (zlgl[i].ifyqx2 == 1)
+                        zllist.add(ImageViewModel(R.mipmap.work_mjsmrk, "入库检验",zlgl[i].ftpdjmc))
+                }
+                "D010607" ->{
+                    if (zlgl[i].ifyqx2 == 1)
+                        zllist.add(ImageViewModel(R.mipmap.work_kg, zlgl[i].cdmc2,zlgl[i].ftpdjmc))
+                }
             }
         }
 
-
-        zllist.add(ImageViewModel(R.mipmap.work_sjdj, "送检登记",""))
 
         zladpater = ImageViewAdapter(mContext, zllist)
         v.rcZlgl.let {
@@ -418,10 +452,16 @@ class WorkFragment : BaseFragment<BaseViewModel, FragmentWorkNewBinding>() {
                     intent.setClass(mContext, DeliveryListActivity::class.java)
                     startActivity(intent)
                 }
-                R.mipmap.work_sjdj->{
-                    intent.setClass(mContext, InspectionRegisterActivity::class.java)
+                R.mipmap.work_mjsmrk->{
+                    intent.setClass(mContext, StorageActivity::class.java)
                     startActivity(intent)
                 }
+                R.mipmap.work_kg->{
+                    intent.putExtra("type","cancel")
+                    intent.setClass(mContext, StartWorkActivity::class.java)
+                    startActivity(intent)
+                }
+
             }
         }
     }

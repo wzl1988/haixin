@@ -3,6 +3,7 @@ package com.eohi.hx.ui.work.adapter
 import android.app.Activity
 import android.content.Intent
 import android.text.TextUtils
+import android.view.View
 import android.widget.Toast
 import com.eohi.hx.R
 import com.eohi.hx.base.BaseAdapter
@@ -42,6 +43,7 @@ class ProcessListAdapter(mContext: Activity, listData: ArrayList<ProcessCheckLis
             }
             mContext.startActivity(intent)
         }
+        v.tvModify.visibility = View.GONE
         v.tvModify clicks {
             if (t.GXH == null) {
                 Toast.makeText(mContext, "没有录入工序！", Toast.LENGTH_SHORT).show()

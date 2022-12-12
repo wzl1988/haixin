@@ -9,6 +9,8 @@ import android.content.IntentFilter
 import android.net.Uri
 import android.text.TextUtils
 import android.widget.Toast
+import androidx.core.app.ActivityCompat
+import androidx.core.app.ActivityOptionsCompat
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.eohi.hx.R
@@ -26,11 +28,14 @@ import com.eohi.hx.utils.Extensions.showShortToast
 import com.eohi.hx.utils.StatusBarUtil
 import com.eohi.hx.view.ListDialog
 import com.eohi.hx.widget.clicks
+import com.eohi.zxinglibrary.CaptureActivity
+import com.eohi.zxinglibrary.Intents
 import com.example.qrcode.Constant
 import com.example.qrcode.ScannerActivity
 import pub.devrel.easypermissions.AfterPermissionGranted
 import pub.devrel.easypermissions.EasyPermissions
 import java.util.*
+import kotlin.collections.ArrayList
 
 /*
 * 不合格品登记
@@ -43,6 +48,7 @@ class UnQualifiedReportActivity :
     private var postBlxxList = ArrayList<BlxxBean>()
     private var cardno = ""
     private var gxno = ""//工序号
+    private var gxtxh = 0
     private var lzkkh = ""//流转卡卡号
     private var jgdybh =""
     private var jgdymc =""
@@ -52,6 +58,7 @@ class UnQualifiedReportActivity :
     private lateinit var dialogGx: ListDialog
     private lateinit var listGx: ArrayList<String>
     private lateinit var listGxH: ArrayList<String>
+    private lateinit var listGxtxh: ArrayList<String>
     private lateinit var dialogPerson: ListDialog
     private lateinit var listPersonShow: ArrayList<String>
     private lateinit var listPerson: ArrayList<String>
@@ -152,6 +159,7 @@ class UnQualifiedReportActivity :
                     unQualifiedPostModel.sbbh= sbbh?:""
                     unQualifiedPostModel.sbmc = sbmc?:""
                     unQualifiedPostModel.gxbh = gxno
+                    unQualifiedPostModel.gxtxh = gxtxh.toString()
                     unQualifiedPostModel.gxmc = v.tvScgx.text.toString()
                     unQualifiedPostModel.scfs ="个人"
                     unQualifiedPostModel.bz = v.etBz.text.toString()
@@ -196,6 +204,7 @@ class UnQualifiedReportActivity :
     override fun initData() {
         listGx = ArrayList()
         listGxH = ArrayList()
+        listGxtxh = ArrayList()
         listPerson = ArrayList()
         listPersonShow = ArrayList()
         listPersonBh = ArrayList()
@@ -214,6 +223,7 @@ class UnQualifiedReportActivity :
             override fun refreshActivity(position: Int) {
                 v.tvScgx.text = listGx[position].substringBefore("(")
                 gxno = listGxH[position]
+                gxtxh = listGxtxh[position].toInt()
             }
         })
         dialogPerson = ListDialog(this, "人员选择", listPersonShow, object : ListDialog.MyListener {
@@ -267,6 +277,7 @@ class UnQualifiedReportActivity :
             it.onEach {
                 listGx.add(it.gxms+"("+it.gxh+")")
                 listGxH.add(it.gxh)
+                listGxtxh.add(it.txh.toString())
             }
             dialogGx.show()
             dialogGx.refreshList(listGx)
@@ -297,10 +308,10 @@ class UnQualifiedReportActivity :
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == 1) {
             if (resultCode == RESULT_OK) {
-                v.tvLzkbh.text = data?.getStringExtra(Constant.EXTRA_RESULT_CONTENT)?.trim { it <= ' ' }!!
-                cardno = data.getStringExtra(Constant.EXTRA_RESULT_CONTENT).trim { it <= ' ' }!!
+                v.tvLzkbh.text = data?.getStringExtra(Intents.Scan.RESULT)?.trim { it <= ' ' }!!
+                cardno = data.getStringExtra(Intents.Scan.RESULT).trim { it <= ' ' }!!
                 vm.getLzkDetail(
-                    data.getStringExtra(Constant.EXTRA_RESULT_CONTENT).trim { it <= ' ' }!!
+                    data.getStringExtra(Intents.Scan.RESULT).trim { it <= ' ' }!!
                 )
             }
         }
@@ -310,11 +321,17 @@ class UnQualifiedReportActivity :
     private fun checkCameraPermissions() {
         val perms = arrayOf(Manifest.permission.CAMERA)
         if (EasyPermissions.hasPermissions(this, *perms)) { //有权限
-            val intent = Intent(this, ScannerActivity::class.java)
-            intent.putExtra(Constant.EXTRA_IS_ENABLE_SCAN_FROM_PIC, true)
-            intent.putExtra(Constant.EXTRA_SCANNER_FRAME_WIDTH, window.decorView.width / 2)
-            intent.putExtra(Constant.EXTRA_SCANNER_FRAME_HEIGHT, window.decorView.width / 2)
-            startActivityForResult(intent, 1)
+            val optionsCompat =
+                ActivityOptionsCompat.makeCustomAnimation(this, R.anim.`in`, R.anim.out)
+            val intent = Intent(this, CaptureActivity::class.java)
+            intent.putExtra(com.eohi.hx.utils.Constant.KEY_TITLE, "扫码")
+            intent.putExtra(com.eohi.hx.utils.Constant.KEY_IS_CONTINUOUS, com.eohi.hx.utils.Constant.isContinuousScan)
+            ActivityCompat.startActivityForResult(
+                this,
+                intent,
+                1,
+                optionsCompat.toBundle()
+            )
         } else {
             // Do not have permissions, request them now
             EasyPermissions.requestPermissions(

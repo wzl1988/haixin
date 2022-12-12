@@ -1,5 +1,7 @@
 package com.eohi.hx.ui.work.sales.retreat
 
+import android.Manifest
+import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.content.BroadcastReceiver
 import android.content.Context
@@ -8,9 +10,14 @@ import android.content.IntentFilter
 import android.graphics.drawable.ColorDrawable
 import android.text.Editable
 import android.text.TextWatcher
+import android.view.MotionEvent
+import android.view.View
 import android.widget.ArrayAdapter
 import android.widget.EditText
+import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.ListPopupWindow
+import androidx.core.app.ActivityCompat
+import androidx.core.app.ActivityOptionsCompat
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import com.eohi.hx.App
@@ -22,9 +29,14 @@ import com.eohi.hx.event.EventMessage
 import com.eohi.hx.ui.main.model.ItemInfo
 import com.eohi.hx.ui.main.model.KwModel
 import com.eohi.hx.ui.main.model.WarehouseInfo
+import com.eohi.hx.utils.Constant
 import com.eohi.hx.utils.DateUtil
 import com.eohi.hx.utils.Preference
 import com.eohi.hx.utils.ToastUtil
+import com.eohi.zxinglibrary.CaptureActivity
+import com.eohi.zxinglibrary.Intents
+import pub.devrel.easypermissions.AfterPermissionGranted
+import pub.devrel.easypermissions.EasyPermissions
 import java.util.ArrayList
 
 /**
@@ -193,7 +205,7 @@ class SalesRetreatFragment : BaseFragment<SalesRetreatViewModel,FragmentSalesRet
         })
 
     }
-
+    @SuppressLint("ClickableViewAccessibility")
     override fun initClick() {
         v.btnCk.setOnClickListener {
             vm.getCklist()
@@ -213,6 +225,47 @@ class SalesRetreatFragment : BaseFragment<SalesRetreatViewModel,FragmentSalesRet
             vm.getTkyym()
         }
         v.etXsddh.addTextChangedListener(textWatcher)
+
+        v.etKw.setOnTouchListener(object : View.OnTouchListener {
+            override fun onTouch(view: View?, event: MotionEvent?): Boolean {
+                // getCompoundDrawables获取是一个数组，数组0,1,2,3,对应着左，上，右，下 这4个位置的图片，如果没有就为null
+                val drawable =  v.etKw.compoundDrawables[2]
+                //如果不是按下事件，不再处理
+                if (event?.action != MotionEvent.ACTION_DOWN) {
+                    return false
+                }
+                if (event.x >  v.etKw.width
+                    - v.etKw.paddingRight
+                    - drawable.intrinsicWidth
+                ) {
+                    //具体操作
+                    checkCameraPermissions(Constant.REQUEST_CODE_SCAN)
+                }
+                return false
+            }
+        })
+
+        v.etTmh.setOnTouchListener(object : View.OnTouchListener {
+            override fun onTouch(view: View?, event: MotionEvent?): Boolean {
+                // getCompoundDrawables获取是一个数组，数组0,1,2,3,对应着左，上，右，下 这4个位置的图片，如果没有就为null
+                val drawable =  v.etTmh.compoundDrawables[2]
+                //如果不是按下事件，不再处理
+                if (event?.action != MotionEvent.ACTION_DOWN) {
+                    return false
+                }
+                if (event.x >  v.etTmh.width
+                    - v.etTmh.paddingRight
+                    - drawable.intrinsicWidth
+                ) {
+                    //具体操作
+                    checkCameraPermissions(Constant.REQUEST_CODE_SCAN_02)
+                }
+                return false
+            }
+        })
+
+
+
     }
 
     private val textWatcher = object:TextWatcher{
@@ -230,6 +283,34 @@ class SalesRetreatFragment : BaseFragment<SalesRetreatViewModel,FragmentSalesRet
         }
 
     }
+
+    @AfterPermissionGranted(Constant.RC_CAMERA)
+    private fun checkCameraPermissions(code: Int) {
+        val perms = arrayOf(Manifest.permission.CAMERA)
+        if (EasyPermissions.hasPermissions(requireActivity(), *perms)) { //有权限
+            val optionsCompat =
+                ActivityOptionsCompat.makeCustomAnimation(
+                    requireActivity(),
+                    R.anim.`in`,
+                    R.anim.out
+                )
+            val intent = Intent(requireActivity(), CaptureActivity::class.java)
+            intent.putExtra(Constant.KEY_TITLE, "扫码")
+            intent.putExtra(Constant.KEY_IS_CONTINUOUS, Constant.isContinuousScan)
+            ActivityCompat.startActivityForResult(
+                requireActivity(),
+                intent,
+                code,
+                optionsCompat.toBundle()
+            )
+        } else {
+            // Do not have permissions, request them now
+            EasyPermissions.requestPermissions(
+                this, getString(R.string.permission_camera), Constant.RC_CAMERA, *perms
+            )
+        }
+    }
+
 
     override fun initData() {
         v.tvUser.text = username
@@ -286,7 +367,7 @@ class SalesRetreatFragment : BaseFragment<SalesRetreatViewModel,FragmentSalesRet
         // 注册广播接收器
         val intentFilter = IntentFilter(SCANACTION)
         intentFilter.priority = Int.MAX_VALUE
-        activity!!.registerReceiver(scanReceiver, intentFilter)
+        requireActivity().registerReceiver(scanReceiver, intentFilter)
         super.onResume()
     }
     var scanReceiver: BroadcastReceiver = object : BroadcastReceiver() {
@@ -310,16 +391,33 @@ class SalesRetreatFragment : BaseFragment<SalesRetreatViewModel,FragmentSalesRet
 
                 }
 
-
             }
         }
     }
 
     override fun onPause() {
         //取消广播注册
-        activity!!.unregisterReceiver(scanReceiver)
+        requireActivity().unregisterReceiver(scanReceiver)
         super.onPause()
     }
 
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (resultCode == AppCompatActivity.RESULT_OK) {
+            val result = data?.getStringExtra(Intents.Scan.RESULT).toString().trim { it <= ' ' }
+            when (requestCode) {
+                Constant.REQUEST_CODE_SCAN->{
+                    v.etKw.setText(result)
+                    v.etTmh.requestFocus()
+                }
+                Constant.REQUEST_CODE_SCAN_02->{
+                    v.etTmh.setText(result)
+                    vm.getNewItemInfo(companyNo,result)
+                }
+            }
+
+            }
+
+    }
 
 }

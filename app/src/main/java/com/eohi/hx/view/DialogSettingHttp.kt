@@ -47,7 +47,7 @@ class DialogSettingHttp(context: Context, themeResId: Int) : Dialog(context, the
 
     private fun init() {
         et_url.setText(apiurl)
-        val list = arrayOf("http://10.2.40.10:3019","http://10.2.40.10:8039/","http://172.18.0.161:3019/")
+        val list = arrayOf("http://10.2.40.10:3019/","http://10.2.40.10:8039/","http://171.12.81.100:8039/")
         btncancle.clicks { dismiss() }
         buttonok.clicks {
             if(hasProxy(et_url.text.toString())){

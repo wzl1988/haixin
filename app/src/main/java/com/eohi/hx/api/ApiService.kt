@@ -580,6 +580,26 @@ interface ApiService {
     @POST("api/do?method=APP_QM_WGJYJGXG")
     suspend fun modifyFinishCheck(@Body commonPostModel: CommonPostModel): BaseResModel<SubmitResult>
 
+    /**********************************************/
+    //入库检验--提交
+    @POST("api/do?method=RKJY_INSERT")
+    suspend fun postStorage(@Body commonPostModel: CommonPostModel): BaseResModel<SubmitResult>
+    //入库检验——结果列表
+    @GET("api/do?method=APP_QM_RKJYJGLB")
+    suspend fun getStorageCheckList(@QueryMap hashMap: HashMap<String, String>): BaseResModel<FinishCheckListResult>
+    //入库检验--详情
+    @GET("api/do?method=APP_QM_RKJYJGXQ")
+    suspend fun getStorageCheckDetail(
+        @Query("gsh") gsh: String,
+        @Query("gdh") gdh: String,
+        @Query("djh") djh: String
+    ): CommonDetailModel
+
+
+    //返修处理
+    @POST("api/do?method=APP_FXCL_TJ")
+    suspend fun postRepairModel(@Body model:RepairPostModel): BaseResModel<SubmitResult>
+
     //发货检验——详情
     @GET("api/do?method=APP_QM_FHJYJGXQ")
     suspend fun getDeliveryDetail(

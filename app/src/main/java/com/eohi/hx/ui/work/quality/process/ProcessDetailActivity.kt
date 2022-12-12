@@ -9,8 +9,10 @@ import com.eohi.hx.base.BaseActivity
 import com.eohi.hx.databinding.ActivityProcessDetailBinding
 import com.eohi.hx.ui.plusimage.PlusImageActivity
 import com.eohi.hx.ui.work.adapter.ImageAdapter
+import com.eohi.hx.ui.work.adapter.InspectionItemAdapter
 import com.eohi.hx.ui.work.adapter.ZjxmAdapter
 import com.eohi.hx.ui.work.model.BtBean
+import com.eohi.hx.ui.work.model.InspectionitemModel
 import com.eohi.hx.utils.Extensions.asColor
 import com.eohi.hx.utils.Extensions.gone
 import com.eohi.hx.utils.Extensions.show
@@ -20,8 +22,8 @@ import com.eohi.hx.widget.clicks
 
 class ProcessDetailActivity : BaseActivity<ProcessViewModel, ActivityProcessDetailBinding>() {
 
-    private lateinit var list: ArrayList<BtBean>
-    private lateinit var adapter: ZjxmAdapter
+    private lateinit var adapter: InspectionItemAdapter
+    private lateinit var list: ArrayList<InspectionitemModel>
     private var gdh = ""
     private var gxh = ""
     private var djh = ""
@@ -42,13 +44,7 @@ class ProcessDetailActivity : BaseActivity<ProcessViewModel, ActivityProcessDeta
 
         list = ArrayList()
 
-        adapter = ZjxmAdapter(this, list, fun(i: Int, b: Boolean) {
-            if (b) {
-                list[i].PDJG = "1"
-            } else {
-                list[i].PDJG = "2"
-            }
-        }, ::onTextResult)
+        adapter = InspectionItemAdapter(this, list, ::onTextResult)
         v.rc.layoutManager = LinearLayoutManager(this)
         v.rc.adapter = adapter
 
@@ -65,13 +61,13 @@ class ProcessDetailActivity : BaseActivity<ProcessViewModel, ActivityProcessDeta
 
     override fun initData() {
         if (intent.hasExtra("GDH")) {
-            gdh = intent.getStringExtra("GDH")
+            gdh = intent.getStringExtra("GDH")?:""
         }
         if (intent.hasExtra("GXH")) {
-            gxh = intent.getStringExtra("GXH")
+            gxh = intent.getStringExtra("GXH")?:""
         }
         if (intent.hasExtra("DJH")) {
-            djh = intent.getStringExtra("DJH")
+            djh = intent.getStringExtra("DJH")?:""
         }
         imgAdapter = ImageAdapter(this, mPicList)
         v.rcPhoto.layoutManager =
@@ -103,7 +99,7 @@ class ProcessDetailActivity : BaseActivity<ProcessViewModel, ActivityProcessDeta
                 } else {
                     v.cardZjxm.show()
                     list.clear()
-//                    list.addAll(it.data.BT)
+                    list.addAll(it.data.BT)
                     adapter.notifyDataSetChanged()
                 }
                 if (it.data.list.size > 0) {
@@ -118,21 +114,21 @@ class ProcessDetailActivity : BaseActivity<ProcessViewModel, ActivityProcessDeta
                     v.tvJygx.text = it.data.list[0].JYGX
                     if (it.data.list[0].JYJG == "1") {
                         v.tvPdjg.text = "合格"
-                        v.llBlxx.gone()
+//                        v.llBlxx.gone()
                     } else {
                         v.tvPdjg.text = "不合格"
-                        v.llBlxx.show()
-                        if (it.data.BLYY != null && it.data.BLYY.size > 0) {
-                            var str = ""
-                            it.data.BLYY.forEachIndexed { index, blxxBean ->
-                                str += if (index == it.data.BLYY.size - 1) {
-                                    blxxBean.xxsm
-                                } else {
-                                    blxxBean.xxsm + ","
-                                }
-                            }
-                            v.tvBlxx.text = str
-                        }
+//                        v.llBlxx.show()
+//                        if (it.data.BLYY != null && it.data.BLYY.size > 0) {
+//                            var str = ""
+//                            it.data.BLYY.forEachIndexed { index, blxxBean ->
+//                                str += if (index == it.data.BLYY.size - 1) {
+//                                    blxxBean.xxsm
+//                                } else {
+//                                    blxxBean.xxsm + ","
+//                                }
+//                            }
+//                            v.tvBlxx.text = str
+//                        }
                     }
 
                     v.tvHgsl.text = it.data.list[0].HGSL

@@ -40,7 +40,11 @@ data class ListBean(
     val jylxm: String, //检验类型id
     val JYLX: String?,  //检验类型名称
     val JYLXMC:String,
-    val SAPDDH:String //sap 订单号
+    val SAPDDH:String, //sap 订单号
+    val LZKKH:String, //流转卡
+    val BGSL:Double,
+    val BGJYID:Int,
+    val GLTMH:String
 )
 
 data class BtBean(

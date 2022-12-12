@@ -1,4 +1,4 @@
-package com.eohi.hx.ui.work.adapter
+package com.eohi.hx.ui.work.quality.storage
 
 import android.app.Activity
 import android.content.Intent
@@ -13,7 +13,7 @@ import com.eohi.hx.ui.work.quality.finish.FinishDetailActivity
 import com.eohi.hx.utils.Extensions.asColor
 import com.eohi.hx.widget.clicks
 
-class FinishListAdapter(mContext: Activity, listData: ArrayList<FinishCheckListResult>) :
+class StorageListAdapter(mContext: Activity, listData: ArrayList<FinishCheckListResult>) :
     BaseAdapter<ItemFinishListBinding, FinishCheckListResult>(mContext, listData) {
 
     override fun convert(v: ItemFinishListBinding, t: FinishCheckListResult, position: Int) {
@@ -35,7 +35,7 @@ class FinishListAdapter(mContext: Activity, listData: ArrayList<FinishCheckListR
             }
         }
         v.tvDetail clicks {
-            val intent = Intent(mContext, FinishDetailActivity::class.java).apply {
+            val intent = Intent(mContext, StorageDetailActivity::class.java).apply {
                 putExtra("GDH", t.GDH)
                 putExtra("DJH", t.JYDH)
             }
@@ -43,7 +43,7 @@ class FinishListAdapter(mContext: Activity, listData: ArrayList<FinishCheckListR
         }
         v.tvModify.visibility = View.GONE
         v.tvModify clicks {
-            val intent = Intent(mContext, FinishCheckActivity::class.java).apply {
+            val intent = Intent(mContext, StorageActivity::class.java).apply {
                 putExtra("DJH", t.JYDH)
                 putExtra("type", "modify")
                 putExtra("GDH", t.GDH)

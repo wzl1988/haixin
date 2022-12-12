@@ -34,6 +34,7 @@ class RejectsDetermineActivity : BaseActivity<RejectsDetermineViewModel,Activity
 
     private var gxhlist = ArrayList<String>()
     private var gxmclist = ArrayList<String>()
+    private var gxtxhlist = ArrayList<Int>()
 
     private var scrlistshow = ArrayList<String>()
     private var scrlist = ArrayList<String>()
@@ -76,7 +77,7 @@ class RejectsDetermineActivity : BaseActivity<RejectsDetermineViewModel,Activity
         v.btnAdd.clicks {
             val model = SubmitRejectsItem(0,"","","","","",
                 intent.getStringExtra("zzrxm"), intent.getStringExtra("zzrbm"),"",
-                intent.getStringExtra("gxh"),intent.getStringExtra("gx"))
+                intent.getStringExtra("gxh"),intent.getStringExtra("gx"),0)
             listDatas.add(model)
             mAdapter.notifyItemInserted(listDatas.size-1)
         }
@@ -227,6 +228,7 @@ class RejectsDetermineActivity : BaseActivity<RejectsDetermineViewModel,Activity
                 it.onEach {model->
                     gxhlist.add(model.gxh)
                     gxmclist.add(model.gxms)
+                    gxtxhlist.add(model.txh)
                 }
             }
         })
@@ -298,6 +300,7 @@ class RejectsDetermineActivity : BaseActivity<RejectsDetermineViewModel,Activity
             dialog.dismiss()
             listDatas[position].zrgxh = gxhlist[which]
             listDatas[position].zrgxm = gxmclist[which]
+            listDatas[position].gxtxh = gxtxhlist[which]
             mAdapter.notifyDataSetChanged()
         }
         builder.create().show()

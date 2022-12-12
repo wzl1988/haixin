@@ -1,6 +1,7 @@
 package com.eohi.hx.ui.work.process.registration
 
 import android.Manifest
+import android.annotation.SuppressLint
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
@@ -8,6 +9,7 @@ import android.content.IntentFilter
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
+import android.view.MotionEvent
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
@@ -36,6 +38,7 @@ import com.eohi.hx.view.ListDialog
 import com.eohi.hx.widget.clicks
 import com.eohi.zxinglibrary.CaptureActivity
 import com.eohi.zxinglibrary.Intents
+import kotlinx.android.synthetic.main.dialog_add_consumables.*
 import pub.devrel.easypermissions.AfterPermissionGranted
 import pub.devrel.easypermissions.EasyPermissions
 import java.util.*
@@ -45,6 +48,7 @@ class ProductionRegistrationActivity :
     BaseActivity<ProductionRegistrationViewModel, ActivityProductionRegistrationBinding>(),
     DialogAddConsumables.SetData, DialogAddConsumables.onBtnClick {
     private var gxno = ""
+    private var gxtxh=0
     private var equNO = ""
     private var jgdybh = ""
     private var scbz = ""
@@ -122,7 +126,7 @@ class ProductionRegistrationActivity :
 //        v.etLzkkh.setText("210902000001")
 
     }
-
+    @SuppressLint("ClickableViewAccessibility")
     override fun initClick() {
         v.ivBack.clicks { finish() }
         v.ivScan.clicks {
@@ -131,6 +135,28 @@ class ProductionRegistrationActivity :
         v.ivScryScan.clicks {
             checkCameraPermissions(Constant.REQUEST_CODE_SCAN_03)
         }
+
+        v.etTmh.setOnTouchListener(object :View.OnTouchListener{
+
+            override fun onTouch(view: View?, event: MotionEvent?): Boolean {
+                // getCompoundDrawables获取是一个数组，数组0,1,2,3,对应着左，上，右，下 这4个位置的图片，如果没有就为null
+                val drawable =  v.etTmh.compoundDrawables[2]
+                //如果不是按下事件，不再处理
+                if (event?.action != MotionEvent.ACTION_DOWN) {
+                    return false
+                }
+                if (event.x >  v.etTmh.width
+                    -  v.etTmh.paddingRight
+                    - drawable.intrinsicWidth
+                ){
+                    //具体操作
+                    checkCameraPermissions(Constant.REQUEST_CODE_SCAN_04)
+                }
+                return false
+            }
+
+        })
+
         v.btnScgx.clicks {
             vm.getProductionProcesses(v.etLzkkh.text.toString(), "")
         }
@@ -200,6 +226,7 @@ class ProductionRegistrationActivity :
             model.boxno = v.etZzxh.text.toString()
             model.equno = equNO
             model.gxno = gxno
+            model.gxtxh = gxtxh
             model.produceuserid = produceuserid
             model.producetype = producetype
             model.zrr = zrrBh
@@ -209,6 +236,7 @@ class ProductionRegistrationActivity :
             model.jgdybh = jgdybh
             model.userid = accout
             model.wlbs = ""
+            model.tmh = v.etTmh.text.toString()
             model.sfjj =isjj
             model.isfinish = isfinish
             model.scrq = v.tvScsj.text.toString()
@@ -415,6 +443,7 @@ class ProductionRegistrationActivity :
                 dialog.onItemClick {
                     v.etScgx.text = strlist[it].substringBefore("(")
                     gxno = list[it].gxh
+                    gxtxh = list[it].txh
                     if (strlist[it].contains("打标")) {
                         setMarking(View.VISIBLE)
                     } else {
@@ -604,6 +633,16 @@ class ProductionRegistrationActivity :
                         produceuserid = result
                         vm.findPerson(companyNo, result)
                     }
+                    v.etTmh.isFocused->{
+                        if(!v.etTmh.text.toString().contains(result)){
+                            val str=  v.etTmh.text.toString()
+                            if(str.isNotEmpty()){
+                                v.etTmh.setText("$str,$result")
+                            }else{
+                                v.etTmh.setText(result)
+                            }
+                        }
+                    }
                 }
             }
         }
@@ -647,6 +686,7 @@ class ProductionRegistrationActivity :
         }
     }
 
+    @SuppressLint("SetTextI18n")
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (resultCode == RESULT_OK && data != null) {
@@ -664,6 +704,18 @@ class ProductionRegistrationActivity :
                     val result = data.getStringExtra(Intents.Scan.RESULT).trim { it <= ' ' }
                     produceuserid = result
                     vm.findPerson(companyNo, result)
+                }
+                Constant.REQUEST_CODE_SCAN_04->{
+                    val result = data.getStringExtra(Intents.Scan.RESULT).trim { it <= ' ' }
+                    if(!v.etTmh.text.toString().contains(result)){
+                      val str=  v.etTmh.text.toString()
+                        if(str.isNotEmpty()){
+                            v.etTmh.setText("$str,$result")
+                        }else{
+                            v.etTmh.setText(result)
+                        }
+
+                    }
                 }
             }
         }

@@ -252,8 +252,7 @@ class FirstCheckActivity : BaseActivity<FirstCheckViewModel, ActivityFirstCheckB
     override fun initData() {
         v.tvCzy.text = accout
         v.tvRq.text = DateUtil.audioTime
-
-
+        postPhoto.clear()
         v.tvSjdh.text = intent.getStringExtra("sjdh")?:""
         v.tvLzkh.text = intent.getStringExtra("lzkh")?:""
         v.tvRwbh.text = intent.getStringExtra("rwbh")?:""
@@ -269,8 +268,6 @@ class FirstCheckActivity : BaseActivity<FirstCheckViewModel, ActivityFirstCheckB
         v.etHgsl.text =intent.getDoubleExtra("sjsl",0.0).toString()
         total = intent.getDoubleExtra("sjsl",0.0).toString()
         vm.getInspectionItems(intent.getStringExtra("wph")?:"", companyNo)
-
-        postPhoto.clear()
 
         imgAdapter = ImageAdapter(this, mPicList)
         v.rcPhoto.layoutManager =

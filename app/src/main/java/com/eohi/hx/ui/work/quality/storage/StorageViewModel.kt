@@ -1,4 +1,4 @@
-package com.eohi.hx.ui.work.quality.finish
+package com.eohi.hx.ui.work.quality.storage
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
@@ -12,8 +12,12 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import okhttp3.MultipartBody
 
-class FinishViewModel : BaseViewModel() {
-
+/**
+ * @author zhaoli.Wang
+ * @description:
+ * @date :2022/12/6 9:28
+ */
+class StorageViewModel:BaseViewModel() {
     var finishCheckResult = MutableLiveData<ArrayList<FinishCheckListResult>>()
     var detailmodel = MutableLiveData<CommonDetailModel>()
     var gdhList = MutableLiveData<ArrayList<GDListBean>>()
@@ -62,9 +66,9 @@ class FinishViewModel : BaseViewModel() {
         }
     }
 
-    fun postFinishCheck(commonPostModel: CommonPostModel) {
+    fun postStorage(commonPostModel: CommonPostModel) {
         launchList(
-            { httpUtil.postFinish(commonPostModel) },
+            { httpUtil.postStorage(commonPostModel) },
             response,
             isShowLoading = true,
             isShowError = true,
@@ -116,11 +120,11 @@ class FinishViewModel : BaseViewModel() {
         )
     }
 
-    fun getFinishCheckDetail(gsh: String, gdh: String, djh: String) {
+    fun getStorageCheckDetail(gsh: String, gdh: String, djh: String) {
         viewModelScope.launch {
             showLoading()
             val result = withContext(Dispatchers.IO) {
-                httpUtil.getFinishCheckDetail(gsh, gdh, djh)
+                httpUtil.getStorageCheckDetail(gsh, gdh, djh)
             }
             if (result.code == 1000) {
                 detailmodel.value = result
@@ -131,9 +135,9 @@ class FinishViewModel : BaseViewModel() {
         }
     }
 
-    fun getFinishCheckList(hashMap: HashMap<String, String>) {
+    fun getStorageCheckList(hashMap: HashMap<String, String>) {
         launchList(
-            { httpUtil.getFinishCheckList(hashMap) },
+            { httpUtil.getStorageCheckList(hashMap) },
             finishCheckResult,
             isShowLoading = true,
             isShowError = true
@@ -149,7 +153,5 @@ class FinishViewModel : BaseViewModel() {
             successCode = 200
         )
     }
-
-
 
 }

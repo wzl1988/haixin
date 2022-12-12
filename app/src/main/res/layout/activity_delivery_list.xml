@@ -51,13 +51,14 @@
 
         <ImageView
             android:id="@+id/iv_check"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="28dp"
+            android:layout_height="40dp"
             android:layout_marginEnd="13dp"
             android:gravity="center_vertical"
             android:padding="5dp"
             android:src="@drawable/ic_check"
             android:textSize="@dimen/font_middle"
+            android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />

@@ -1,21 +1,33 @@
 package com.eohi.hx.ui.work.picking.move
 
+import android.Manifest
+import android.annotation.SuppressLint
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
 import android.text.Editable
 import android.text.TextWatcher
+import android.view.MotionEvent
 import android.view.View
+import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityCompat
+import androidx.core.app.ActivityOptionsCompat
 import com.eohi.hx.App
+import com.eohi.hx.R
 import com.eohi.hx.base.BaseFragment
 import com.eohi.hx.databinding.FragmentPickingMoveBinding
 import com.eohi.hx.event.EventCode
 import com.eohi.hx.event.EventMessage
 import com.eohi.hx.ui.main.model.ItemInfo
+import com.eohi.hx.utils.Constant
 import com.eohi.hx.utils.DateUtil
+import com.eohi.hx.utils.Extensions.trimStr
 import com.eohi.hx.utils.Preference
 import com.eohi.hx.utils.ToastUtil
+import com.eohi.zxinglibrary.CaptureActivity
+import com.eohi.zxinglibrary.Intents
+import pub.devrel.easypermissions.EasyPermissions
 
 /**
  * @author zhaoli.Wang
@@ -130,9 +142,90 @@ class PickingMoveFragment : BaseFragment<PickingMoveViewModel, FragmentPickingMo
         })
 
     }
-
+    @SuppressLint("ClickableViewAccessibility")
     override fun initClick() {
+        v.etStartPoint.setOnTouchListener(object : View.OnTouchListener {
+            override fun onTouch(view: View?, event: MotionEvent?): Boolean {
+                // getCompoundDrawables获取是一个数组，数组0,1,2,3,对应着左，上，右，下 这4个位置的图片，如果没有就为null
+                val drawable =  v.etStartPoint.compoundDrawables[2]
+                //如果不是按下事件，不再处理
+                if (event?.action != MotionEvent.ACTION_DOWN) {
+                    return false
+                }
+                if (event.x >  v.etStartPoint.width
+                    - v.etStartPoint.paddingRight
+                    - drawable.intrinsicWidth
+                ) {
+                    //具体操作
+                    checkCameraPermissions(Constant.REQUEST_CODE_SCAN)
+                }
+                return false
+            }
+        })
+        v.etEndPoint.setOnTouchListener(object : View.OnTouchListener {
+            override fun onTouch(view: View?, event: MotionEvent?): Boolean {
+                // getCompoundDrawables获取是一个数组，数组0,1,2,3,对应着左，上，右，下 这4个位置的图片，如果没有就为null
+                val drawable =  v.etEndPoint.compoundDrawables[2]
+                //如果不是按下事件，不再处理
+                if (event?.action != MotionEvent.ACTION_DOWN) {
+                    return false
+                }
+                if (event.x >  v.etEndPoint.width
+                    - v.etEndPoint.paddingRight
+                    - drawable.intrinsicWidth
+                ) {
+                    //具体操作
+                    checkCameraPermissions(Constant.REQUEST_CODE_SCAN_02)
+                }
+                return false
+            }
+        })
+        v.etTmh.setOnTouchListener(object : View.OnTouchListener {
+            override fun onTouch(view: View?, event: MotionEvent?): Boolean {
+                // getCompoundDrawables获取是一个数组，数组0,1,2,3,对应着左，上，右，下 这4个位置的图片，如果没有就为null
+                val drawable =  v.etTmh.compoundDrawables[2]
+                //如果不是按下事件，不再处理
+                if (event?.action != MotionEvent.ACTION_DOWN) {
+                    return false
+                }
+                if (event.x >  v.etTmh.width
+                    - v.etTmh.paddingRight
+                    - drawable.intrinsicWidth
+                ) {
+                    //具体操作
+                    checkCameraPermissions(Constant.REQUEST_CODE_SCAN_03)
+                }
+                return false
+            }
+        })
+
+
     }
+
+
+
+    private fun checkCameraPermissions(requestCode:Int) {
+        val perms = arrayOf(Manifest.permission.CAMERA)
+        if (EasyPermissions.hasPermissions(requireContext(), *perms)) { //有权限
+            val optionsCompat =
+                ActivityOptionsCompat.makeCustomAnimation(requireContext(), R.anim.`in`, R.anim.out)
+            val intent = Intent(requireContext(), CaptureActivity::class.java)
+            intent.putExtra(com.eohi.hx.utils.Constant.KEY_TITLE, "扫码")
+            intent.putExtra(com.eohi.hx.utils.Constant.KEY_IS_CONTINUOUS, com.eohi.hx.utils.Constant.isContinuousScan)
+            ActivityCompat.startActivityForResult(
+                requireActivity(),
+                intent,
+                requestCode,
+                optionsCompat.toBundle()
+            )
+        } else {
+            // Do not have permissions, request them now
+            EasyPermissions.requestPermissions(
+                this, getString(R.string.permission_camera), com.eohi.hx.utils.Constant.RC_CAMERA, *perms
+            )
+        }
+    }
+
 
     override fun initData() {
         v.tvUser.text = username
@@ -158,7 +251,7 @@ class PickingMoveFragment : BaseFragment<PickingMoveViewModel, FragmentPickingMo
         // 注册广播接收器
         val intentFilter = IntentFilter(SCANACTION)
         intentFilter.priority = Int.MAX_VALUE
-        activity!!.registerReceiver(scanReceiver, intentFilter)
+        requireActivity().registerReceiver(scanReceiver, intentFilter)
         super.onResume()
     }
 
@@ -203,8 +296,42 @@ class PickingMoveFragment : BaseFragment<PickingMoveViewModel, FragmentPickingMo
 
     override fun onPause() {
         //取消广播注册
-        activity!!.unregisterReceiver(scanReceiver)
+        requireActivity().unregisterReceiver(scanReceiver)
         super.onPause()
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        if (resultCode == AppCompatActivity.RESULT_OK && data != null) {
+            val result = data.getStringExtra(Intents.Scan.RESULT).trimStr()
+            when (requestCode) {
+                Constant.REQUEST_CODE_SCAN->{
+                    v.etStartPoint.text = Editable.Factory.getInstance().newEditable(result)
+                    vm.getCklist(result)
+                    v.etEndPoint.requestFocus()
+                }
+                Constant.REQUEST_CODE_SCAN_02->{
+                    v.etEndPoint.text = Editable.Factory.getInstance().newEditable(result)
+                    vm.getEndList(result)
+                    if (v.etGdh.visibility == View.VISIBLE) {
+                        v.etGdh.requestFocus()
+                    } else {
+                        v.etTmh.requestFocus()
+                    }
+                }
+                Constant.REQUEST_CODE_SCAN_03->{
+                    v.etTmh.text = Editable.Factory.getInstance().newEditable(result)
+                    if (null != startCkh) {
+                        vm.getItemInfo(result, startCkh!!, startkwh!!)
+                    } else {
+                        ToastUtil.showToast(mContext, "请先扫描站点码")
+                    }
+                }
+
+            }
+
+        }
     }
 
 }

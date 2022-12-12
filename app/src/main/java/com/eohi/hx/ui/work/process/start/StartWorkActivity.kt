@@ -15,6 +15,9 @@ import com.eohi.hx.ui.work.process.viewmodel.StartWorkViewModel
 import com.eohi.hx.utils.Constant
 import com.eohi.hx.utils.DateUtil
 import com.eohi.hx.utils.Extensions.asColor
+import com.eohi.hx.utils.Extensions.gone
+import com.eohi.hx.utils.Extensions.hide
+import com.eohi.hx.utils.Extensions.show
 import com.eohi.hx.utils.Extensions.showShortToast
 import com.eohi.hx.utils.StatusBarUtil
 import com.eohi.hx.view.DialogEqu
@@ -114,7 +117,16 @@ class StartWorkActivity : BaseActivity<StartWorkViewModel, ActivityStartWorkBind
     override fun initData() {
         v.tvCzy.text = username
         v.tvRq.text = DateUtil.data
-
+        if(intent.getStringExtra("type")=="start"){
+            v.startWork.show()
+            v.btnRecovery.hide()
+            v.btnSuspend.hide()
+        }else{
+            v.tvTitle.text ="暂停恢复"
+            v.startWork.hide()
+            v.btnRecovery.show()
+            v.btnSuspend.show()
+        }
         listEquipment = ArrayList()
         listSbbh = ArrayList()
         listJgdy = ArrayList()

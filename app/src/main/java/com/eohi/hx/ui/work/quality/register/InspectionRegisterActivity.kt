@@ -9,6 +9,8 @@ import android.icu.lang.UCharacter.GraphemeClusterBreak.V
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
+import androidx.core.app.ActivityCompat
+import androidx.core.app.ActivityOptionsCompat
 import androidx.lifecycle.Observer
 import com.eohi.hx.R
 import com.eohi.hx.base.BaseActivity
@@ -23,6 +25,8 @@ import com.eohi.hx.utils.StatusBarUtil
 import com.eohi.hx.view.ListDialog
 import com.eohi.hx.view.MultiListDialog
 import com.eohi.hx.widget.clicks
+import com.eohi.zxinglibrary.CaptureActivity
+import com.eohi.zxinglibrary.Intents
 import com.example.qrcode.Constant
 import com.example.qrcode.ScannerActivity
 import pub.devrel.easypermissions.AfterPermissionGranted
@@ -299,11 +303,17 @@ class InspectionRegisterActivity : BaseActivity<InspectionRegisterViewModel, Act
     private fun checkCameraPermissions(code: Int) {
         val perms = arrayOf(Manifest.permission.CAMERA)
         if (EasyPermissions.hasPermissions(this, *perms)) { //有权限
-            val intent = Intent(this, ScannerActivity::class.java)
-            intent.putExtra(Constant.EXTRA_IS_ENABLE_SCAN_FROM_PIC, true)
-            intent.putExtra(Constant.EXTRA_SCANNER_FRAME_WIDTH, window.decorView.width / 2)
-            intent.putExtra(Constant.EXTRA_SCANNER_FRAME_HEIGHT, window.decorView.width / 2)
-            startActivityForResult(intent, code)
+            val optionsCompat =
+                ActivityOptionsCompat.makeCustomAnimation(this, R.anim.`in`, R.anim.out)
+            val intent = Intent(this, CaptureActivity::class.java)
+            intent.putExtra(com.eohi.hx.utils.Constant.KEY_TITLE, "扫码")
+            intent.putExtra(com.eohi.hx.utils.Constant.KEY_IS_CONTINUOUS, com.eohi.hx.utils.Constant.isContinuousScan)
+            ActivityCompat.startActivityForResult(
+                this,
+                intent,
+                code,
+                optionsCompat.toBundle()
+            )
         } else {
             // Do not have permissions, request them now
             EasyPermissions.requestPermissions(
@@ -318,7 +328,7 @@ class InspectionRegisterActivity : BaseActivity<InspectionRegisterViewModel, Act
         if (resultCode == RESULT_OK && data != null) {
             when (requestCode) {
                 1 -> {
-                   val str= data.getStringExtra(Constant.EXTRA_RESULT_CONTENT)!!.trim { it <= ' ' }
+                   val str= data.getStringExtra(Intents.Scan.RESULT)!!.trim { it <= ' ' }
                     v.tvLzkbh.setText(str)
                     vm.getKgInfo(str)
                 }

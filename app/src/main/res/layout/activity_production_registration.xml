@@ -799,6 +799,34 @@
 
 
                 <EditText
+                    android:id="@+id/et_tmh"
+                    android:layout_width="0dp"
+                    android:layout_height="60dp"
+                    android:textColor="#ff999999"
+                    android:textSize="14sp"
+                    android:paddingEnd="10dp"
+                    android:gravity="top"
+                    android:drawableEnd="@mipmap/ic_scan"
+                    android:background="@drawable/shape_rectangular_in_edit_bg"
+                    android:layout_marginTop="12dp"
+                    app:layout_constraintEnd_toEndOf="@id/et_bgsl"
+                    app:layout_constraintStart_toStartOf="@id/tv_scsb"
+                    app:layout_constraintTop_toBottomOf="@id/et_db_end"/>
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="条码号:"
+                    android:textColor="#ff333333"
+                    android:textSize="15sp"
+                    app:layout_constraintBottom_toBottomOf="@id/et_tmh"
+                    app:layout_constraintStart_toStartOf="@id/tv_ybsl_text"
+                    app:layout_constraintTop_toTopOf="@id/et_tmh" />
+
+
+
+                <EditText
                     android:id="@+id/et_bz"
                     android:layout_width="0dp"
                     android:layout_height="60dp"
@@ -808,7 +836,7 @@
                     android:layout_marginTop="12dp"
                     app:layout_constraintEnd_toEndOf="@id/et_bgsl"
                     app:layout_constraintStart_toStartOf="@id/tv_scsb"
-                    app:layout_constraintTop_toBottomOf="@id/et_db_end"/>
+                    app:layout_constraintTop_toBottomOf="@id/et_tmh"/>
                 <TextView
                     android:id="@+id/tv_bz_text"
                     android:layout_width="wrap_content"

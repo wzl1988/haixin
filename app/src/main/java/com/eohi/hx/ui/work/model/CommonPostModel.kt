@@ -29,6 +29,7 @@ data class CommonPostModel(
     var LZKKH:String,
     var SAPDDH:String,
     var JYYXM: String,
+    var LDGS:Double,
     var DATA: ArrayList<InspectionitemModel>,
     var BLYY: ArrayList<BlxxBean>
 ) {
@@ -61,6 +62,7 @@ data class CommonPostModel(
         "",
         "",
         "",
+        0.0,
         ArrayList(),
         ArrayList()
     )
